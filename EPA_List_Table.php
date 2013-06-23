@@ -267,7 +267,7 @@ IMG;
 				'lang' => array (
 						'mediatitle' => __ ( 'Choose image(s)', 'epa' ),
 						'mediabutton' => __ ( 'Select image(s)', 'epa' ),
-						'deleteconfirm' => __ ( "Are you shure you want to delete the '{0}' photo?", 'epa' )
+						'deleteconfirm' => __ ( "Are you shure you want to delete the photo '{0}'?", 'epa' )
 				),
 				'thumbsize' => array (
 						'width' => EasyPhotoAlbum::get_instance ()->thumbnailwidth,

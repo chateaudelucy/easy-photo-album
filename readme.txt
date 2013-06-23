@@ -12,8 +12,6 @@ Easy Photo album is a plugin that makes it easy for you to create and manage pho
 
 == Description ==
 
-Easy Photo album
-----------------
 This plugin enables you to create and manage photo albums, just like posts.
 You don't have to change any theme files, the album displays nice right away.
 Photo's can be viewed by a **Lightbox**.
@@ -40,9 +38,9 @@ download, upload and install .zip under Plugins > Add New > Upload.
 
 == Frequently asked questions ==
 
-= Where can I find the settings for this plugin? =
+= Q: Where can I find the settings for this plugin? =
 
-You can find the settings under Settings > Media.
+A: You can find the settings under Settings > Media.
 
 == Screenshots ==
 

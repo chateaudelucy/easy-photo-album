@@ -203,7 +203,7 @@ class EasyPhotoAlbum {
 	 * Loads existing options, or loads the defaults.
 	 */
 	private function options_init() {
-		$this->options = array (
+		$defaults = array (
 				'linkto' => 'lightbox',
 				'thumbnailwidth' => 150,
 				'thumbnailheight' => 150,
@@ -212,7 +212,8 @@ class EasyPhotoAlbum {
 				'showtitlewiththumbnail' => true,
 				'numimageswhennotsingle' => 3
 		);
-		$this->options = get_option ( 'EasyPhotoAlbum', $this->options );
+		$this->options = get_option ( 'EasyPhotoAlbum', $defaults );
+		$this->options = wp_parse_args($this->options, $defaults);
 	}
 
 	/**

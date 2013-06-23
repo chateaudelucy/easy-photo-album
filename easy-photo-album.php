@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: Easy Photo Album
- * Version: 1.0.2
+ * Version: 1.0.5
  * Author: TV productions
  * Author URI: http://tv-productions.org/
  * Description: This plugin makes it very easy to create and manage photo albums. You can help by submit bugs and request new features at the plugin page at wordpress.org.
@@ -31,8 +31,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 require_once 'EPA_PostType.php';
 require_once 'EPA_Renderer.php';
 
+if (is_admin ()) {
+	require_once 'EPA_List_Table.php';
+	require_once 'EPA_Admin.php';
+}
+
 /**
- * Class that keeps trac of the options and the version.
+ * Class that keeps track of the options and the version.
  *
  * @author TV productions
  * @package EasyPhotoAlbum
@@ -41,11 +46,14 @@ class EasyPhotoAlbum {
 	private static $instance = null;
 	private $options = array ();
 	private $post_type = null;
-	public static $version = '1.0.2';
+	private $admin = null;
+	public static $version = '1.0.5';
 
 	private function __construct() {
 		$this->options_init ();
 		$this->post_type = new EPA_PostType ();
+		if (is_admin())
+			$this->admin = new EPA_Admin();
 
 		load_plugin_textdomain ( 'epa', false, basename ( dirname ( __FILE__ ) ) . '/lang' );
 		register_activation_hook ( __FILE__, array (
@@ -61,10 +69,6 @@ class EasyPhotoAlbum {
 				'uninstall'
 		) );
 
-		add_action ( 'admin_init', array (
-				&$this,
-				'admin_init'
-		) );
 		add_filter ( "plugin_action_links_" . plugin_basename ( __FILE__ ), array (
 				&$this,
 				'add_plugin_settings_link'
@@ -89,6 +93,8 @@ class EasyPhotoAlbum {
 		$this->post_type->add_album_posttype ();
 		// Second, add the caps to make shure the user(s) see the menu item
 		$this->assign_capabilities ();
+		// And flush the rewrite rules, so that the permalinks work
+		flush_rewrite_rules ();
 	}
 
 	/**
@@ -129,157 +135,9 @@ class EasyPhotoAlbum {
 					$role->remove_cap ( $cap );
 			}
 		}
-	}
 
-	/**
-	 * On admin init
-	 */
-	public function admin_init() {
-		// Add the settings to the media options screen
-		register_setting ( 'media', 'EasyPhotoAlbum', array (
-				&$this,
-				'validate_settings'
-		) );
-		add_settings_section ( 'epa-section', __ ( 'Easy Photo Album Settings', 'epa' ), array (
-				&$this,
-				'display_settings_section'
-		), 'media' );
-		add_settings_field ( 'linkto', __ ( 'Link image to', 'epa' ), array (
-				&$this,
-				'display_linkto_field'
-		), 'media', 'epa-section' );
-		add_settings_field ( 'thumbnailwidth', __ ( 'Thumbnail width', 'epa' ), array (
-				&$this,
-				'display_thumbnailwidth_field'
-		), 'media', 'epa-section' );
-		add_settings_field ( 'thumbnailheight', __ ( 'Thumbnail height', 'epa' ), array (
-				&$this,
-				'display_thumbnailheight_field'
-		), 'media', 'epa-section' );
-		add_settings_field ( 'displaywidth', __ ( 'Display width', 'epa' ), array (
-				&$this,
-				'display_displaywidth_field'
-		), 'media', 'epa-section' );
-		add_settings_field ( 'displayheight', __ ( 'Display height', 'epa' ), array (
-				&$this,
-				'display_displayheight_field'
-		), 'media', 'epa-section' );
-		add_settings_field ( 'showtitlewiththumbnail', __ ( 'Title' ), array (
-				&$this,
-				'display_showtitlewiththumbnail_field'
-		), 'media', 'epa-section' );
-	}
-
-	/**
-	 * Validates the options.
-	 * This function is called by the Settings API.
-	 *
-	 * @param array $input
-	 * @return array
-	 *
-	 *
-	 */
-	public function validate_settings($input) {
-		$valid = $this->options;
-		$valid ['linkto'] = (in_array ( $input ['linkto'], array (
-				'file',
-				'attachment',
-				'lightbox'
-		) ) ? $input ['linkto'] : $valid ['linkto']);
-		$valid ['thumbnailwidth'] = (is_numeric ( $input ['thumbnailwidth'] ) ? $input ['thumbnailwidth'] : $valid ['thumbnailwidth']);
-		$valid ['thumbnailheight'] = (is_numeric ( $input ['thumbnailheight'] ) ? $input ['thumbnailheight'] : $valid ['thumbnailheight']);
-		$valid ['displaywidth'] = (is_numeric ( $input ['displaywidth'] ) ? $input ['displaywidth'] : $valid ['displaywidth']);
-		$valid ['displayheight'] = (is_numeric ( $input ['displayheight'] ) ? $input ['displayheight'] : $valid ['displayheight']);
-		$valid ['showtitlewiththumbnail'] = (isset ( $input ['showtitlewiththumbnail'] ) && $input ['showtitlewiththumbnail'] == 'true' ? true : false);
-
-		return $valid;
-	}
-
-	public function display_settings_section() {
-		printf ( '<p>%1$s <i>%2$s</i></p>', __ ( 'Settings that changes the appreance of the photo albums.', 'epa' ), __ ( 'Note: when you use the lightbox, you have to regenerate the images, in order to make them the desired size.', 'epa' ) );
-	}
-
-	public function display_linkto_field() {
-		?>
-<select name="EasyPhotoAlbum[linkto]">
-	<option value="file" <?php selected($this->linkto, 'file', true);?>><?php _e('The image file', 'epa');?></option>
-	<option value="attachment"
-		<?php selected($this->linkto, 'attachment', true);?>><?php _e('The attachment page', 'epa');?></option>
-	<option value="lightbox"
-		<?php selected($this->linkto, 'lightbox', true);?>><?php _e('Lightbox display', 'epa');?></option>
-</select>
-<?php
-	}
-
-	public function display_thumbnailwidth_field() {
-		$this->display_input_field ( 'thumbnailwidth', $this->thumbnailwidth, 'number', 'px ', array (
-				'size' => 5
-		) );
-		$this->display_description ( __ ( 'The display width of the thumbnails.', 'epa' ) );
-	}
-
-	public function display_thumbnailheight_field() {
-		$this->display_input_field ( 'thumbnailheight', $this->thumbnailheight, 'number', 'px ', array (
-				'size' => 5
-		) );
-		$this->display_description ( __ ( 'The display height of the thumbnails.', 'epa' ) );
-	}
-
-	public function display_displaywidth_field() {
-		$this->display_input_field ( 'displaywidth', $this->displaywidth, 'number', 'px ', array (
-				'size' => 5
-		) );
-		$this->display_description ( __ ( 'The maximum width of the image when showed in a lightbox.', 'epa' ) );
-	}
-
-	public function display_displayheight_field() {
-		$this->display_input_field ( 'displayheight', $this->displayheight, 'number', 'px ', array (
-				'size' => 5
-		) );
-		$this->display_description ( __ ( 'The maximum height of the image when showed in a lightbox.', 'epa' ) );
-	}
-
-	public function display_showtitlewiththumbnail_field() {
-		$attr = array (
-				'id' => 'stwt'
-		);
-		if ($this->showtitlewiththumbnail)
-			$attr += array (
-					'checked' => 'checked'
-			);
-		$this->display_input_field ( 'showtitlewiththumbnail', 'true', 'checkbox', sprintf ( ' <label for="stwt">%s</label>', __ ( 'The title will be displayed under the thumbnail.', 'epa' ) ), $attr );
-	}
-
-	/**
-	 * Prints settings description
-	 *
-	 * @param string $description
-	 */
-	private function display_description($description) {
-		printf ( '<span class="description">%s</span>', esc_html ( $description ) );
-	}
-
-	/**
-	 * Displays an HMTL input box.
-	 *
-	 * @param string $epa_name
-	 *        	name of the input field (without <code>EasyPhotoAlbum[...]</code>. Only what
-	 *        	should be on the ellipsis.
-	 * @param string $value
-	 *        	The value of the input field, default empty.
-	 * @param string $type
-	 *        	The HTML type of the input, default text
-	 * @param string $after
-	 *        	The text after the input, default nothing.
-	 * @param array $attrs
-	 *        	An array with some extra attributes, like <code>array ('size' => 5);</code>
-	 */
-	private function display_input_field($epa_name, $value = '', $type = 'text', $after = '', $attrs = array()) {
-		$html = '';
-		foreach ( $attrs as $attr => $val ) {
-			$html .= $attr . '="' . $val . '" ';
-		}
-		printf ( '<input type="%1$s" name="EasyPhotoAlbum[%2$s]" value="%3$s" %4$s/>%5$s', $type, $epa_name, $value, $html, $after );
+		// And flush the rewrite rules, so that the permalinks work
+		flush_rewrite_rules ();
 	}
 
 	/**
@@ -345,15 +203,28 @@ class EasyPhotoAlbum {
 	 * Loads existing options, or loads the defaults.
 	 */
 	private function options_init() {
-		$this->options = array (
+		$defaults = array (
 				'linkto' => 'lightbox',
 				'thumbnailwidth' => 150,
 				'thumbnailheight' => 150,
 				'displaywidth' => 600,
 				'displayheight' => 600,
-				'showtitlewiththumbnail' => true
+				'showtitlewiththumbnail' => true,
+				'numimageswhennotsingle' => 3
 		);
-		$this->options = get_option ( 'EasyPhotoAlbum', $this->options );
+		$this->options = get_option ( 'EasyPhotoAlbum', $defaults );
+		$this->options = wp_parse_args($this->options, $defaults);
+	}
+
+	/**
+	 * Returns the options.
+	 *
+	 * @internal THIS FUNCTION SHOULD BE CALLED FROM EPA_Admin ONLY!
+	 *
+	 * @return array
+	 */
+	public function getOptions() {
+		return $this->options;
 	}
 }
 

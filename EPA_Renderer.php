@@ -50,9 +50,15 @@ class EPA_Renderer {
 	public function render($echo = false) {
 		$html = '<ul class="epa-album">
 ';
-
-		foreach ( $this->photos as $photo )
+		$count = 1;
+		foreach ( $this->photos as $photo ) {
 			$html .= $this->render_one_photo ( $photo );
+			if (EasyPhotoAlbum::get_instance ()->numimageswhennotsingle == $count) {
+				// $count is never 0, so by 0, all the images will be displayed.
+				$html .= $this->moreTag ();
+			}
+			$count += 1;
+		}
 
 		$html .= '</ul>
 ';
@@ -112,5 +118,15 @@ class EPA_Renderer {
 		</li>
 
 HTML;
+	}
+
+	/**
+	 * Returns the more tag
+	 * @return string
+	 */
+	protected function moreTag() {
+		return '
+<!--more-->
+				';
 	}
 }

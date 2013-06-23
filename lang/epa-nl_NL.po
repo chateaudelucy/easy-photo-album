@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EasyPhotoAlbum 1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/easy-photo-album\n"
-"POT-Creation-Date: 2013-06-23 13:57:29+00:00\n"
-"PO-Revision-Date: 2013-06-23 16:05+0100\n"
+"POT-Creation-Date: 2013-06-23 21:04+0100\n"
+"PO-Revision-Date: 2013-06-23 21:08+0100\n"
 "Last-Translator: TV productions <info@tv-productions.org>\n"
 "Language-Team: TV productions <info@tv-productions.org>\n"
 "Language: nl_NL\n"
@@ -19,248 +19,48 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: EPA_List_Table.php:37
-msgid "Images"
-msgstr "Afbeeldingen"
+#: ../easy-photo-album.php:180
+msgid "Settings"
+msgstr "Instellingen"
 
-#: EPA_List_Table.php:38 EPA_List_Table.php:83
-msgid "Image"
-msgstr "Afbeelding"
-
-#: EPA_List_Table.php:74
-msgid "No photo's added yet."
-msgstr "Er zijn nog geen foto's toegevoegd."
-
-#: EPA_List_Table.php:82
-msgid "Select All"
-msgstr "Alles selecteren"
-
-#: EPA_List_Table.php:84 easy-photo-album.php:167
-msgid "Title"
-msgstr "Titel"
-
-#: EPA_List_Table.php:85
-msgid "Caption"
-msgstr "Bijschrift"
-
-#: EPA_List_Table.php:86
-msgid "Order"
-msgstr "Volgorder"
-
-#: EPA_List_Table.php:117 EPA_List_Table.php:162
-msgid "Delete"
-msgstr "Verwijderen"
-
-#: EPA_List_Table.php:118
-msgid "Up"
-msgstr "Omhoog"
-
-#: EPA_List_Table.php:119
-msgid "Down"
-msgstr "Omlaag"
-
-#: EPA_List_Table.php:189
-msgid "Bulk Actions"
-msgstr "Akties"
-
-#: EPA_List_Table.php:199
-msgid "Apply"
-msgstr "Toepassen"
-
-#: EPA_List_Table.php:268
-msgid "Choose image(s)"
-msgstr "Kies afbeelding(en)"
-
-#: EPA_List_Table.php:269
-msgid "Select image(s)"
-msgstr "Selecteer afbeelding(en)"
-
-#: EPA_List_Table.php:270
-msgid "Are you shure you want to delete the '{0}' photo?"
-msgstr "Weet je zeker dat je de foto '{0}' wil verwijderen?"
-
-#: EPA_PostType.php:84
-msgctxt "General Photo Albums name (multiple)"
-msgid "Photo Albums"
-msgstr "Foto Albums"
-
-#: EPA_PostType.php:85
-msgctxt "General singular Photo Albums name"
-msgid "Photo Album"
-msgstr "Foto Album"
-
-#: EPA_PostType.php:86
-msgctxt "Add new menu item"
-msgid "Add New"
-msgstr "Nieuw Album"
-
-#: EPA_PostType.php:87
-msgctxt "Add new menu item extended"
-msgid "Add New Photo Album"
-msgstr "Voeg nieuw Foto Album toe"
-
-#: EPA_PostType.php:88
-msgctxt "Edit menu item"
-msgid "Edit Photo Album"
-msgstr "Bewerk Foto Album"
-
-#: EPA_PostType.php:89
-msgctxt "New menu item"
-msgid "New Photo Album"
-msgstr "Nieuw Foto Album"
-
-#: EPA_PostType.php:90
-msgctxt "View menu item"
-msgid "View Photo Album"
-msgstr "Bekijk Foto Album"
-
-#: EPA_PostType.php:91
-msgctxt "Search menu item"
-msgid "Search Photo Album"
-msgstr "Doorzoek Foto Albums"
-
-#: EPA_PostType.php:92
-msgctxt "No Photo Albums found message"
-msgid "No Photo Albums found"
-msgstr "Geen Foto Albums gevonden."
-
-#: EPA_PostType.php:93
-msgctxt "No Photo Albums found in trash message"
-msgid "No Photo Albums found in Trash"
-msgstr "Geen Foto Albums in de prullenbak gevonden."
-
-#: EPA_PostType.php:94
-msgctxt "Parent Photo album label"
-msgid "Parent Photo Album:"
-msgstr "Hoofd Foto Album:"
-
-#: EPA_PostType.php:95
-msgctxt "Menu name"
-msgid "Photo Albums"
-msgstr "Foto Albums"
-
-#: EPA_PostType.php:98
-msgctxt "Posttype description"
-msgid "Post easy Photo Albums with Easy Photo Album"
-msgstr "Plaats gemakkelijk Foto Albums met Easy Photo Album"
-
-#: EPA_PostType.php:116
-msgctxt "Rewrite slug"
-msgid "albums"
-msgstr "albums"
-
-#: EPA_PostType.php:134
-msgid "Album images"
-msgstr "Album afbeeldingen"
-
-#: EPA_PostType.php:150
-msgid "Add one or more photo's"
-msgstr "Voeg een of meerder foto's toe"
-
-#: EPA_PostType.php:312
-msgctxt "Image 2 of 4"
-msgid "Image"
-msgstr "Afbeelding"
-
-#: EPA_PostType.php:313
-msgctxt "Image 2 of 4"
-msgid "of"
-msgstr "van"
-
-#: EPA_PostType.php:366
-msgid "Photo Album updated. <a href=\"%s\">View Album</a>"
-msgstr "Foto Album bijgewerkt. <a href=\"%s\">Bekijk Album</a>"
-
-#: EPA_PostType.php:367
-msgid "Custom field updated."
-msgstr "Extra veld bijgewerkt."
-
-#: EPA_PostType.php:368
-msgid "Custom field deleted."
-msgstr "Extra veld verwijderd."
-
-#: EPA_PostType.php:369
-msgid "Photo Album updated."
-msgstr "Foto Album bijgewerkt."
-
-#. translators: %s: date and time of the revision
-#: EPA_PostType.php:371
-msgid "Photo Album restored to revision from %s"
-msgstr "Foto Album hersteld naar de herziening van %s"
-
-#: EPA_PostType.php:372
-msgid "Photo Album published. <a href=\"%s\">View Album</a>"
-msgstr "Foto Album gepubliseerd. <a href=\"%s\">Bekijk Album</a>"
-
-#: EPA_PostType.php:373
-msgid "Photo Album saved."
-msgstr "Foto Album opgeslagen."
-
-#: EPA_PostType.php:374
-msgid ""
-"Photo Album submitted. <a target=\"_blank\" href=\"%s\">Preview Album</a>"
-msgstr ""
-"Foto Album verzonden. <a target=\"_blank\" href=\"%s\">Bekijk een voorbeeld "
-"van het Album</a>"
-
-#: EPA_PostType.php:375
-msgid ""
-"Photo Album scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href="
-"\"%2$s\">Preview Album</a>"
-msgstr ""
-"Foto Album gepland voor: <strong>%1$s</strong>. <a target=\"_blank\" href="
-"\"%2$s\">Bekijk een voorbeeld van het Album</a>"
-
-#. translators: Publish box date format, see http:php.net/date
-#: EPA_PostType.php:377
-msgid "M j, Y @ G:i"
-msgstr "j F Y @ H:i"
-
-#: EPA_PostType.php:378
-msgid ""
-"Photo Album draft updated. <a target=\"_blank\" href=\"%s\">Preview Album</a>"
-msgstr ""
-"Foto Album consept bijgewerkt. <a target=\"_blank\" href=\"%s\">Bekijk een "
-"voorbeeld van het Album</a>"
-
-#: EPA_PostType.php:388
-msgid ""
-"Javascript is disabled. Please enable Javascript and reload the page before "
-"you continue."
-msgstr ""
-"Javascript is uitgeschakeld. Schakel Javascript in en herlaat de pagina "
-"alvorens verder te gaan."
-
-#: easy-photo-album.php:143
+#: ../EPA_Admin.php:18
 msgid "Easy Photo Album Settings"
 msgstr "Easy Photo Album Instellingen"
 
-#: easy-photo-album.php:147
+#: ../EPA_Admin.php:22
 msgid "Link image to"
 msgstr "Link afbeelding naar"
 
-#: easy-photo-album.php:151
+#: ../EPA_Admin.php:26
 msgid "Thumbnail width"
 msgstr "Thumbnail breedte"
 
-#: easy-photo-album.php:155
+#: ../EPA_Admin.php:30
 msgid "Thumbnail height"
 msgstr "Thumbnail hoogte"
 
-#: easy-photo-album.php:159
+#: ../EPA_Admin.php:34
 msgid "Display width"
 msgstr "Weergave breedte"
 
-#: easy-photo-album.php:163
+#: ../EPA_Admin.php:38
 msgid "Display height"
 msgstr "Weergave hoogte"
 
-#: easy-photo-album.php:199
+#: ../EPA_Admin.php:42 ../EPA_List_Table.php:84
+msgid "Title"
+msgstr "Titel"
+
+#: ../EPA_Admin.php:46
+msgid "Number of images for excerpt"
+msgstr "Aantal afbeeldingen bij samenvatting"
+
+#: ../EPA_Admin.php:79
 msgid "Settings that changes the appreance of the photo albums."
 msgstr ""
 "Dit zijn instellingen die bepalen hoe de foto albums eruit komen te zien."
 
-#: easy-photo-album.php:199
+#: ../EPA_Admin.php:79
 msgid ""
 "Note: when you use the lightbox, you have to regenerate the images, in order "
 "to make them the desired size."
@@ -268,64 +68,271 @@ msgstr ""
 "Opmerking: Als je gebruik maakt van de lightbox, moet je de afbeeldingen "
 "hergenereren. Dan weergeeft de lightbox de afbeeldingen op gewenst formaat."
 
-#: easy-photo-album.php:205
+#: ../EPA_Admin.php:86
 msgid "The image file"
 msgstr "Het afbeeldingsbestand"
 
-#: easy-photo-album.php:207
+#: ../EPA_Admin.php:88
 msgid "The attachment page"
 msgstr "De bijlage"
 
-#: easy-photo-album.php:209
+#: ../EPA_Admin.php:90
 msgid "Lightbox display"
 msgstr "Lightbox weergave"
 
-#: easy-photo-album.php:218
+#: ../EPA_Admin.php:99
 msgid "The display width of the thumbnails."
 msgstr "De weergave breedte van de thumbnails."
 
-#: easy-photo-album.php:225
+#: ../EPA_Admin.php:106
 msgid "The display height of the thumbnails."
 msgstr "De weergave hoogt van de thumbnails."
 
-#: easy-photo-album.php:232
+#: ../EPA_Admin.php:113
 msgid "The maximum width of the image when showed in a lightbox."
 msgstr ""
 "De maximum breedte van een afbeelding als deze in de lightbox wordt "
 "weergegeven."
 
-#: easy-photo-album.php:239
+#: ../EPA_Admin.php:120
 msgid "The maximum height of the image when showed in a lightbox."
 msgstr ""
 "De maximum hoogte van een afbeelding als deze in de lightbox wordt "
 "weergegeven."
 
-#: easy-photo-album.php:250
+#: ../EPA_Admin.php:131
 msgid "The title will be displayed under the thumbnail."
 msgstr "De titel zal onder de thumbnail worden weergegeven."
 
-#: easy-photo-album.php:322
-msgid "Settings"
-msgstr "Instellingen"
-
-#. Plugin Name of the plugin/theme
-msgid "Easy Photo Album"
-msgstr ""
-
-#. Description of the plugin/theme
+#: ../EPA_Admin.php:136
 msgid ""
-"This plugin makes it very easy to create and manage photo albums. You can "
-"help by submit bugs and request new features at the plugin page at wordpress."
-"org."
+"The number of images showed when the album is not on a single page. Set to 0 "
+"for all"
 msgstr ""
-"Deze plugin maakt het erg makkelijk om foto albums te maken en te "
-"onderhouden. U kan helpen door bugs te reporteren en nieuwe mogelijkheden "
-"aan te vragen op de plugin pagina op wordpress.org."
+"Het aantal afbeeldingen dat wordt weergegeven als het album niet in zijn "
+"geheel wordt getoond. Zet op 0 om alle afbeeldingen te weergeven."
 
-#. Author of the plugin/theme
-msgid "TV productions"
-msgstr ""
+#: ../EPA_List_Table.php:37
+msgid "Images"
+msgstr "Afbeeldingen"
 
-#. Author URI of the plugin/theme
-msgid "http://tv-productions.org/"
+#: ../EPA_List_Table.php:38 ../EPA_List_Table.php:83
+msgid "Image"
+msgstr "Afbeelding"
+
+#: ../EPA_List_Table.php:74
+msgid "No photo's added yet."
+msgstr "Er zijn nog geen foto's toegevoegd."
+
+#: ../EPA_List_Table.php:82
+msgid "Select All"
+msgstr "Alles selecteren"
+
+#: ../EPA_List_Table.php:85
+msgid "Caption"
+msgstr "Bijschrift"
+
+#: ../EPA_List_Table.php:86
+msgid "Order"
+msgstr "Volgorder"
+
+#: ../EPA_List_Table.php:117 ../EPA_List_Table.php:162
+msgid "Delete"
+msgstr "Verwijderen"
+
+#: ../EPA_List_Table.php:118
+msgid "Up"
+msgstr "Omhoog"
+
+#: ../EPA_List_Table.php:119
+msgid "Down"
+msgstr "Omlaag"
+
+#: ../EPA_List_Table.php:189
+msgid "Bulk Actions"
+msgstr "Akties"
+
+#: ../EPA_List_Table.php:199
+msgid "Apply"
+msgstr "Toepassen"
+
+#: ../EPA_List_Table.php:268
+msgid "Choose image(s)"
+msgstr "Kies afbeelding(en)"
+
+#: ../EPA_List_Table.php:269
+msgid "Select image(s)"
+msgstr "Selecteer afbeelding(en)"
+
+#: ../EPA_List_Table.php:270
+msgid "Are you shure you want to delete the '{0}' photo?"
+msgstr "Weet je zeker dat je de foto '{0}' wil verwijderen?"
+
+#: ../EPA_PostType.php:92
+msgctxt "General Photo Albums name (multiple)"
+msgid "Photo Albums"
+msgstr "Foto Albums"
+
+#: ../EPA_PostType.php:93
+msgctxt "General singular Photo Albums name"
+msgid "Photo Album"
+msgstr "Foto Album"
+
+#: ../EPA_PostType.php:94
+msgctxt "Add new menu item"
+msgid "Add New"
+msgstr "Nieuw Album"
+
+#: ../EPA_PostType.php:95
+msgctxt "Add new menu item extended"
+msgid "Add New Photo Album"
+msgstr "Voeg nieuw Foto Album toe"
+
+#: ../EPA_PostType.php:96
+msgctxt "Edit menu item"
+msgid "Edit Photo Album"
+msgstr "Bewerk Foto Album"
+
+#: ../EPA_PostType.php:97
+msgctxt "New menu item"
+msgid "New Photo Album"
+msgstr "Nieuw Foto Album"
+
+#: ../EPA_PostType.php:98
+msgctxt "View menu item"
+msgid "View Photo Album"
+msgstr "Bekijk Foto Album"
+
+#: ../EPA_PostType.php:99
+msgctxt "Search menu item"
+msgid "Search Photo Album"
+msgstr "Doorzoek Foto Albums"
+
+#: ../EPA_PostType.php:100
+msgctxt "No Photo Albums found message"
+msgid "No Photo Albums found"
+msgstr "Geen Foto Albums gevonden."
+
+#: ../EPA_PostType.php:101
+msgctxt "No Photo Albums found in trash message"
+msgid "No Photo Albums found in Trash"
+msgstr "Geen Foto Albums in de prullenbak gevonden."
+
+#: ../EPA_PostType.php:102
+msgctxt "Parent Photo album label"
+msgid "Parent Photo Album:"
+msgstr "Hoofd Foto Album:"
+
+#: ../EPA_PostType.php:103
+msgctxt "Menu name"
+msgid "Photo Albums"
+msgstr "Foto Albums"
+
+#: ../EPA_PostType.php:106
+msgctxt "Posttype description"
+msgid "Post easy Photo Albums with Easy Photo Album"
+msgstr "Plaats gemakkelijk Foto Albums met Easy Photo Album"
+
+#: ../EPA_PostType.php:124
+msgctxt "Rewrite slug"
+msgid "albums"
+msgstr "albums"
+
+#: ../EPA_PostType.php:142
+msgid "Album images"
+msgstr "Album afbeeldingen"
+
+#: ../EPA_PostType.php:157
+msgid "Add one or more photo's"
+msgstr "Voeg een of meerder foto's toe"
+
+#: ../EPA_PostType.php:319
+msgctxt "Image 2 of 4"
+msgid "Image"
+msgstr "Afbeelding"
+
+#: ../EPA_PostType.php:320
+msgctxt "Image 2 of 4"
+msgid "of"
+msgstr "van"
+
+#: ../EPA_PostType.php:373
+#, php-format
+msgid "Photo Album updated. <a href=\"%s\">View Album</a>"
+msgstr "Foto Album bijgewerkt. <a href=\"%s\">Bekijk Album</a>"
+
+#: ../EPA_PostType.php:374
+msgid "Custom field updated."
+msgstr "Extra veld bijgewerkt."
+
+#: ../EPA_PostType.php:375
+msgid "Custom field deleted."
+msgstr "Extra veld verwijderd."
+
+#: ../EPA_PostType.php:376
+msgid "Photo Album updated."
+msgstr "Foto Album bijgewerkt."
+
+#: ../EPA_PostType.php:378
+#, php-format
+msgid "Photo Album restored to revision from %s"
+msgstr "Foto Album hersteld naar de herziening van %s"
+
+#: ../EPA_PostType.php:379
+#, php-format
+msgid "Photo Album published. <a href=\"%s\">View Album</a>"
+msgstr "Foto Album gepubliseerd. <a href=\"%s\">Bekijk Album</a>"
+
+#: ../EPA_PostType.php:380
+msgid "Photo Album saved."
+msgstr "Foto Album opgeslagen."
+
+#: ../EPA_PostType.php:381
+#, php-format
+msgid ""
+"Photo Album submitted. <a target=\"_blank\" href=\"%s\">Preview Album</a>"
 msgstr ""
+"Foto Album verzonden. <a target=\"_blank\" href=\"%s\">Bekijk een voorbeeld "
+"van het Album</a>"
+
+#: ../EPA_PostType.php:382
+#, php-format
+msgid ""
+"Photo Album scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href="
+"\"%2$s\">Preview Album</a>"
+msgstr ""
+"Foto Album gepland voor: <strong>%1$s</strong>. <a target=\"_blank\" href="
+"\"%2$s\">Bekijk een voorbeeld van het Album</a>"
+
+#: ../EPA_PostType.php:384
+msgid "M j, Y @ G:i"
+msgstr "j F Y @ H:i"
+
+#: ../EPA_PostType.php:385
+#, php-format
+msgid ""
+"Photo Album draft updated. <a target=\"_blank\" href=\"%s\">Preview Album</a>"
+msgstr ""
+"Foto Album consept bijgewerkt. <a target=\"_blank\" href=\"%s\">Bekijk een "
+"voorbeeld van het Album</a>"
+
+#: ../EPA_PostType.php:407
+msgid "More photo's..."
+msgstr "Meer foto's..."
+
+#: ../EPA_PostType.php:417
+msgid ""
+"Javascript is disabled. Please enable Javascript and reload the page before "
+"you continue."
+msgstr ""
+"Javascript is uitgeschakeld. Schakel Javascript in en herlaat de pagina "
+"alvorens verder te gaan."
+
+#~ msgid ""
+#~ "This plugin makes it very easy to create and manage photo albums. You can "
+#~ "help by submit bugs and request new features at the plugin page at "
+#~ "wordpress.org."
+#~ msgstr ""
+#~ "Deze plugin maakt het erg makkelijk om foto albums te maken en te "
+#~ "onderhouden. U kan helpen door bugs te reporteren en nieuwe mogelijkheden "
+#~ "aan te vragen op de plugin pagina op wordpress.org."

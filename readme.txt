@@ -4,7 +4,7 @@ Donate link:
 Tags:  album, photo's, images
 Requires at least: 3.5
 Tested up to: 3.5.2
-Stable tag: 1.0.2
+Stable tag: 1.0.5
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -50,6 +50,18 @@ A: You can find the settings under Settings > Media.
 4. Example of lightbox display.
 
 == Changelog ==
+
+**1.0.5**
+
+* Updated: updated the Dutch translation.
+
+**1.0.4**
+
+* Added: excerpts show also some images (can be set by the user)
+
+**1.0.3**
+
+* Moved the settings functions from `EasyPhotoAlbum` to `EPA_Admin`.
 
 **1.0.2**
 

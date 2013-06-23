@@ -1,5 +1,5 @@
 === Easy Photo Album ===
-Contributors: tv-productions
+Contributors: TV productions
 Donate link:
 Tags:  album, photo's, images
 Requires at least: 3.5.0

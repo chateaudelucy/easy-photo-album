@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EasyPhotoAlbum 1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/easy-photo-album\n"
-"POT-Creation-Date: 2013-06-23 21:04+0100\n"
-"PO-Revision-Date: 2013-06-23 21:08+0100\n"
+"POT-Creation-Date: 2013-06-23 21:47+0100\n"
+"PO-Revision-Date: 2013-06-23 21:47+0100\n"
 "Last-Translator: TV productions <info@tv-productions.org>\n"
 "Language-Team: TV productions <info@tv-productions.org>\n"
 "Language: nl_NL\n"
@@ -165,7 +165,7 @@ msgid "Select image(s)"
 msgstr "Selecteer afbeelding(en)"
 
 #: ../EPA_List_Table.php:270
-msgid "Are you shure you want to delete the '{0}' photo?"
+msgid "Are you shure you want to delete the photo '{0}'?"
 msgstr "Weet je zeker dat je de foto '{0}' wil verwijderen?"
 
 #: ../EPA_PostType.php:92

@@ -2,7 +2,7 @@
 Contributors: TV productions
 Donate link:
 Tags:  album, photo's, images
-Requires at least: 3.5.0
+Requires at least: 3.5
 Tested up to: 3.5.2
 Stable tag: 1.0.2
 License: GPLv3 or later

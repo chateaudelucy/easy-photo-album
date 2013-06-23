@@ -32,7 +32,7 @@ require_once 'EPA_PostType.php';
 require_once 'EPA_Renderer.php';
 
 /**
- * Class that keeps trac of the options and the version.
+ * Class that keeps track of the options and the version.
  *
  * @author TV productions
  * @package EasyPhotoAlbum
@@ -89,6 +89,8 @@ class EasyPhotoAlbum {
 		$this->post_type->add_album_posttype ();
 		// Second, add the caps to make shure the user(s) see the menu item
 		$this->assign_capabilities ();
+		// And flush the rewrite rules, so that the permalinks work
+		flush_rewrite_rules();
 	}
 
 	/**
@@ -129,6 +131,9 @@ class EasyPhotoAlbum {
 					$role->remove_cap ( $cap );
 			}
 		}
+
+		// And flush the rewrite rules, so that the permalinks work
+		flush_rewrite_rules();
 	}
 
 	/**

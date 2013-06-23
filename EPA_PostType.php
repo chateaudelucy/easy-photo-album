@@ -69,6 +69,14 @@ class EPA_PostType {
 				&$this,
 				'album_messages'
 		), 11, 1 );
+		add_filter ( 'the_content_more_link', array (
+				&$this,
+				'special_more_link'
+		), 10, 2 );
+		add_filter ( 'the_excerpt', array (
+				&$this,
+				'special_excerpt'
+		) );
 	}
 
 	/**
@@ -142,7 +150,6 @@ class EPA_PostType {
 	 */
 	public function display_metabox() {
 		$this->display_no_js_waring ();
-		require_once 'EPA_List_Table.php';
 		$l = new EPA_List_Table ( get_current_screen () );
 		$this->load_data ();
 		$l->prepare_items ( $this->current_photos );
@@ -379,6 +386,28 @@ CSS;
 		);
 
 		return $messages;
+	}
+
+	/**
+	 * Adds the closing <code>&lt;/ul&gt;</code> tag for the albums to the more link
+	 *
+	 * @param string $more_link
+	 * @return string
+	 */
+	public function special_more_link($more_link, $more_text) {
+		if (get_post_type () == self::POSTTYPE_NAME) {
+			return '</ul>' . apply_filters ( 'epa_album_more_link', $more_link, $more_text );
+		} else {
+			return $more_link;
+		}
+	}
+
+	public function special_excerpt($excerpt) {
+		if (get_post_type () == self::POSTTYPE_NAME) {
+			return get_the_content ( apply_filters ( 'epa_excerpt_more_link_text', __("More photo's...", 'epa') ) );
+		} else {
+			return $excerpt;
+		}
 	}
 
 	/**

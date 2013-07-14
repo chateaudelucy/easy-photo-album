@@ -86,9 +86,9 @@ class EPA_Renderer {
 		$a_attr = "";
 		switch (EasyPhotoAlbum::get_instance ()->linkto) {
 			case 'lightbox' :
-				$url = wp_get_attachment_image_src ( $photo->id, 'epa-display-size' );
+				$url = wp_get_attachment_image_src ( $photo->id, 'full' );
 				$url = $url [0];
-				$a_attr = 'rel="lightbox[' . $this->album_name . ']"';
+				$a_attr = 'data-lightbox="' . $this->album_name . '"';
 				break;
 			case 'attachment' :
 				$url = get_attachment_link ( $photo->id );

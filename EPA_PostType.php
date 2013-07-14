@@ -131,7 +131,6 @@ class EPA_PostType {
 					),
 					'taxonomies' => array ()
 			) );
-			add_image_size ( 'epa-display-size', EasyPhotoAlbum::get_instance ()->displaywidth, EasyPhotoAlbum::get_instance ()->displayheight );
 		}
 	}
 
@@ -141,14 +140,14 @@ class EPA_PostType {
 	public function register_metabox() {
 		add_meta_box ( 'easy-photo-album-images', __ ( "Album images", 'eap' ), array (
 				&$this,
-				'display_metabox'
+				'display_photo_metabox'
 		), null, 'normal', 'high' );
 	}
 
 	/**
 	 * Displays the content of the metabox for this posttype
 	 */
-	public function display_metabox() {
+	public function display_photo_metabox() {
 		$this->display_no_js_waring ();
 		$l = new EPA_List_Table ( get_current_screen () );
 		$this->load_data ();
@@ -313,13 +312,13 @@ CSS;
 			if (EasyPhotoAlbum::get_instance ()->linkto == 'lightbox') {
 				wp_enqueue_script ( 'lightbox2-js', plugins_url ( 'js/lightbox.js', __FILE__ ), array (
 						'jquery'
-				), '2.51', true );
-				wp_localize_script ( 'lightbox2-js', 'lightboxL10n', array (
-						'img_path' => plugins_url ( 'css/img', __FILE__ ),
-						'lblImage' => _x ( 'Image', 'Image 2 of 4', 'epa' ),
-						'lblOf' => _x ( 'of', 'Image 2 of 4', 'epa' )
+				), '2.6', true );
+				wp_localize_script ( 'lightbox2-js', 'lightboxSettings', array (
+						'wrapAround' => EasyPhotoAlbum::get_instance()->wraparound,
+						'showAlbumLabel' => EasyPhotoAlbum::get_instance()->showalbumlabel,
+						'albumLabel' => EasyPhotoAlbum::get_instance()->albumlabel
 				) );
-				wp_enqueue_style ( 'lightbox2-css', plugins_url ( 'css/lightbox.css', __FILE__ ), array (), '2.51' );
+				wp_enqueue_style ( 'lightbox2-css', plugins_url ( 'css/lightbox.css', __FILE__ ), array (), '2.6' );
 			}
 		}
 	}

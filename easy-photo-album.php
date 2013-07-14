@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: Easy Photo Album
- * Version: 1.0.7
+ * Version: 1.1.0
  * Author: TV productions
  * Author URI: http://tv-productions.org/
  * Description: This plugin makes it very easy to create and manage photo albums. You can help by submit bugs and request new features at the plugin page at wordpress.org.
@@ -47,7 +47,7 @@ class EasyPhotoAlbum {
 	private $options = array ();
 	private $post_type = null;
 	private $admin = null;
-	public static $version = '1.0.7';
+	public static $version = '1.1.0';
 
 	private function __construct() {
 		$this->options_init ();
@@ -95,6 +95,8 @@ class EasyPhotoAlbum {
 		$this->assign_capabilities ();
 		// And flush the rewrite rules, so that the permalinks work
 		flush_rewrite_rules ();
+		// regenerate the albums, if any options are changed by plugin update.
+		$this->rerender_photos(null, $this->options);
 	}
 
 	/**
@@ -207,10 +209,12 @@ class EasyPhotoAlbum {
 				'linkto' => 'lightbox',
 				'thumbnailwidth' => 150,
 				'thumbnailheight' => 150,
-				'displaywidth' => 600,
-				'displayheight' => 600,
+				'wraparound' => false,
+				'albumlabel' => _x('Image {0} of {1}', 'Ex: Image 4 of 6, so {0} is the current image number and {1} is the total number of images.', 'epa'),
+				'showalbumlabel' => true,
 				'showtitlewiththumbnail' => true,
-				'numimageswhennotsingle' => 3
+				'numimageswhennotsingle' => 3,
+				'showcaption' => false,
 		);
 		$this->options = get_option ( 'EasyPhotoAlbum', $defaults );
 		$this->options = wp_parse_args($this->options, $defaults);

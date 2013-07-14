@@ -4,7 +4,7 @@ Donate link:
 Tags:  album, photo's, images
 Requires at least: 3.5
 Tested up to: 3.5.2
-Stable tag: 1.0.7
+Stable tag: 1.1.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -50,6 +50,13 @@ A: You can find the settings under Settings > Media.
 4. Example of lightbox display.
 
 == Changelog ==
+
+**1.1.0**
+
+* Updated lightbox to version 2.6
+* Removed options: displaywidht and displayheight options are removed, because the lightbox now fits the image to the viewport.
+* Added options: Options for the label under the lightbox and for displaying the caption column when you edit an album.
+* Minor bugfixes
 
 **1.0.7**
 

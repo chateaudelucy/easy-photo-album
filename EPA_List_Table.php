@@ -22,7 +22,6 @@ require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 
 /**
  * The class for the display of the images at the back-end.
- *
  */
 class EPA_List_Table extends WP_List_Table {
 	var $_column_headers = array ();
@@ -58,11 +57,16 @@ class EPA_List_Table extends WP_List_Table {
 				'per_page' => count ( $this->items )
 		) );
 
+		$hidden_columns = array (
+				'order'
+		);
+		if (!EasyPhotoAlbum::get_instance ()->showcaption)
+			$hidden_columns = array_merge ( $hidden_columns, array (
+					'caption'
+			) );
 		$this->_column_headers = array (
 				$this->get_columns (), // columns
-				array ( // hidden columns
-						'order'
-				),
+				$hidden_columns,
 				$this->get_sortable_columns ()
 		);
 	}
@@ -89,6 +93,7 @@ class EPA_List_Table extends WP_List_Table {
 
 	/**
 	 * Renders the contents of the image column for each item.
+	 *
 	 * @param stdClass $item
 	 */
 	function column_image($item) {
@@ -123,6 +128,7 @@ IMG;
 
 	/**
 	 * Renders the contents of the checkbox column for each item.
+	 *
 	 * @param stdClass $item
 	 */
 	function column_cb($item) {
@@ -131,6 +137,7 @@ IMG;
 
 	/**
 	 * Renders the contents of the title column for each item.
+	 *
 	 * @param stdClass $item
 	 */
 	function column_title($item) {
@@ -139,14 +146,17 @@ IMG;
 
 	/**
 	 * Renders the contents of the caption column for each item.
+	 *
 	 * @param stdClass $item
 	 */
 	function column_caption($item) {
-		echo '<textarea style="width: 100%; height: 100%" name="' . EPA_PostType::INPUT_NAME . '[' . $item->id . '][caption]">' . $item->caption . '</textarea>';
+		if (EasyPhotoAlbum::get_instance ()->showcaption)
+			echo '<textarea style="width: 100%; height: 100%" name="' . EPA_PostType::INPUT_NAME . '[' . $item->id . '][caption]">' . $item->caption . '</textarea>';
 	}
 
 	/**
 	 * Renders the contents of the order column for each item.
+	 *
 	 * @param stdClass $item
 	 */
 	function column_order($item) {
@@ -267,7 +277,7 @@ IMG;
 				'lang' => array (
 						'mediatitle' => __ ( 'Choose image(s)', 'epa' ),
 						'mediabutton' => __ ( 'Select image(s)', 'epa' ),
-						'deleteconfirm' => __ ( "Are you shure you want to delete the '{0}' photo?", 'epa' )
+						'deleteconfirm' => __ ( "Are you shure you want to delete photo '{0}'?", 'epa' )
 				),
 				'thumbsize' => array (
 						'width' => EasyPhotoAlbum::get_instance ()->thumbnailwidth,

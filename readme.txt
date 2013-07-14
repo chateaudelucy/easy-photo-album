@@ -1,10 +1,10 @@
 === Easy Photo Album ===
-Contributors: tv-productions
+Contributors: TV productions
 Donate link:
 Tags:  album, photo's, images
-Requires at least: 3.5.0
+Requires at least: 3.5
 Tested up to: 3.5.2
-Stable tag: 1.0.2
+Stable tag: 1.1.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -12,8 +12,6 @@ Easy Photo album is a plugin that makes it easy for you to create and manage pho
 
 == Description ==
 
-Easy Photo album
-----------------
 This plugin enables you to create and manage photo albums, just like posts.
 You don't have to change any theme files, the album displays nice right away.
 Photo's can be viewed by a **Lightbox**.
@@ -40,9 +38,9 @@ download, upload and install .zip under Plugins > Add New > Upload.
 
 == Frequently asked questions ==
 
-= Where can I find the settings for this plugin? =
+= Q: Where can I find the settings for this plugin? =
 
-You can find the settings under Settings > Media.
+A: You can find the settings under Settings > Media.
 
 == Screenshots ==
 
@@ -52,6 +50,33 @@ You can find the settings under Settings > Media.
 4. Example of lightbox display.
 
 == Changelog ==
+
+**1.1.0**
+
+* Updated lightbox to version 2.6
+* Removed options: displaywidht and displayheight options are removed, because the lightbox now fits the image to the viewport.
+* Added options: Options for the label under the lightbox and for displaying the caption column when you edit an album.
+* Minor bugfixes
+
+**1.0.7**
+
+* Updated translations
+
+**1.0.6**
+
+* Fixed bug: option doesn't exists after updating to 1.0.5
+
+**1.0.5**
+
+* Updated: updated the Dutch translation.
+
+**1.0.4**
+
+* Added: excerpts show also some images (can be set by the user)
+
+**1.0.3**
+
+* Moved the settings functions from `EasyPhotoAlbum` to `EPA_Admin`.
 
 **1.0.2**
 

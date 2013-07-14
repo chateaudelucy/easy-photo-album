@@ -50,9 +50,15 @@ class EPA_Renderer {
 	public function render($echo = false) {
 		$html = '<ul class="epa-album">
 ';
-
-		foreach ( $this->photos as $photo )
+		$count = 1;
+		foreach ( $this->photos as $photo ) {
 			$html .= $this->render_one_photo ( $photo );
+			if (EasyPhotoAlbum::get_instance ()->numimageswhennotsingle == $count) {
+				// $count is never 0, so by 0, all the images will be displayed.
+				$html .= $this->moreTag ();
+			}
+			$count += 1;
+		}
 
 		$html .= '</ul>
 ';
@@ -80,9 +86,9 @@ class EPA_Renderer {
 		$a_attr = "";
 		switch (EasyPhotoAlbum::get_instance ()->linkto) {
 			case 'lightbox' :
-				$url = wp_get_attachment_image_src ( $photo->id, 'epa-display-size' );
+				$url = wp_get_attachment_image_src ( $photo->id, 'full' );
 				$url = $url [0];
-				$a_attr = 'rel="lightbox[' . $this->album_name . ']"';
+				$a_attr = 'data-lightbox="' . $this->album_name . '"';
 				break;
 			case 'attachment' :
 				$url = get_attachment_link ( $photo->id );
@@ -112,5 +118,15 @@ class EPA_Renderer {
 		</li>
 
 HTML;
+	}
+
+	/**
+	 * Returns the more tag
+	 * @return string
+	 */
+	protected function moreTag() {
+		return '
+<!--more-->
+				';
 	}
 }

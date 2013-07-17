@@ -50,12 +50,14 @@ class EasyPhotoAlbum {
 	public static $version = '1.1.0';
 
 	private function __construct() {
+		load_plugin_textdomain ( 'epa', false, basename ( dirname ( __FILE__ ) ) . '/lang' );
+
 		$this->options_init ();
+
 		$this->post_type = new EPA_PostType ();
 		if (is_admin())
 			$this->admin = new EPA_Admin();
 
-		load_plugin_textdomain ( 'epa', false, basename ( dirname ( __FILE__ ) ) . '/lang' );
 		register_activation_hook ( __FILE__, array (
 				&$this,
 				'on_activation'
@@ -156,7 +158,7 @@ class EasyPhotoAlbum {
 
 		foreach ( $albums as $album ) {
 			// Render each album
-			$renderer = new EPA_Renderer ( get_post_meta ( $album->ID, EPA_PostType::SETTINGS_NAME, true ), get_the_title ( $album->ID ) );
+			$renderer = new EPA_Renderer ( get_post_meta ( $album->ID, EPA_PostType::SETTINGS_NAME, true ), $album->post_name );
 			wp_update_post ( array (
 					'ID' => $album->ID,
 					'post_content' => $renderer->render ( false )

@@ -34,11 +34,11 @@ class EPA_Renderer {
 	 *
 	 * @param array $photos
 	 * @param string $name
-	 *        	[optional] The name of the album. This is needed when the user uses lightbox.
+	 *        	[optional] The name of the album. This is needed when the user uses lightbox. The safest is to use the slug
 	 */
 	public function __construct($photos, $name = '') {
 		$this->photos = $photos;
-		$this->album_name = sanitize_title_with_dashes ( $name );
+		$this->album_name = esc_attr(sanitize_title_with_dashes ( $name ));
 	}
 
 	/**

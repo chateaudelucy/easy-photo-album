@@ -243,7 +243,7 @@ class EPA_PostType {
 			}
 
 			// Generate HTML and set it as the post content
-			$renderer = new EPA_Renderer ( $this->current_photos, get_the_title ( $post_id ) );
+			$renderer = new EPA_Renderer ( $this->current_photos, $post->post_name );
 			// unhook this function so it doesn't loop infinitely
 			remove_action ( 'save_post', array (
 					&$this,

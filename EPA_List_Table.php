@@ -31,7 +31,7 @@ class EPA_List_Table extends WP_List_Table {
 	 *
 	 * @param WP_Screen $screen
 	 */
-	function __construct($screen) {
+	function __construct($screen, $items) {
 		parent::__construct ( array (
 				'plural' => __ ( 'Images', 'epa' ),
 				'singular' => __ ( 'Image', 'epa' ),
@@ -42,15 +42,16 @@ class EPA_List_Table extends WP_List_Table {
 				&$this,
 				'add_js_vars'
 		) );
+
+		$this->items = $items;
+		$this->prepare_items();
 	}
 
 	/* (non-PHPdoc)
 	 * @see WP_List_Table::prepare_items()
 	 */
-	function prepare_items($items) {
-		$this->items = $items;
-
-		// no pagination
+	function prepare_items() {
+				// no pagination
 		$this->set_pagination_args ( array (
 				'total_items' => count ( $this->items ),
 				'total_pages' => 1,

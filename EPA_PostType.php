@@ -149,9 +149,9 @@ class EPA_PostType {
 	 */
 	public function display_photo_metabox() {
 		$this->display_no_js_waring ();
-		$l = new EPA_List_Table ( get_current_screen () );
+
 		$this->load_data ();
-		$l->prepare_items ( $this->current_photos );
+		$l = new EPA_List_Table ( get_current_screen (), $this->current_photos  );
 		echo "\n" . '<div class="hide-if-no-js">' . "\n";
 		echo '<input type="button" name="' . self::INPUT_NAME . '[add_photo]" value="' . __ ( "Add one or more photo's", 'epa' ) . '" class="button"/>' . "\n";
 		$l->display ();

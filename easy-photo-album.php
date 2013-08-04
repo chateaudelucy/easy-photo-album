@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: Easy Photo Album
- * Version: 1.1.0
+ * Version: 1.1.1
  * Author: TV productions
  * Author URI: http://tv-productions.org/
  * Description: This plugin makes it very easy to create and manage photo albums. You can help by submit bugs and request new features at the plugin page at wordpress.org.
@@ -47,7 +47,7 @@ class EasyPhotoAlbum {
 	private $options = array ();
 	private $post_type = null;
 	private $admin = null;
-	public static $version = '1.1.0';
+	public static $version = '1.1.1';
 
 	private function __construct() {
 		load_plugin_textdomain ( 'epa', false, basename ( dirname ( __FILE__ ) ) . '/lang' );

@@ -8,7 +8,7 @@ Stable tag: 1.1.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Easy Photo album is a plugin that makes it easy for you to create and manage photo albums.
+Easy Photo Album is a plugin that makes it easy for you to create and manage photo albums.
 
 == Description ==
 
@@ -48,11 +48,11 @@ A: You have to check `Photo Albums` in the Screen options box under Appearance >
 
 = Q: How can I display all the photo albums? =
 
-A: You can display the photo album archive by visiting `example.com/albums/` (where `example.com` is your WordPress home url).
+A: You can display the photo album archive by visiting `example.com/albums/` (where `example.com` is your WordPress home URL).
 
 == Screenshots ==
 
-1. Example of a photo album on Twenty Twelve
+1. Example of a photo album on Twenty Thirteen
 2. Reorder the photo's with drag and drop.
 3. The settings for the photo albums.
 4. Example of lightbox display.

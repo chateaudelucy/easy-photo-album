@@ -87,7 +87,7 @@ class EPA_Admin {
 	}
 
 	public function display_settings_section() {
-		printf ( '<p>%1$s <i>%2$s</i></p><p>%3$s</p>', __ ( 'Settings that changes the appreance of the photo albums.', 'epa' ), __ ( 'Note: when you use the lightbox, you have to regenerate the images, in order to make them the desired size.', 'epa' ), sprintf ( __ ( 'Do you like this plugin? Please write a review or rate the plugin at %1$swordpress.org%2$s.', 'epa' ), '<a href="http://wordpress.org/support/view/plugin-reviews/easy-photo-album" target="_blank">', '</a>' ) );
+		printf ( '<p>%1$s</p><p>%2$s</p>', __ ( 'Settings that changes the appreance of the photo albums.', 'epa' ), sprintf ( __ ( 'Do you like this plugin? Please write a review or rate the plugin at %1$swordpress.org%2$s.', 'epa' ), '<a href="http://wordpress.org/support/view/plugin-reviews/easy-photo-album" target="_blank">', '</a>' ) );
 	}
 
 	public function display_linkto_field() {

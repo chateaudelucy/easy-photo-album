@@ -217,6 +217,7 @@ class EasyPhotoAlbum {
 				'showtitlewiththumbnail' => true,
 				'numimageswhennotsingle' => 3,
 				'showcaption' => false,
+				'inmainloop' => true,
 		);
 		$this->options = get_option ( 'EasyPhotoAlbum', $defaults );
 		$this->options = wp_parse_args($this->options, $defaults);

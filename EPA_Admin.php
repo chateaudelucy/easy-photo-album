@@ -56,6 +56,10 @@ class EPA_Admin {
 				&$this,
 				'display_showcaption_field'
 		), 'media', 'epa-section' );
+		add_settings_field ( 'inmainloop', __ ( 'Photo albums on blog page', 'epa' ), array (
+				&$this,
+				'display_inmainloop_field'
+		), 'media', 'epa-section' );
 	}
 
 	/**
@@ -180,6 +184,18 @@ class EPA_Admin {
 			);
 		}
 		$this->display_input_field ( 'showcaption', 'true', 'checkbox', sprintf ( '<label for="sc">%s</label>', __ ( 'Show the caption in the album edit screen', 'epa' ) ), $attr );
+	}
+
+	public function display_inmainloop_field() {
+		$attr = array (
+				'id' => 'iml'
+		);
+		if (EasyPhotoAlbum::get_instance ()->inmainloop) {
+			$attr += array (
+					'checked' => 'checked'
+			);
+		}
+		$this->display_input_field ( 'inmainloop', 'true', 'checkbox', sprintf ( '<label for="iml">%s</label>', __ ( 'Show Photo Albums on the blog page', 'epa' ) ), $attr );
 	}
 
 	/**

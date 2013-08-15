@@ -40,6 +40,10 @@ class EPA_PostType {
 				&$this,
 				'add_album_posttype'
 		) );
+		add_action ( 'init', array (
+				&$this,
+				'on_init'
+		) );
 		add_action ( 'admin_head', array (
 				&$this,
 				'admin_head'
@@ -77,6 +81,18 @@ class EPA_PostType {
 				&$this,
 				'special_excerpt'
 		) );
+	}
+
+	/**
+	 * Functions to handle on init
+	 */
+	public function on_init() {
+		if (EasyPhotoAlbum::get_instance ()->inmainloop) {
+			add_action ( 'pre_get_posts', array (
+					&$this,
+					'add_to_main_loop'
+			) );
+		}
 	}
 
 	/**
@@ -151,7 +167,7 @@ class EPA_PostType {
 		$this->display_no_js_waring ();
 
 		$this->load_data ();
-		$l = new EPA_List_Table ( get_current_screen (), $this->current_photos  );
+		$l = new EPA_List_Table ( get_current_screen (), $this->current_photos );
 		echo "\n" . '<div class="hide-if-no-js">' . "\n";
 		echo '<input type="button" name="' . self::INPUT_NAME . '[add_photo]" value="' . __ ( "Add one or more photo's", 'epa' ) . '" class="button"/>' . "\n";
 		$l->display ();
@@ -305,7 +321,7 @@ CSS;
 	 */
 	public function enqueue_scripts() {
 		global $post;
-		if (isset ( $post->post_type ) && self::POSTTYPE_NAME == $post->post_type) {
+		if ((isset ( $post->post_type ) && self::POSTTYPE_NAME == $post->post_type) || (is_main_query () && EasyPhotoAlbum::get_instance ()->inmainloop)) {
 			// it is a photo album
 			wp_enqueue_style ( 'epa-template', plugins_url ( 'css/easy-photo-album-template.css', __FILE__ ), array (), EasyPhotoAlbum::$version, 'all' );
 
@@ -314,9 +330,9 @@ CSS;
 						'jquery'
 				), '2.6', true );
 				wp_localize_script ( 'lightbox2-js', 'lightboxSettings', array (
-						'wrapAround' => EasyPhotoAlbum::get_instance()->wraparound,
-						'showAlbumLabel' => EasyPhotoAlbum::get_instance()->showalbumlabel,
-						'albumLabel' => EasyPhotoAlbum::get_instance()->albumlabel
+						'wrapAround' => EasyPhotoAlbum::get_instance ()->wraparound,
+						'showAlbumLabel' => EasyPhotoAlbum::get_instance ()->showalbumlabel,
+						'albumLabel' => EasyPhotoAlbum::get_instance ()->albumlabel
 				) );
 				wp_enqueue_style ( 'lightbox2-css', plugins_url ( 'css/lightbox.css', __FILE__ ), array (), '2.6' );
 			}
@@ -328,7 +344,7 @@ CSS;
 	 */
 	public function variable_css() {
 		global $post;
-		if (isset ( $post->post_type ) && self::POSTTYPE_NAME == $post->post_type && EasyPhotoAlbum::get_instance ()->showtitlewiththumbnail) {
+		if (((isset ( $post->post_type ) && self::POSTTYPE_NAME == $post->post_type) || (is_main_query () && EasyPhotoAlbum::get_instance ()->inmainloop)) && EasyPhotoAlbum::get_instance ()->showtitlewiththumbnail) {
 			$width = EasyPhotoAlbum::get_instance ()->thumbnailwidth;
 			echo <<<CSS
 <!-- Easy Photo Album CSS -->
@@ -403,9 +419,24 @@ CSS;
 
 	public function special_excerpt($excerpt) {
 		if (get_post_type () == self::POSTTYPE_NAME) {
-			return get_the_content ( apply_filters ( 'epa_excerpt_more_link_text', __("More photo's...", 'epa') ) );
+			return get_the_content ( apply_filters ( 'epa_excerpt_more_link_text', __ ( "More photo's...", 'epa' ) ) );
 		} else {
 			return $excerpt;
+		}
+	}
+
+	/**
+	 * Adds the post type to the main loop (i.e.
+	 * blogpage)
+	 *
+	 * @param WP_Query $query
+	 */
+	public function add_to_main_loop($query) {
+		if (! is_admin () && ! is_archive () && $query->is_main_query ()) {
+			$query->set ( 'post_type', apply_filters ( 'epa_main_loop_post_types', array (
+					'post',
+					self::POSTTYPE_NAME
+			) ) );
 		}
 	}
 

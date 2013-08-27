@@ -17,6 +17,7 @@ You don't have to change any theme files, the album displays nice right away.
 Photo's can be viewed by a **Lightbox**.
 The size of the thumbnails is all yours. The Lightbox displays the most large possible size, resized to the current screen size.
 You can manage the order of the photo's (very easy with drag and drop) and tell your story in pictures!
+You can now also insert your album in a post or page.
 
 So go ahead, and try it out!
 

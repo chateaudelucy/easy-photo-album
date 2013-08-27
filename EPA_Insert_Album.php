@@ -85,7 +85,8 @@ class EPA_Insert_Album {
 				'display' => 'excerpt'
 		), $atts, 'epa-album' );
 		// for the functions
-		define("EPA_DOING_SHORTCODE", true, true);
+		global $EPA_DOING_SHORTCODE;
+		$EPA_DOING_SHORTCODE = true;
 
 		$content = '';
 		$album = get_post ( $atts ['id'] );
@@ -128,7 +129,7 @@ class EPA_Insert_Album {
 			}
 			wp_reset_postdata ();
 		}
-
+		$EPA_DOING_SHORTCODE = false;
 		return $content;
 	}
 

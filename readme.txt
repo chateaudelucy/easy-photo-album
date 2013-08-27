@@ -4,7 +4,7 @@ Donate link:
 Tags:  album, photo's, images
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -61,11 +61,15 @@ A: *When you have enabled permalinks*: You can display the photo album archive b
 
 == Changelog ==
 
+**1.1.4**
+
+* Fixed bug: PHP notices (only if WP_DEBUG is true)
+
 **1.1.3**
 
 * Fixed bug: view more photo's link doesn't work when an album is included.
 
-**1.1.2 ***
+**1.1.2**
 
 * Added option to show photo albums in the main query (i.e. the blog page).
 * Added feature: insert a album in a post (or page).

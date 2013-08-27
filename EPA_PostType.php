@@ -434,7 +434,8 @@ CSS;
 		// Using the global var $id, cause setup_postdata() doesn't set $post;
 		global $id;
 		if (get_post_type ( $id ) == self::POSTTYPE_NAME) {
-			if (defined ( "EPA_DOING_SHORTCODE" )) {
+			global $EPA_DOING_SHORTCODE;
+			if ($EPA_DOING_SHORTCODE == true) {
 				return '</ul><!-- epa more -->' . ' <a href="' . get_permalink ( $id ) . "#more-{$id}\" class=\"more-link\">$more_text</a>";
 			}
 			return '</ul><!-- epa more -->' . apply_filters ( 'epa_album_more_link', $more_link, $more_text );

@@ -84,6 +84,9 @@ class EPA_Insert_Album {
 				'show_title' => 'true',
 				'display' => 'excerpt'
 		), $atts, 'epa-album' );
+		// for the functions
+		define("EPA_DOING_SHORTCODE", true, true);
+
 		$content = '';
 		$album = get_post ( $atts ['id'] );
 		if ($album != null) {

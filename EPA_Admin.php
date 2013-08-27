@@ -1,5 +1,31 @@
 <?php
+/*
+ Easy Photo Album Wordpress plugin.
 
+Copyright (C) 2013  TV productions
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+/**
+ * This class displays the options screen on admin side.
+ *
+ * @author TV Productions
+ * @package EasyPhotoAlbum
+ *
+ */
 class EPA_Admin {
 
 	public function __construct() {
@@ -9,6 +35,9 @@ class EPA_Admin {
 		) );
 	}
 
+	/**
+	 * Add the settings to the media options screen
+	 */
 	public function register_settings() {
 		// Add the settings to the media options screen
 		register_setting ( 'media', 'EasyPhotoAlbum', array (
@@ -86,7 +115,7 @@ class EPA_Admin {
 		$valid ['wraparound'] = (isset ( $input ['wraparound'] ) && $input ['wraparound'] == 'true' ? true : false);
 		$valid ['numimageswhennotsingle'] = (is_numeric ( $input ['numimageswhennotsingle'] ) ? $input ['numimageswhennotsingle'] : $valid ['numimageswhennotsingle']);
 		$valid ['showcaption'] = (isset ( $input ['showcaption'] ) && $input ['showcaption'] == 'true' ? true : false);
-
+		$valid['inmainloop'] = (isset ( $input ['inmainloop'] ) && $input ['inmainloop'] == 'true' ? true : false);
 		return $valid;
 	}
 

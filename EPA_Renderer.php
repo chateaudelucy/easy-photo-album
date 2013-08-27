@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * This class renders the album
  *
  * @author TV productions
+ * @package EasyPhotoAlbum
  *
  */
 class EPA_Renderer {
@@ -48,7 +49,7 @@ class EPA_Renderer {
 	 * @return string
 	 */
 	public function render($echo = false) {
-		$html = '<ul class="epa-album">
+		$html = '<ul class="epa-album epa-cf">
 ';
 		$count = 1;
 		foreach ( $this->photos as $photo ) {

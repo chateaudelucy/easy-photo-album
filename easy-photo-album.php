@@ -29,11 +29,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 require_once 'EPA_PostType.php';
+require_once 'EPA_Insert_Album.php';
 require_once 'EPA_Renderer.php';
 
 if (is_admin ()) {
 	require_once 'EPA_List_Table.php';
 	require_once 'EPA_Admin.php';
+
 }
 
 /**
@@ -47,6 +49,7 @@ class EasyPhotoAlbum {
 	private $options = array ();
 	private $post_type = null;
 	private $admin = null;
+	private $tinymce = null;
 	public static $version = '1.1.1';
 
 	private function __construct() {
@@ -55,8 +58,11 @@ class EasyPhotoAlbum {
 		$this->options_init ();
 
 		$this->post_type = new EPA_PostType ();
-		if (is_admin())
-			$this->admin = new EPA_Admin();
+		$this->tinymce = new EPA_Insert_Album ();
+		if (is_admin ()) {
+			$this->admin = new EPA_Admin ();
+
+		}
 
 		register_activation_hook ( __FILE__, array (
 				&$this,
@@ -98,7 +104,7 @@ class EasyPhotoAlbum {
 		// And flush the rewrite rules, so that the permalinks work
 		flush_rewrite_rules ();
 		// regenerate the albums, if any options are changed by plugin update.
-		$this->rerender_photos(null, $this->options);
+		$this->rerender_photos ( null, $this->options );
 	}
 
 	/**
@@ -212,15 +218,17 @@ class EasyPhotoAlbum {
 				'thumbnailwidth' => 150,
 				'thumbnailheight' => 150,
 				'wraparound' => false,
-				'albumlabel' => _x('Image {0} of {1}', 'Ex: Image 4 of 6, so {0} is the current image number and {1} is the total number of images.', 'epa'),
+				'albumlabel' => _x ( 'Image {0} of {1}', 'Ex: Image 4 of 6, so {0} is the current image number and {1} is the total number of images.', 'epa' ),
 				'showalbumlabel' => true,
 				'showtitlewiththumbnail' => true,
 				'numimageswhennotsingle' => 3,
 				'showcaption' => false,
 				'inmainloop' => true,
-		);
+				'archivepostid' => 0,
+		)
+		;
 		$this->options = get_option ( 'EasyPhotoAlbum', $defaults );
-		$this->options = wp_parse_args($this->options, $defaults);
+		$this->options = wp_parse_args ( $this->options, $defaults );
 	}
 
 	/**

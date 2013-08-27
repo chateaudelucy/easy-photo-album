@@ -4,7 +4,7 @@ Donate link:
 Tags:  album, photo's, images
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -48,7 +48,8 @@ A: You have to check `Photo Albums` in the Screen options box under Appearance >
 
 = Q: How can I display all the photo albums? =
 
-A: You can display the photo album archive by visiting `example.com/albums/` (where `example.com` is your WordPress home URL).
+A: *When you have enabled permalinks*: You can display the photo album archive by visiting `example.com/albums/` (where `example.com` is your WordPress home URL).
+*When you have NOT enabled permalinks*: You can display the photo album archive by visiting `example.com/?post_type=easy-photo-album` (where `example.com` is your WordPress home URL).
 
 == Screenshots ==
 
@@ -58,6 +59,11 @@ A: You can display the photo album archive by visiting `example.com/albums/` (wh
 4. Example of lightbox display.
 
 == Changelog ==
+
+**1.1.2 ***
+
+* Added option to show photo albums in the main query (i.e. the blog page).
+* Added feature: insert a album in a post (or page).
 
 **1.1.1**
 

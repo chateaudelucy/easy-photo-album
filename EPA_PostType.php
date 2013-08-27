@@ -67,7 +67,7 @@ class EPA_PostType {
 			add_filter ( 'the_content', array (
 					&$this,
 					'autop_fix'
-			) );
+			), 10 );
 		}
 		add_filter ( 'post_updated_messages', array (
 				&$this,
@@ -81,6 +81,25 @@ class EPA_PostType {
 				&$this,
 				'special_excerpt'
 		) );
+		// Archive nav menu item not yet ready for use.
+		/*
+		add_filter ( 'nav_menu_items_' . self::POSTTYPE_NAME, array (
+				&$this,
+				'add_archive_nav_item'
+		), 10, 3 );
+		add_filter ( 'wp_setup_nav_menu_item', array (
+				&$this,
+				'setup_archive_item'
+		) );
+		// Fix for the archive menuitem
+		add_action ( 'wp_ajax_add-menu-item', array (
+				&$this,
+				'change_menu_item_type_to_custom'
+		), 0 );
+		add_filter ( 'wp_nav_menu_objects', array (
+				&$this,
+				'update_archive_link_after_rewrite'
+		) );*/
 	}
 
 	/**
@@ -321,7 +340,9 @@ CSS;
 	 */
 	public function enqueue_scripts() {
 		global $post;
-		if ((isset ( $post->post_type ) && self::POSTTYPE_NAME == $post->post_type) || (is_main_query () && EasyPhotoAlbum::get_instance ()->inmainloop)) {
+		// if the post is a photo album OR we are in the main query (and option is set) OR it is the
+		// archive page OR when the current page has a photo album shortcode
+		if ((isset ( $post->post_type ) && self::POSTTYPE_NAME == $post->post_type) || (is_main_query () && EasyPhotoAlbum::get_instance ()->inmainloop) || ($post->ID == EasyPhotoAlbum::get_instance ()->archivepageid) || has_shortcode ( $post->post_content, 'epa-album' )) {
 			// it is a photo album
 			wp_enqueue_style ( 'epa-template', plugins_url ( 'css/easy-photo-album-template.css', __FILE__ ), array (), EasyPhotoAlbum::$version, 'all' );
 
@@ -344,7 +365,7 @@ CSS;
 	 */
 	public function variable_css() {
 		global $post;
-		if (((isset ( $post->post_type ) && self::POSTTYPE_NAME == $post->post_type) || (is_main_query () && EasyPhotoAlbum::get_instance ()->inmainloop)) && EasyPhotoAlbum::get_instance ()->showtitlewiththumbnail) {
+		if (((isset ( $post->post_type ) && self::POSTTYPE_NAME == $post->post_type) || (is_main_query () && EasyPhotoAlbum::get_instance ()->inmainloop) || ($post->ID == EasyPhotoAlbum::get_instance ()->archivepageid) || has_shortcode ( $post->post_content, 'epa-album' )) && EasyPhotoAlbum::get_instance ()->showtitlewiththumbnail) {
 			$width = EasyPhotoAlbum::get_instance ()->thumbnailwidth;
 			echo <<<CSS
 <!-- Easy Photo Album CSS -->
@@ -410,15 +431,19 @@ CSS;
 	 * @return string
 	 */
 	public function special_more_link($more_link, $more_text) {
-		if (get_post_type () == self::POSTTYPE_NAME) {
-			return '</ul>' . apply_filters ( 'epa_album_more_link', $more_link, $more_text );
+		// Using the global var $id, cause setup_postdata() doesn't set $post;
+		global $id;
+		if (get_post_type ($id) == self::POSTTYPE_NAME) {
+			return '</ul><!-- epa more -->' . apply_filters ( 'epa_album_more_link', $more_link, $more_text );
 		} else {
 			return $more_link;
 		}
 	}
 
 	public function special_excerpt($excerpt) {
-		if (get_post_type () == self::POSTTYPE_NAME) {
+		// Using the global var $id, cause setup_postdata() doesn't set $post;
+		global $id;
+		if (get_post_type ($id) == self::POSTTYPE_NAME) {
 			return get_the_content ( apply_filters ( 'epa_excerpt_more_link_text', __ ( "More photo's...", 'epa' ) ) );
 		} else {
 			return $excerpt;
@@ -438,6 +463,85 @@ CSS;
 					self::POSTTYPE_NAME
 			) ) );
 		}
+	}
+
+	public function display_archive($content) {
+		if ($this->get_current_post_id () == EasyPhotoAlbum::get_instance ()->archivepageid) {
+			// this is the archive page id
+		} else {
+			return $content;
+		}
+	}
+
+	public function add_archive_nav_item($posts, $args, $post_type) {
+		$archive_item_id = get_option ( 'easy_photo_album_archive_nav_item_id' );
+		if ($archive_item_id == false) {
+			$archive_item_data = array (
+					'menu-item-title' => esc_attr ( __ ( 'Photo Album Archive', 'epa' ) ),
+					'menu-item-type' => 'post_type_archive',
+					'menu-item-object' => esc_attr ( self::POSTTYPE_NAME ),
+					'menu-item-url' => get_post_type_archive_link ( self::POSTTYPE_NAME )
+			);
+			$archive_item_id = wp_update_nav_menu_item ( 0, 0, $archive_item_data );
+			if (is_wp_error ( $archive_item_id ))
+				return $posts;
+
+			update_option ( 'easy_photo_album_archive_nav_item_id', $archive_item_id );
+		}
+
+		$archive_item_object = get_post ( $archive_item_id );
+		if (! empty ( $archive_item_object->ID )) {
+			$archive_item_object = wp_setup_nav_menu_item ( $archive_item_object );
+			$archive_item_object->label = $archive_item_object->title;
+		}
+
+		$posts [] = $archive_item_object;
+		return $posts;
+		// wp_setup_nav_menu_item()
+	}
+
+	/**
+	 * Assign menu item the appropriate url and ID
+	 *
+	 * @param object $menu_item
+	 * @return object $menu_item
+	 */
+	public function setup_archive_item($menu_item) {
+		if ($menu_item->type !== 'post_type_archive' || $menu_item->ID != get_option ( 'easy_photo_album_archive_nav_item_id' ))
+			return $menu_item;
+
+		$post_type = $menu_item->object;
+		$menu_item->url = get_post_type_archive_link ( $post_type );
+		$menu_item->object_id = $menu_item->ID;
+
+		return $menu_item;
+	}
+
+	/**
+	 * Fix notices in admin-ajax.php (wp_ajax_add_menu_item)
+	 * by changing the menu-item-type to custom (in place of post_type_archive)
+	 */
+	public function change_menu_item_type_to_custom() {
+		check_ajax_referer ( 'add-menu_item', 'menu-settings-column-nonce' );
+
+		if (! current_user_can ( 'edit_theme_options' ))
+			wp_die ( - 1 );
+
+		$id = get_option ( 'easy_photo_album_archive_nav_item_id' );
+
+		// If the menu item is our archive one, fix the notices in ajax-actions.php
+		if (isset ( $_POST ['menu-item'] [$id] )) {
+			$_POST ['menu-item'] [$id] ['menu-item-type'] = 'custom';
+		}
+	}
+
+	public function update_archive_link_after_rewrite($items) {
+		foreach ( $items as $item ) {
+			if (($item->ID == get_option ( 'easy_photo_album_archive_nav_item_id' ) + 1) && ($item->url != get_post_type_archive_link ( self::POSTTYPE_NAME ))) {
+				$item->url = get_post_type_archive_link ( self::POSTTYPE_NAME );
+			}
+		}
+		return $items;
 	}
 
 	/**

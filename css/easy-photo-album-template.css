@@ -25,6 +25,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	padding: 0 !important;
 }
 
+.epa-album ul {
+	overflow: hidden;
+}
+
 .epa-album .epa-image {
 	list-style: none;
 	margin: 1%;
@@ -46,4 +50,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	width: 100%;
+}
+
+/*
+ * Clearfix rules for epa
+ */
+.epa-cf:before,
+.epa-cf:after {
+    content: " ";
+    display: table;
+}
+
+.epa-cf:after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.epa-cf {
+    *zoom: 1;
 }

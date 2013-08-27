@@ -22,6 +22,9 @@ require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 
 /**
  * The class for the display of the images at the back-end.
+ *
+ * @author TV productions
+ * @package EasyPhotoAlbum
  */
 class EPA_List_Table extends WP_List_Table {
 	var $_column_headers = array ();
@@ -44,14 +47,14 @@ class EPA_List_Table extends WP_List_Table {
 		) );
 
 		$this->items = $items;
-		$this->prepare_items();
+		$this->prepare_items ();
 	}
 
 	/* (non-PHPdoc)
 	 * @see WP_List_Table::prepare_items()
 	 */
 	function prepare_items() {
-				// no pagination
+		// no pagination
 		$this->set_pagination_args ( array (
 				'total_items' => count ( $this->items ),
 				'total_pages' => 1,
@@ -61,7 +64,7 @@ class EPA_List_Table extends WP_List_Table {
 		$hidden_columns = array (
 				'order'
 		);
-		if (!EasyPhotoAlbum::get_instance ()->showcaption)
+		if (! EasyPhotoAlbum::get_instance ()->showcaption)
 			$hidden_columns = array_merge ( $hidden_columns, array (
 					'caption'
 			) );

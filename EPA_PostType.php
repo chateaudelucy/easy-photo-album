@@ -433,7 +433,10 @@ CSS;
 	public function special_more_link($more_link, $more_text) {
 		// Using the global var $id, cause setup_postdata() doesn't set $post;
 		global $id;
-		if (get_post_type ($id) == self::POSTTYPE_NAME) {
+		if (get_post_type ( $id ) == self::POSTTYPE_NAME) {
+			if (defined ( "EPA_DOING_SHORTCODE" )) {
+				return '</ul><!-- epa more -->' . ' <a href="' . get_permalink ( $id ) . "#more-{$id}\" class=\"more-link\">$more_link_text</a>";
+			}
 			return '</ul><!-- epa more -->' . apply_filters ( 'epa_album_more_link', $more_link, $more_text );
 		} else {
 			return $more_link;
@@ -443,7 +446,7 @@ CSS;
 	public function special_excerpt($excerpt) {
 		// Using the global var $id, cause setup_postdata() doesn't set $post;
 		global $id;
-		if (get_post_type ($id) == self::POSTTYPE_NAME) {
+		if (get_post_type ( $id ) == self::POSTTYPE_NAME) {
 			return get_the_content ( apply_filters ( 'epa_excerpt_more_link_text', __ ( "More photo's...", 'epa' ) ) );
 		} else {
 			return $excerpt;

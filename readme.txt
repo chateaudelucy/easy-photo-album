@@ -4,7 +4,7 @@ Donate link:
 Tags:  album, photo's, images
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -60,6 +60,10 @@ A: *When you have enabled permalinks*: You can display the photo album archive b
 4. Example of lightbox display.
 
 == Changelog ==
+
+**1.1.3**
+
+* Fixed bug: view more photo's link doesn't work when an album is included.
 
 **1.1.2 ***
 

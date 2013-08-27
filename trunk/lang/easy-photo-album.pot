@@ -1,0 +1,306 @@
+# Copyright (C) 2013 Easy Photo Album
+# This file is distributed under the same license as the Easy Photo Album package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Easy Photo Album 1.0.2\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/easy-photo-album\n"
+"POT-Creation-Date: 2013-06-23 13:57:29+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2013-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: EPA_List_Table.php:37
+msgid "Images"
+msgstr ""
+
+#: EPA_List_Table.php:38 EPA_List_Table.php:83
+msgid "Image"
+msgstr ""
+
+#: EPA_List_Table.php:74
+msgid "No photo's added yet."
+msgstr ""
+
+#: EPA_List_Table.php:82
+msgid "Select All"
+msgstr ""
+
+#: EPA_List_Table.php:84 easy-photo-album.php:167
+msgid "Title"
+msgstr ""
+
+#: EPA_List_Table.php:85
+msgid "Caption"
+msgstr ""
+
+#: EPA_List_Table.php:86
+msgid "Order"
+msgstr ""
+
+#: EPA_List_Table.php:117 EPA_List_Table.php:162
+msgid "Delete"
+msgstr ""
+
+#: EPA_List_Table.php:118
+msgid "Up"
+msgstr ""
+
+#: EPA_List_Table.php:119
+msgid "Down"
+msgstr ""
+
+#: EPA_List_Table.php:189
+msgid "Bulk Actions"
+msgstr ""
+
+#: EPA_List_Table.php:199
+msgid "Apply"
+msgstr ""
+
+#: EPA_List_Table.php:268
+msgid "Choose image(s)"
+msgstr ""
+
+#: EPA_List_Table.php:269
+msgid "Select image(s)"
+msgstr ""
+
+#: EPA_List_Table.php:270
+msgid "Are you shure you want to delete the '{0}' photo?"
+msgstr ""
+
+#: EPA_PostType.php:84
+msgctxt "General Photo Albums name (multiple)"
+msgid "Photo Albums"
+msgstr ""
+
+#: EPA_PostType.php:85
+msgctxt "General singular Photo Albums name"
+msgid "Photo Album"
+msgstr ""
+
+#: EPA_PostType.php:86
+msgctxt "Add new menu item"
+msgid "Add New"
+msgstr ""
+
+#: EPA_PostType.php:87
+msgctxt "Add new menu item extended"
+msgid "Add New Photo Album"
+msgstr ""
+
+#: EPA_PostType.php:88
+msgctxt "Edit menu item"
+msgid "Edit Photo Album"
+msgstr ""
+
+#: EPA_PostType.php:89
+msgctxt "New menu item"
+msgid "New Photo Album"
+msgstr ""
+
+#: EPA_PostType.php:90
+msgctxt "View menu item"
+msgid "View Photo Album"
+msgstr ""
+
+#: EPA_PostType.php:91
+msgctxt "Search menu item"
+msgid "Search Photo Album"
+msgstr ""
+
+#: EPA_PostType.php:92
+msgctxt "No Photo Albums found message"
+msgid "No Photo Albums found"
+msgstr ""
+
+#: EPA_PostType.php:93
+msgctxt "No Photo Albums found in trash message"
+msgid "No Photo Albums found in Trash"
+msgstr ""
+
+#: EPA_PostType.php:94
+msgctxt "Parent Photo album label"
+msgid "Parent Photo Album:"
+msgstr ""
+
+#: EPA_PostType.php:95
+msgctxt "Menu name"
+msgid "Photo Albums"
+msgstr ""
+
+#: EPA_PostType.php:98
+msgctxt "Posttype description"
+msgid "Post easy Photo Albums with Easy Photo Album"
+msgstr ""
+
+#: EPA_PostType.php:116
+msgctxt "Rewrite slug"
+msgid "albums"
+msgstr ""
+
+#: EPA_PostType.php:134
+msgid "Album images"
+msgstr ""
+
+#: EPA_PostType.php:150
+msgid "Add one or more photo's"
+msgstr ""
+
+#: EPA_PostType.php:312
+msgctxt "Image 2 of 4"
+msgid "Image"
+msgstr ""
+
+#: EPA_PostType.php:313
+msgctxt "Image 2 of 4"
+msgid "of"
+msgstr ""
+
+#: EPA_PostType.php:366
+msgid "Photo Album updated. <a href=\"%s\">View Album</a>"
+msgstr ""
+
+#: EPA_PostType.php:367
+msgid "Custom field updated."
+msgstr ""
+
+#: EPA_PostType.php:368
+msgid "Custom field deleted."
+msgstr ""
+
+#: EPA_PostType.php:369
+msgid "Photo Album updated."
+msgstr ""
+
+#. translators: %s: date and time of the revision
+#: EPA_PostType.php:371
+msgid "Photo Album restored to revision from %s"
+msgstr ""
+
+#: EPA_PostType.php:372
+msgid "Photo Album published. <a href=\"%s\">View Album</a>"
+msgstr ""
+
+#: EPA_PostType.php:373
+msgid "Photo Album saved."
+msgstr ""
+
+#: EPA_PostType.php:374
+msgid ""
+"Photo Album submitted. <a target=\"_blank\" href=\"%s\">Preview Album</a>"
+msgstr ""
+
+#: EPA_PostType.php:375
+msgid ""
+"Photo Album scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href="
+"\"%2$s\">Preview Album</a>"
+msgstr ""
+
+#. translators: Publish box date format, see http:php.net/date
+#: EPA_PostType.php:377
+msgid "M j, Y @ G:i"
+msgstr ""
+
+#: EPA_PostType.php:378
+msgid ""
+"Photo Album draft updated. <a target=\"_blank\" href=\"%s\">Preview Album</a>"
+msgstr ""
+
+#: EPA_PostType.php:388
+msgid ""
+"Javascript is disabled. Please enable Javascript and reload the page before "
+"you continue."
+msgstr ""
+
+#: easy-photo-album.php:143
+msgid "Easy Photo Album Settings"
+msgstr ""
+
+#: easy-photo-album.php:147
+msgid "Link image to"
+msgstr ""
+
+#: easy-photo-album.php:151
+msgid "Thumbnail width"
+msgstr ""
+
+#: easy-photo-album.php:155
+msgid "Thumbnail height"
+msgstr ""
+
+#: easy-photo-album.php:159
+msgid "Display width"
+msgstr ""
+
+#: easy-photo-album.php:163
+msgid "Display height"
+msgstr ""
+
+#: easy-photo-album.php:199
+msgid "Settings that changes the appreance of the photo albums."
+msgstr ""
+
+#: easy-photo-album.php:199
+msgid ""
+"Note: when you use the lightbox, you have to regenerate the images, in order "
+"to make them the desired size."
+msgstr ""
+
+#: easy-photo-album.php:205
+msgid "The image file"
+msgstr ""
+
+#: easy-photo-album.php:207
+msgid "The attachment page"
+msgstr ""
+
+#: easy-photo-album.php:209
+msgid "Lightbox display"
+msgstr ""
+
+#: easy-photo-album.php:218
+msgid "The display width of the thumbnails."
+msgstr ""
+
+#: easy-photo-album.php:225
+msgid "The display height of the thumbnails."
+msgstr ""
+
+#: easy-photo-album.php:232
+msgid "The maximum width of the image when showed in a lightbox."
+msgstr ""
+
+#: easy-photo-album.php:239
+msgid "The maximum height of the image when showed in a lightbox."
+msgstr ""
+
+#: easy-photo-album.php:250
+msgid "The title will be displayed under the thumbnail."
+msgstr ""
+
+#: easy-photo-album.php:322
+msgid "Settings"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Easy Photo Album"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"This plugin makes it very easy to create and manage photo albums. You can "
+"help by submit bugs and request new features at the plugin page at wordpress."
+"org."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "TV productions"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://tv-productions.org/"
+msgstr ""

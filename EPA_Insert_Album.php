@@ -122,7 +122,7 @@ class EPA_Insert_Album {
 					// http://codex.wordpress.org/Function_Reference/the_content#Overriding_Archive.2FSingle_Page_Behavior
 					global $more;
 					$more = 0;
-					the_content ( __ ( "View more photo's", 'epa' ) );
+					the_content ( __ ( "View more photo's", 'epa' ). ' &rarr;' );
 					$content .= ob_get_contents ();
 					ob_end_clean ();
 					break;

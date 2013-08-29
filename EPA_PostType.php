@@ -433,6 +433,7 @@ CSS;
 	public function special_more_link($more_link, $more_text) {
 		// Using the global var $id, cause setup_postdata() doesn't set $post;
 		global $id;
+
 		if (get_post_type ( $id ) == self::POSTTYPE_NAME) {
 			global $EPA_DOING_SHORTCODE;
 			if ($EPA_DOING_SHORTCODE == true) {
@@ -461,7 +462,7 @@ CSS;
 	 * @param WP_Query $query
 	 */
 	public function add_to_main_loop($query) {
-		if (! is_admin () && ! is_archive () && $query->is_main_query ()) {
+		if (! is_admin () && ! is_archive () && $query->is_main_query () && !is_page()) {
 			$query->set ( 'post_type', apply_filters ( 'epa_main_loop_post_types', array (
 					'post',
 					self::POSTTYPE_NAME

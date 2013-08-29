@@ -1,0 +1,74 @@
+@CHARSET "UTF-8";
+/*
+This is the basic styling for the display of the photo albums at the front end.
+
+ Easy Photo Album Wordpress plugin.
+
+Copyright (C) 2013  TV productions
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+.epa-album {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.epa-album ul {
+	overflow: hidden;
+}
+
+.epa-album .epa-image {
+	list-style: none;
+	margin: 1%;
+	float: left;
+}
+
+.epa-album .epa-image a {
+	outline: none;
+}
+
+#lightbox a {
+	outline: none;
+}
+
+.epa-album .epa-image .epa-title {
+	display: inline-block;
+	overflow: hidden;
+	-o-text-overflow: ellipsis;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 100%;
+}
+
+/*
+ * Clearfix rules for epa
+ */
+.epa-cf:before,
+.epa-cf:after {
+    content: " ";
+    display: table;
+}
+
+.epa-cf:after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.epa-cf {
+    *zoom: 1;
+}

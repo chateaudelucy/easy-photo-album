@@ -35,11 +35,12 @@ class EPA_Renderer {
 	 *
 	 * @param array $photos
 	 * @param string $name
-	 *        	[optional] The name of the album. This is needed when the user uses lightbox. The safest is to use the slug
+	 *        	[optional] The name of the album. This is needed when the user uses lightbox. The
+	 *        	safest is to use the slug
 	 */
 	public function __construct($photos, $name = '') {
 		$this->photos = $photos;
-		$this->album_name = esc_attr(sanitize_title_with_dashes ( $name ));
+		$this->album_name = esc_attr ( sanitize_title_with_dashes ( $name ) );
 	}
 
 	/**
@@ -109,7 +110,7 @@ class EPA_Renderer {
 		$w = EasyPhotoAlbum::get_instance ()->thumbnailwidth;
 		$h = EasyPhotoAlbum::get_instance ()->thumbnailheight;
 
-		return <<<HTML
+		$html = <<<HTML
 
 		<li class="epa-image">
 			<a href="{$url}" {$a_attr} title="{$photo->title}">
@@ -119,10 +120,14 @@ class EPA_Renderer {
 		</li>
 
 HTML;
+		// Remove newlines for wpautop
+		$html = preg_replace ( '/[\t\r\n\r\n]+/', '', trim($html) );
+		return $html;
 	}
 
 	/**
 	 * Returns the more tag
+	 *
 	 * @return string
 	 */
 	protected function moreTag() {

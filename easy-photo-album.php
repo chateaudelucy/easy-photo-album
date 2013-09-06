@@ -1,10 +1,10 @@
 <?php
 /*
  * Plugin Name: Easy Photo Album
- * Version: 1.1.4
+ * Version: 1.1.5
  * Author: TV productions
  * Author URI: http://tv-productions.org/
- * Description: This plugin makes it very easy to create and manage photo albums. You can help by submit bugs and request new features at the plugin page at wordpress.org.
+ * Description: This plugin makes it very easy to create and manage photo albums. The albums are responsive and display in a lightbox. You can help by submit bugs and request new features at the plugin page at wordpress.org.
  * Licence: GPL3
  */
 
@@ -35,7 +35,6 @@ require_once 'EPA_Renderer.php';
 if (is_admin ()) {
 	require_once 'EPA_List_Table.php';
 	require_once 'EPA_Admin.php';
-
 }
 
 /**
@@ -50,7 +49,7 @@ class EasyPhotoAlbum {
 	private $post_type = null;
 	private $admin = null;
 	private $tinymce = null;
-	public static $version = '1.1.4';
+	public static $version = '1.1.5';
 
 	private function __construct() {
 		load_plugin_textdomain ( 'epa', false, basename ( dirname ( __FILE__ ) ) . '/lang' );
@@ -61,7 +60,6 @@ class EasyPhotoAlbum {
 		$this->tinymce = new EPA_Insert_Album ();
 		if (is_admin ()) {
 			$this->admin = new EPA_Admin ();
-
 		}
 
 		register_activation_hook ( __FILE__, array (
@@ -157,14 +155,14 @@ class EasyPhotoAlbum {
 		// Set the $options to the newvalue
 		$this->options = $newval;
 		$albums = get_posts ( array (
-				'posts_per_page' => '',
+				'posts_per_page' => -1,
 				'numberposts' => '',
 				'post_type' => EPA_PostType::POSTTYPE_NAME
 		) );
 
 		foreach ( $albums as $album ) {
 			// Render each album
-			$renderer = new EPA_Renderer ( get_post_meta ( $album->ID, EPA_PostType::SETTINGS_NAME, true ), $album->post_name );
+			$renderer = new EPA_Renderer ( $album );
 			wp_update_post ( array (
 					'ID' => $album->ID,
 					'post_content' => $renderer->render ( false )
@@ -215,20 +213,36 @@ class EasyPhotoAlbum {
 	private function options_init() {
 		$defaults = array (
 				'linkto' => 'lightbox',
-				'thumbnailwidth' => 150,
-				'thumbnailheight' => 150,
 				'wraparound' => false,
 				'albumlabel' => _x ( 'Image {0} of {1}', 'Ex: Image 4 of 6, so {0} is the current image number and {1} is the total number of images.', 'epa' ),
 				'showalbumlabel' => true,
-				'showtitlewiththumbnail' => true,
+				'showcaption' => true,
 				'numimageswhennotsingle' => 3,
-				'showcaption' => false,
+				'showcaptionintable' => false,
 				'inmainloop' => true,
 				'archivepostid' => 0,
-		)
-		;
+				'displaycolumns' => 3,
+				'displaysize' => 'thumbnail'
+		);
 		$this->options = get_option ( 'EasyPhotoAlbum', $defaults );
 		$this->options = wp_parse_args ( $this->options, $defaults );
+	}
+
+	/**
+	 * Returns the general settings for displaying a photo album, set by the user on the options
+	 * screen.
+	 * This options are used for the display options of each photo album.
+	 *
+	 * @return array
+	 */
+	public function get_default_display_options($options = array()) {
+		return array (
+				'columns' => isset($options['displaycolumns']) ? (int) $options['displaycolumns'] : ( int ) $this->displaycolumns,
+				'excerpt_number' => isset($options['numimageswhennotsingle']) ? $options['numimageswhennotsingle'] : $this->numimageswhennotsingle,
+				'show_caption' => isset($options['showcaption']) ? $options['showcaption'] : $this->showcaption,
+				'link_to' => isset($options['linkto']) ? $options['linkto'] : $this->linkto,
+				'display_size' => isset($options['displaysize']) ? $options['displaysize'] : $this->displaysize
+		);
 	}
 
 	/**

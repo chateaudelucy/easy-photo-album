@@ -29,18 +29,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class EPA_Renderer {
 	protected $album_name = "";
 	protected $photos = array ();
+	protected $display_options = array ();
+	protected $album_id = '';
 
 	/**
-	 * Initializes the renderer with the given photo's.
+	 * Set up a render object for the given album
 	 *
-	 * @param array $photos
-	 * @param string $name
-	 *        	[optional] The name of the album. This is needed when the user uses lightbox. The
-	 *        	safest is to use the slug
+	 * @param
+	 *        	int | WP_Post $album	The post object or the id of the album.
 	 */
-	public function __construct($photos, $name = '') {
-		$this->photos = $photos;
-		$this->album_name = esc_attr ( sanitize_title_with_dashes ( $name ) );
+	public function __construct($album) {
+		$album = get_post ( $album );
+		$data = get_post_meta ( $album->ID, EPA_PostType::SETTINGS_NAME, true );
+		$data ['settings'] = isset ( $data ['settings'] ) ? $data ['settings'] : array ();
+		$this->display_options = wp_parse_args ( $data ['settings'], EasyPhotoAlbum::get_instance ()->get_default_display_options () );
+		unset ( $data ['settings'] );
+		$this->photos = $data;
+		$this->album_name = esc_attr ( sanitize_title_with_dashes ( $album->post_title ) );
+		$this->album_id = esc_attr ( 'epa-album-' . $album->ID );
 	}
 
 	/**
@@ -50,19 +56,27 @@ class EPA_Renderer {
 	 * @return string
 	 */
 	public function render($echo = false) {
-		$html = '<ul class="epa-album epa-cf">
+		$html = '<!-- Easy Photo Album -->
 ';
+		$html .= $this->render_style_block ();
+		$html .= '<ul id="' . $this->album_id . '" class="epa-album epa-cf">
+<li class="epa-row  epa-cf">
+				';
 		$count = 1;
+		$max = count ( $this->photos );
 		foreach ( $this->photos as $photo ) {
 			$html .= $this->render_one_photo ( $photo );
-			if (EasyPhotoAlbum::get_instance ()->numimageswhennotsingle == $count) {
+			if ($this->display_options ['excerpt_number'] == $count && $count != $max) {
 				// $count is never 0, so by 0, all the images will be displayed.
-				$html .= $this->moreTag ();
+				$html .= $this->more_tag ();
+			}
+			if ($count % $this->display_options ['columns'] == 0 && $count != $max) {
+				$html .= '</li><li class="epa-row epa-cf">';
 			}
 			$count += 1;
 		}
 
-		$html .= '</ul>
+		$html .= '</li></ul>
 ';
 
 		if ($echo)
@@ -79,14 +93,11 @@ class EPA_Renderer {
 	 * @return string generated HTML
 	 */
 	protected function render_one_photo($photo) {
-		$src = wp_get_attachment_image_src ( $photo->id, array (
-				EasyPhotoAlbum::get_instance ()->thumbnailwidth,
-				EasyPhotoAlbum::get_instance ()->thumbnailheight
-		) );
+		$src = wp_get_attachment_image_src ( $photo->id, $this->display_options ['display_size'] );
 		$src = $src [0];
 
 		$a_attr = "";
-		switch (EasyPhotoAlbum::get_instance ()->linkto) {
+		switch ($this->display_options ['link_to']) {
 			case 'lightbox' :
 				$url = wp_get_attachment_image_src ( $photo->id, 'full' );
 				$url = $url [0];
@@ -103,26 +114,35 @@ class EPA_Renderer {
 		}
 
 		$title = "";
-		if (EasyPhotoAlbum::get_instance ()->showtitlewiththumbnail) {
+		if ($this->display_options ['show_caption']) {
 			$title = '<span class="epa-title wp-caption">' . $photo->title . '</span>';
 		}
-
-		$w = EasyPhotoAlbum::get_instance ()->thumbnailwidth;
-		$h = EasyPhotoAlbum::get_instance ()->thumbnailheight;
-
 		$html = <<<HTML
 
-		<li class="epa-image">
+		<div class="epa-image">
 			<a href="{$url}" {$a_attr} title="{$photo->title}">
-				<img src="{$src}" width="{$w}" height="{$h}" alt="{$photo->title}"/><br/>
+				<img src="{$src}" alt="{$photo->title}"/><br/>
 				{$title}
 			</a>
-		</li>
+		</div>
 
 HTML;
 		// Remove newlines for wpautop
-		$html = preg_replace ( '/[\t\r\n\r\n]+/', '', trim($html) );
+		$html = preg_replace ( '/[\t\r\n\r\n]+/', '', trim ( $html ) );
 		return $html;
+	}
+
+	protected function render_style_block() {
+		// Calculate the widht (in %) of each image
+		$used_margin = $this->display_options ['columns'] * 2;
+		$width = floor ( (100 - $used_margin) / $this->display_options ['columns'] );
+		return <<<STYLE
+<style type="text/css">
+	#{$this->album_id} .epa-image {
+		width: {$width}%;
+	}
+</style>
+STYLE;
 	}
 
 	/**
@@ -130,7 +150,7 @@ HTML;
 	 *
 	 * @return string
 	 */
-	protected function moreTag() {
+	protected function more_tag() {
 		return '
 <!--more-->
 				';

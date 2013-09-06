@@ -30,6 +30,7 @@ class EPA_PostType {
 	const INPUT_NAME = 'EasyPhotoAlbums';
 	const POSTTYPE_NAME = 'easy-photo-album';
 	private $current_photos = array ();
+	private $current_settings = array ();
 	private $current_post_id = - 1;
 
 	/**
@@ -56,11 +57,6 @@ class EPA_PostType {
 				&$this,
 				'enqueue_scripts'
 		) );
-		add_action ( 'wp_head', array (
-				&$this,
-				'variable_css'
-		) );
-
 		// Make shure there is no html added to the content of the album
 		if (remove_filter ( 'the_content', 'wpautop' )) {
 			// filter existed and is removed
@@ -69,6 +65,10 @@ class EPA_PostType {
 					'autop_fix'
 			), 10 );
 		}
+		add_filter ( 'the_content', array (
+				&$this,
+				'replace_css_id_when_included'
+		) );
 		add_filter ( 'post_updated_messages', array (
 				&$this,
 				'album_messages'
@@ -81,6 +81,7 @@ class EPA_PostType {
 				&$this,
 				'special_excerpt'
 		) );
+
 		// Archive nav menu item not yet ready for use.
 		/*
 		add_filter ( 'nav_menu_items_' . self::POSTTYPE_NAME, array (
@@ -110,7 +111,7 @@ class EPA_PostType {
 			add_action ( 'pre_get_posts', array (
 					&$this,
 					'add_to_main_loop'
-			) );
+			), 99 );
 		}
 	}
 
@@ -173,10 +174,32 @@ class EPA_PostType {
 	 * Registers the metabox for the posttype
 	 */
 	public function register_metabox() {
-		add_meta_box ( 'easy-photo-album-images', __ ( "Album images", 'eap' ), array (
+		add_meta_box ( 'easy-photo-album-display-settings', __ ( "Album display settings", 'epa' ), array (
+				&$this,
+				'display_settings_metabox'
+		), null, 'side', 'default' );
+		add_meta_box ( 'easy-photo-album-images', __ ( "Album images", 'epa' ), array (
 				&$this,
 				'display_photo_metabox'
 		), null, 'normal', 'high' );
+	}
+
+	/**
+	 * This function changes the css ID of the album if the album is included in a post.
+	 *
+	 * @param string $content
+	 * @return mixed
+	 */
+	public function replace_css_id_when_included($content) {
+		static $count = 0;
+		// Global $id is set in the shortcode code with setup_postdata();
+		global $EPA_DOING_SHORTCODE, $id;
+		if ($EPA_DOING_SHORTCODE) {
+			$old_id = 'epa-album-' . $id;
+			$new_id = $old_id . '-' . $this->get_current_post_id () . '-' . $count ++;
+			$content = str_replace ( $old_id, $new_id, $content );
+		}
+		return $content;
 	}
 
 	/**
@@ -193,18 +216,104 @@ class EPA_PostType {
 		echo "\n" . '</div>' . "\n";
 	}
 
+	public function display_settings_metabox() {
+		$this->load_data ();
+		?>
+<p><?php _e('Override the general display settings of the photo albums here.', 'epa')?></p>
+<table class="form-table">
+	<tr>
+		<th scope="row">
+<?php _e('Columns', 'epa');?>
+</th>
+		<td><input type="number"
+			name="<?php echo self::INPUT_NAME;?>[setting][columns]"
+			class="small-text" step="1" min="1"
+			value="<?php echo $this->current_settings['columns'];?>" /></td>
+	</tr>
+	<tr>
+		<th scope="col">
+<?php _e('Number of images for excerpt', 'epa');?><br /> <span
+			class="description"><?php _e('Set to 0 to show all images', 'epa');?></span>
+		</th>
+		<td><input type="number"
+			name="<?php echo self::INPUT_NAME;?>[setting][excerpt_number]"
+			class="small-text" step="1" min="0"
+			value="<?php echo $this->current_settings['excerpt_number'];?>" /></td>
+	</tr>
+	<tr>
+		<th scope="col"><input type="checkbox" value="true"
+			name="<?php echo self::INPUT_NAME;?>[setting][show_caption]"
+			<?php checked($this->current_settings['show_caption']);?>
+			id="epa-setting-show-title" /> <label for="epa-setting-show-title"><?php _e('Show title', 'epa');?></label>
+		</th>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<th scope="col" colspan="2">
+			<?php _e('Link image to', 'epa');?>
+
+		<select name="<?php echo self::INPUT_NAME;?>[setting][link_to]"
+			style="float: right;">
+				<option value="file"
+					<?php selected($this->current_settings['link_to'], 'file');?>><?php _e('The image file', 'epa');?></option>
+				<option value="attachment"
+					<?php selected($this->current_settings['link_to'], 'attachment');?>><?php _e('The attachment page', 'epa');?></option>
+				<option value="lightbox"
+					<?php selected($this->current_settings['link_to'], 'lightbox');?>><?php _e('Lightbox display', 'epa');?></option>
+		</select>
+		</th>
+	</tr>
+	<tr>
+		<th scope="col" colspan="2">
+			<?php _e('Image size', 'epa');?>
+
+	<select name="<?php echo self::INPUT_NAME;?>[setting][display_size]"
+			style="float: right;">
+			<?php
+		// Using the same filter as in wp-admin/includes/media.php for the function
+		// image_size_input_fields. Other plugins can use this filter to add their image size.
+		$size_names = apply_filters ( 'image_size_names_choose', array (
+				'thumbnail' => __ ( 'Thumbnail' ),
+				'medium' => __ ( 'Medium' ),
+				'large' => __ ( 'Large' ),
+				'full' => __ ( 'Full Size' )
+		) );
+		foreach ( $size_names as $size => $displayname ) {
+			$selected = selected ( $this->current_settings ['display_size'], $size, false );
+			echo <<<HTML
+			<option value="{$size}" {$selected}>{$displayname}</option>
+HTML;
+		}
+		?>
+			</select>
+		</th>
+	</tr>
+</table>
+
+<?php
+	}
+
 	/**
 	 * Loads the photos from the database and stores them in the <code>$current_photos</code>
 	 * variable.
 	 */
 	private function load_data() {
-		if (empty ( $this->current_photos )) {
+		if (empty ( $this->current_photos ) || empty ( $this->current_settings )) {
 			// get the post id
 			$post_id = $this->get_current_post_id ();
-			$this->current_photos = get_post_meta ( $post_id, self::SETTINGS_NAME, true );
-			if (empty ( $this->current_photos )) {
-				$this->current_photos = array ();
+			$data = get_post_meta ( $post_id, self::SETTINGS_NAME, true );
+			if ($data && ! empty ( $data )) {
+				if (array_key_exists ( 'settings', $data )) {
+					$this->current_settings = $data ['settings'];
+					unset ( $data ['settings'] );
+				}
+				$this->current_photos = $data;
+				if (empty ( $this->current_photos )) {
+					$this->current_photos = array ();
+				}
 			}
+			// prase settings
+			$this->current_settings = wp_parse_args ( $this->current_settings, EasyPhotoAlbum::get_instance ()->get_default_display_options () );
 		}
 	}
 
@@ -220,7 +329,9 @@ class EPA_PostType {
 		foreach ( $this->current_photos as $index => $v ) {
 			$this->current_photos [$index]->order = $index;
 		}
-		update_post_meta ( $this->get_current_post_id (), self::SETTINGS_NAME, $this->current_photos );
+		$data = $this->current_photos;
+		$data ['settings'] = $this->current_settings;
+		update_post_meta ( $this->get_current_post_id (), self::SETTINGS_NAME, $data );
 	}
 
 	/**
@@ -237,6 +348,23 @@ class EPA_PostType {
 		}
 		// It is from the right post type
 		if (isset ( $_POST [self::INPUT_NAME] ) && is_array ( $_POST [self::INPUT_NAME] )) {
+			// Make shure everyting is loaded
+			$this->load_data ();
+
+			// Validate and save the album specific settings
+			$valid = $this->current_settings;
+			$input = $_POST [self::INPUT_NAME] ['setting'];
+			$valid ['columns'] = is_numeric ( $input ['columns'] ) && intval ( $input ['columns'] ) >= 1 ? intval ( $input ['columns'] ) : $valid ['columns'];
+			$valid ['excerpt_number'] = is_numeric ( $input ['excerpt_number'] ) ? intval ( $input ['excerpt_number'] ) : $valid ['excerpt_number'];
+			$valid ['show_caption'] = $input ['show_caption'] == 'true' ? true : false;
+			$valid ['link_to'] = in_array ( $input ['link_to'], array (
+					'file',
+					'attachment',
+					'lightbox'
+			) ) ? $input ['link_to'] : $valid ['link_to'];
+			$valid ['display_size'] = in_array ( $input ['display_size'], get_intermediate_image_sizes () ) ? $input ['display_size'] : $valid ['display_size'];
+			$this->current_settings = $valid;
+
 			// Empty the current photos var
 			$this->current_photos = array ();
 
@@ -277,8 +405,11 @@ class EPA_PostType {
 				$this->current_photos [$_POST [self::INPUT_NAME] [$imageid] ['order']] = $img;
 			}
 
+			// save it
+			$this->save_data ();
+
 			// Generate HTML and set it as the post content
-			$renderer = new EPA_Renderer ( $this->current_photos, $post->post_name );
+			$renderer = new EPA_Renderer ( $this->get_current_post_id () );
 			// unhook this function so it doesn't loop infinitely
 			remove_action ( 'save_post', array (
 					&$this,
@@ -294,9 +425,6 @@ class EPA_PostType {
 					&$this,
 					'save_metadata'
 			), 1, 2 );
-
-			// save it
-			$this->save_data ();
 		}
 	}
 
@@ -340,9 +468,10 @@ CSS;
 	 */
 	public function enqueue_scripts() {
 		global $post;
-		// if the post is a photo album OR we are in the main query (and option is set) OR it is the
-		// archive page OR when the current page has a photo album shortcode
-		if ((isset ( $post->post_type ) && self::POSTTYPE_NAME == $post->post_type) || (is_main_query () && EasyPhotoAlbum::get_instance ()->inmainloop) || ($post->ID == EasyPhotoAlbum::get_instance ()->archivepageid) || has_shortcode ( $post->post_content, 'epa-album' )) {
+		// if the post is a photo album OR we are in the main query (and option is set) /*OR it is
+		// the
+		// archive page*/ OR when the current page has a photo album shortcode
+		if ((isset ( $post->post_type ) && self::POSTTYPE_NAME == $post->post_type) || (is_main_query () && EasyPhotoAlbum::get_instance ()->inmainloop) /*|| ($post->ID == EasyPhotoAlbum::get_instance ()->archivepageid)*/ || has_shortcode ( $post->post_content, 'epa-album' )) {
 			// it is a photo album
 			wp_enqueue_style ( 'epa-template', plugins_url ( 'css/easy-photo-album-template.css', __FILE__ ), array (), EasyPhotoAlbum::$version, 'all' );
 
@@ -357,26 +486,6 @@ CSS;
 				) );
 				wp_enqueue_style ( 'lightbox2-css', plugins_url ( 'css/lightbox.css', __FILE__ ), array (), '2.6' );
 			}
-		}
-	}
-
-	/**
-	 * Prints a block of style for variable layout settings
-	 */
-	public function variable_css() {
-		global $post;
-		if (((isset ( $post->post_type ) && self::POSTTYPE_NAME == $post->post_type) || (is_main_query () && EasyPhotoAlbum::get_instance ()->inmainloop) || ($post->ID == EasyPhotoAlbum::get_instance ()->archivepageid) || has_shortcode ( $post->post_content, 'epa-album' )) && EasyPhotoAlbum::get_instance ()->showtitlewiththumbnail) {
-			$width = EasyPhotoAlbum::get_instance ()->thumbnailwidth;
-			echo <<<CSS
-<!-- Easy Photo Album CSS -->
-<style type="text/css">
-	.epa-album .epa-image .epa-title {
-		width: {$width}px;
-	}
-</style>
-<!-- End Easy Photo Album CSS -->
-
-CSS;
 		}
 	}
 
@@ -437,9 +546,9 @@ CSS;
 		if (get_post_type ( $id ) == self::POSTTYPE_NAME) {
 			global $EPA_DOING_SHORTCODE;
 			if ($EPA_DOING_SHORTCODE == true) {
-				return '</ul><!-- epa more -->' . ' <a href="' . get_permalink ( $id ) . "#more-{$id}\" class=\"more-link\">$more_text</a>";
+				return '</li></ul><!-- epa more -->' . ' <a href="' . get_permalink ( $id ) . "#more-{$id}\" class=\"more-link\">$more_text</a>";
 			}
-			return '</ul><!-- epa more -->' . apply_filters ( 'epa_album_more_link', $more_link, $more_text );
+			return '</li></ul><!-- epa more -->' . apply_filters ( 'epa_album_more_link', $more_link, $more_text );
 		} else {
 			return $more_link;
 		}
@@ -462,12 +571,17 @@ CSS;
 	 * @param WP_Query $query
 	 */
 	public function add_to_main_loop($query) {
-		if (! is_admin () && ! is_archive () && $query->is_main_query () && !is_page()) {
-			$query->set ( 'post_type', apply_filters ( 'epa_main_loop_post_types', array (
+		// is_home() checks if the current query is for the BLOG homepage (not the homepage, which
+		// can be checked by is_front_page). So only then the album post type is added.
+		if (! is_admin () && $query->is_main_query () && $query->is_home ()) {
+			// Other plugins can add post types the same way, first get the current value
+			// ($query->get('post_type')) and then add the post types needed.
+			$query->set ( 'post_type', apply_filters ( 'epa_main_loop_post_types', array_merge ( ( array ) $query->get ( 'post_type' ), array (
 					'post',
 					self::POSTTYPE_NAME
-			) ) );
+			) ) ) );
 		}
+		return $query;
 	}
 
 	public function display_archive($content) {

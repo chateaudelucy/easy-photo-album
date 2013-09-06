@@ -64,7 +64,7 @@ class EPA_List_Table extends WP_List_Table {
 		$hidden_columns = array (
 				'order'
 		);
-		if (! EasyPhotoAlbum::get_instance ()->showcaption)
+		if (! EasyPhotoAlbum::get_instance ()->showcaptionintable)
 			$hidden_columns = array_merge ( $hidden_columns, array (
 					'caption'
 			) );
@@ -154,8 +154,7 @@ IMG;
 	 * @param stdClass $item
 	 */
 	function column_caption($item) {
-		if (EasyPhotoAlbum::get_instance ()->showcaption)
-			echo '<textarea style="width: 100%; height: 100%" name="' . EPA_PostType::INPUT_NAME . '[' . $item->id . '][caption]">' . $item->caption . '</textarea>';
+		echo '<textarea style="width: 100%; height: 100%" name="' . EPA_PostType::INPUT_NAME . '[' . $item->id . '][caption]">' . $item->caption . '</textarea>';
 	}
 
 	/**
@@ -282,10 +281,6 @@ IMG;
 						'mediatitle' => __ ( 'Choose image(s)', 'epa' ),
 						'mediabutton' => __ ( 'Select image(s)', 'epa' ),
 						'deleteconfirm' => __ ( "Are you shure you want to delete photo '{0}'?", 'epa' )
-				),
-				'thumbsize' => array (
-						'width' => EasyPhotoAlbum::get_instance ()->thumbnailwidth,
-						'height' => EasyPhotoAlbum::get_instance ()->thumbnailheight
 				),
 				'rowtemplate' => str_replace ( 'class="alternate"', '<%= alternate %>', $rowtemplate )
 		);

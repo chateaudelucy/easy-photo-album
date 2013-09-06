@@ -52,17 +52,17 @@ class EPA_Admin {
 				&$this,
 				'display_linkto_field'
 		), 'media', 'epa-section' );
-		add_settings_field ( 'thumbnailwidth', __ ( 'Thumbnail width', 'epa' ), array (
+		add_settings_field ( 'displaycolumns', __ ( 'Columns', 'epa' ), array (
 				&$this,
-				'display_thumbnailwidth_field'
+				'display_displaycolumns_field'
 		), 'media', 'epa-section' );
-		add_settings_field ( 'thumbnailheight', __ ( 'Thumbnail height', 'epa' ), array (
+		add_settings_field ( 'displaysize', __ ( 'Image size', 'epa' ), array (
 				&$this,
-				'display_thumbnailheight_field'
+				'display_displaysize_field'
 		), 'media', 'epa-section' );
-		add_settings_field ( 'showtitlewiththumbnail', __ ( 'Title', 'epa' ), array (
+		add_settings_field ( 'showcaption', __ ( 'Title', 'epa' ), array (
 				&$this,
-				'display_showtitlewiththumbnail_field'
+				'display_showcaption_field'
 		), 'media', 'epa-section' );
 		add_settings_field ( 'showalbumlabel', __ ( 'Show the album label under the lightbox', 'epa' ), array (
 				&$this,
@@ -81,13 +81,17 @@ class EPA_Admin {
 				'display_numimageswhennotsingle_field'
 		), 'media', 'epa-section' );
 
-		add_settings_field ( 'showcaption', __ ( 'Show the caption', 'epa' ), array (
+		add_settings_field ( 'showcaptionintable', __ ( 'Show the caption', 'epa' ), array (
 				&$this,
-				'display_showcaption_field'
+				'display_showcaptionintable_field'
 		), 'media', 'epa-section' );
 		add_settings_field ( 'inmainloop', __ ( 'Photo albums on blog page', 'epa' ), array (
 				&$this,
 				'display_inmainloop_field'
+		), 'media', 'epa-section' );
+		add_settings_field ( 'override', __ ( 'Override album specific settings', 'epa' ), array (
+				&$this,
+				'display_override_field'
 		), 'media', 'epa-section' );
 	}
 
@@ -107,15 +111,29 @@ class EPA_Admin {
 				'attachment',
 				'lightbox'
 		) ) ? $input ['linkto'] : $valid ['linkto']);
-		$valid ['thumbnailwidth'] = (is_numeric ( $input ['thumbnailwidth'] ) ? $input ['thumbnailwidth'] : $valid ['thumbnailwidth']);
-		$valid ['thumbnailheight'] = (is_numeric ( $input ['thumbnailheight'] ) ? $input ['thumbnailheight'] : $valid ['thumbnailheight']);
-		$valid ['showtitlewiththumbnail'] = (isset ( $input ['showtitlewiththumbnail'] ) && $input ['showtitlewiththumbnail'] == 'true' ? true : false);
+		$valid ['displaycolumns'] = is_numeric ( $input ['displaycolumns'] ) && intval ( $input ['displaycolumns'] ) >= 1 ? intval ( $input ['displaycolumns'] ) : $valid ['displaycolumns'];
+		$valid ['displaysize'] = in_array ( $input ['displaysize'], get_intermediate_image_sizes () ) ? $input ['displaysize'] : $valid ['displaysize'];
+		$valid ['showcaption'] = (isset ( $input ['showcaption'] ) && $input ['showcaption'] == 'true' ? true : false);
 		$valid ['showalbumlabel'] = (isset ( $input ['showalbumlabel'] ) && $input ['showalbumlabel'] == 'true' ? true : false);
 		$valid ['albumlabel'] = (isset ( $input ['albumlabel'] ) && ! empty ( $input ['albumlabel'] ) ? $input ['albumlabel'] : $valid ['albumlabel']);
 		$valid ['wraparound'] = (isset ( $input ['wraparound'] ) && $input ['wraparound'] == 'true' ? true : false);
 		$valid ['numimageswhennotsingle'] = (is_numeric ( $input ['numimageswhennotsingle'] ) ? $input ['numimageswhennotsingle'] : $valid ['numimageswhennotsingle']);
 		$valid ['showcaption'] = (isset ( $input ['showcaption'] ) && $input ['showcaption'] == 'true' ? true : false);
-		$valid['inmainloop'] = (isset ( $input ['inmainloop'] ) && $input ['inmainloop'] == 'true' ? true : false);
+		$valid ['inmainloop'] = (isset ( $input ['inmainloop'] ) && $input ['inmainloop'] == 'true' ? true : false);
+
+		if (isset ( $input ['override'] ) && $input ['override'] == 'true') {
+
+			$albums = get_posts ( array (
+					'posts_per_page' => - 1,
+					'post_type' => EPA_PostType::POSTTYPE_NAME,
+					'post_status' => 'any'
+			) );
+			foreach ( $albums as $album ) {
+				$data = get_post_meta ( $album->ID, EPA_PostType::SETTINGS_NAME, true );
+				$data ['settings'] = EasyPhotoAlbum::get_instance ()->get_default_display_options ( $valid );
+				update_post_meta ( $album->ID, EPA_PostType::SETTINGS_NAME, $data );
+			}
+		}
 		return $valid;
 	}
 
@@ -132,37 +150,49 @@ class EPA_Admin {
 		<?php selected(EasyPhotoAlbum::get_instance()->linkto, 'attachment', true);?>><?php _e('The attachment page', 'epa');?></option>
 	<option value="lightbox"
 		<?php selected(EasyPhotoAlbum::get_instance()->linkto, 'lightbox', true);?>><?php _e('Lightbox display', 'epa');?></option>
-</select>
+</select><strong>*</strong>
 <?php
 	}
 
-	public function display_thumbnailwidth_field() {
-		$this->display_input_field ( 'thumbnailwidth', EasyPhotoAlbum::get_instance ()->thumbnailwidth, 'number', 'px ', array (
+	public function display_displaycolumns_field() {
+		$this->show_input_field ( 'displaycolumns', EasyPhotoAlbum::get_instance ()->displaycolumns, 'number', '<strong>*</strong>', array (
 				'step' => 1,
 				'class' => 'small-text',
-				'min' => 0
+				'min' => 1,
+				'max' => 15
 		) );
-		$this->display_description ( __ ( 'The display width of the thumbnails.', 'epa' ) );
+		// 'max' => 15 means Minimum size of the images is then 5%
+		$this->show_description ( __ ( 'The number of columns of the album', 'epa' ) );
 	}
 
-	public function display_thumbnailheight_field() {
-		$this->display_input_field ( 'thumbnailheight', EasyPhotoAlbum::get_instance ()->thumbnailheight, 'number', 'px ', array (
-				'step' => 1,
-				'class' => 'small-text',
-				'min' => 0
+	public function display_displaysize_field() {
+		echo '<select name="EasyPhotoAlbum[displaysize]">';
+		// Using the same filter as in wp-admin/includes/media.php for the function
+		// image_size_input_fields. Other plugins can use this filter to add their image size.
+		$size_names = apply_filters ( 'image_size_names_choose', array (
+				'thumbnail' => __ ( 'Thumbnail' ),
+				'medium' => __ ( 'Medium' ),
+				'large' => __ ( 'Large' ),
+				'full' => __ ( 'Full Size' )
 		) );
-		$this->display_description ( __ ( 'The display height of the thumbnails.', 'epa' ) );
+		foreach ( $size_names as $size => $displayname ) {
+			$selected = selected ( EasyPhotoAlbum::get_instance ()->displaysize, $size, false );
+			echo <<<HTML
+			<option value="{$size}" {$selected}>{$displayname}</option>
+HTML;
+		}
+		echo '</select><strong>*</strong>';
 	}
 
-	public function display_showtitlewiththumbnail_field() {
+	public function display_showcaption_field() {
 		$attr = array (
 				'id' => 'stwt'
 		);
-		if (EasyPhotoAlbum::get_instance ()->showtitlewiththumbnail)
+		if (EasyPhotoAlbum::get_instance ()->showcaption)
 			$attr += array (
 					'checked' => 'checked'
 			);
-		$this->display_input_field ( 'showtitlewiththumbnail', 'true', 'checkbox', sprintf ( ' <label for="stwt">%s</label>', __ ( 'The title will be displayed under the thumbnail.', 'epa' ) ), $attr );
+		$this->show_input_field ( 'showcaption', 'true', 'checkbox', sprintf ( ' <label for="stwt">%s</label><strong>*</strong>', __ ( 'The title will be displayed under the thumbnail.', 'epa' ) ), $attr );
 	}
 
 	public function display_showalbumlabel_field() {
@@ -174,12 +204,12 @@ class EPA_Admin {
 					'checked' => 'checked'
 			);
 		}
-		$this->display_input_field ( 'showalbumlabel', 'true', 'checkbox', sprintf ( '<label for="sal">%s</label>', __ ( 'Display a message like "Image x of y" (see next option)', 'epa' ) ), $attr );
+		$this->show_input_field ( 'showalbumlabel', 'true', 'checkbox', sprintf ( '<label for="sal">%s</label>', __ ( 'Display a message like "Image x of y" (see next option)', 'epa' ) ), $attr );
 	}
 
 	public function display_albumlabel_field() {
-		$this->display_input_field ( 'albumlabel', EasyPhotoAlbum::get_instance ()->albumlabel );
-		$this->display_description ( __ ( 'You can translate or change the text. {0} will be replaced with the current image number, {1} with the total number of images.', 'epa' ) );
+		$this->show_input_field ( 'albumlabel', EasyPhotoAlbum::get_instance ()->albumlabel );
+		$this->show_description ( __ ( 'You can translate or change the text. {0} will be replaced with the current image number, {1} with the total number of images.', 'epa' ) );
 	}
 
 	public function display_wraparound_field() {
@@ -191,28 +221,28 @@ class EPA_Admin {
 					'checked' => 'checked'
 			);
 		}
-		$this->display_input_field ( 'wraparound', 'true', 'checkbox', sprintf ( '<label for="wa">%s</label>', __ ( 'Wrap the images in the lightbox, i.e. when you reach the last image in the album and you click on the right arrow, the first image will be displayed', 'epa' ) ), $attr );
+		$this->show_input_field ( 'wraparound', 'true', 'checkbox', sprintf ( '<label for="wa">%s</label>', __ ( 'Wrap the images in the lightbox, i.e. when you reach the last image in the album and you click on the right arrow, the first image will be displayed', 'epa' ) ), $attr );
 	}
 
 	public function display_numimageswhennotsingle_field() {
-		$this->display_input_field ( 'numimageswhennotsingle', EasyPhotoAlbum::get_instance ()->numimageswhennotsingle, 'number', __ ( 'images', 'epa' ) . ' ', array (
+		$this->show_input_field ( 'numimageswhennotsingle', EasyPhotoAlbum::get_instance ()->numimageswhennotsingle, 'number', __ ( 'images', 'epa' ) . '<strong>*</strong> ', array (
 				'step' => 1,
 				'class' => 'small-text',
 				'min' => 0
 		) );
-		$this->display_description ( __ ( 'The number of images showed when the album is not on a single page. Set to 0 for all', 'epa' ) );
+		$this->show_description ( __ ( 'The number of images showed when the album is not on a single page. Set to 0 for all', 'epa' ) );
 	}
 
-	public function display_showcaption_field() {
+	public function display_showcaptionintable_field() {
 		$attr = array (
 				'id' => 'sc'
 		);
-		if (EasyPhotoAlbum::get_instance ()->showcaption) {
+		if (EasyPhotoAlbum::get_instance ()->showcaptionintable) {
 			$attr += array (
 					'checked' => 'checked'
 			);
 		}
-		$this->display_input_field ( 'showcaption', 'true', 'checkbox', sprintf ( '<label for="sc">%s</label>', __ ( 'Show the caption in the album edit screen', 'epa' ) ), $attr );
+		$this->show_input_field ( 'showcaptionintable', 'true', 'checkbox', sprintf ( '<label for="sc">%s</label>', __ ( 'Show the caption in the album edit screen', 'epa' ) ), $attr );
 	}
 
 	public function display_inmainloop_field() {
@@ -224,7 +254,15 @@ class EPA_Admin {
 					'checked' => 'checked'
 			);
 		}
-		$this->display_input_field ( 'inmainloop', 'true', 'checkbox', sprintf ( '<label for="iml">%s</label>', __ ( 'Show Photo Albums on the blog page', 'epa' ) ), $attr );
+		$this->show_input_field ( 'inmainloop', 'true', 'checkbox', sprintf ( '<label for="iml">%s</label>', __ ( 'Show Photo Albums on the blog page', 'epa' ) ), $attr );
+	}
+
+	public function display_override_field() {
+		$attr = array (
+				'id' => 'epa-override'
+		);
+
+		$this->show_input_field ( 'override', 'true', 'checkbox', sprintf ( '<label for="epa-override">%s</label>', __ ( 'Override the display settings (on this page with a *) of each album with the general ones.', 'epa' ) ), $attr );
 	}
 
 	/**
@@ -232,7 +270,7 @@ class EPA_Admin {
 	 *
 	 * @param string $description
 	 */
-	private function display_description($description) {
+	private function show_description($description) {
 		printf ( '<span class="description">%s</span>', esc_html ( $description ) );
 	}
 
@@ -252,7 +290,7 @@ class EPA_Admin {
 	 *        	[optional] An array with some extra attributes, like <code>array ('size' =>
 	 *        	5);</code>, default none.
 	 */
-	private function display_input_field($epa_name, $value = '', $type = 'text', $after = '', $attrs = array()) {
+	private function show_input_field($epa_name, $value = '', $type = 'text', $after = '', $attrs = array()) {
 		$html = '';
 		foreach ( $attrs as $attr => $val ) {
 			$html .= $attr . '="' . $val . '" ';

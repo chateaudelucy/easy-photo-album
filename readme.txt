@@ -3,7 +3,7 @@ Contributors: TV productions
 Donate link:
 Tags:  album, photo's, images, lightbox, responsive
 Requires at least: 3.5
-Tested up to: 3.6
+Tested up to: 3.6.1
 Stable tag: 1.1.5
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -70,6 +70,10 @@ A: The image size is default `thumbnail`. So choose an other image size (`medium
 4. Example of lightbox display.
 
 == Changelog ==
+
+**1.1.6**
+
+* Fixed bug: No message if there are no albums in tinymce editor insert album dialog.
 
 **1.1.5**
 

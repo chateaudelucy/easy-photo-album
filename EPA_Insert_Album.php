@@ -84,6 +84,14 @@ class EPA_Insert_Album {
 				'show_title' => 'true',
 				'display' => 'excerpt'
 		), $atts, 'epa-album' );
+
+		// Is the curren album published or...?
+		if (get_post_status($atts['id']) != 'publish') {
+			// Check if the current user can read the post
+			if (!current_user_can(get_post_type_object(EPA_PostType::POSTTYPE_NAME)->cap->read, $atts['id']))
+				return "<!-- You're not allowed to view the photo album. Is it a draft..? -->";
+		}
+
 		// for the functions
 		global $EPA_DOING_SHORTCODE;
 		$EPA_DOING_SHORTCODE = true;
@@ -122,7 +130,7 @@ class EPA_Insert_Album {
 					// http://codex.wordpress.org/Function_Reference/the_content#Overriding_Archive.2FSingle_Page_Behavior
 					global $more;
 					$more = 0;
-					the_content ( __ ( "View more photo's", 'epa' ). ' &rarr;' );
+					the_content ( __ ( "View more photo's", 'epa' ) . ' &rarr;' );
 					$content .= ob_get_contents ();
 					ob_end_clean ();
 					break;
@@ -153,7 +161,7 @@ class EPA_Insert_Album {
 					'title' => $album->post_title
 			);
 		}
-		if (count ( $result ) < 1)
+		if (empty ( $result ) || empty ( $albums ))
 			die ( 0 );
 
 		die ( json_encode ( $result ) );

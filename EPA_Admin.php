@@ -89,6 +89,10 @@ class EPA_Admin {
 				&$this,
 				'display_inmainloop_field'
 		), 'media', 'epa-section' );
+		add_settings_field ( 'showallimagesinlightbox', __ ( 'Show all images in the lighbox', 'epa' ), array (
+				&$this,
+				'display_showallimagesinlightbox_field'
+		), 'media', 'epa-section' );
 		add_settings_field ( 'override', __ ( 'Override album specific settings', 'epa' ), array (
 				&$this,
 				'display_override_field'
@@ -120,6 +124,7 @@ class EPA_Admin {
 		$valid ['numimageswhennotsingle'] = (is_numeric ( $input ['numimageswhennotsingle'] ) ? $input ['numimageswhennotsingle'] : $valid ['numimageswhennotsingle']);
 		$valid ['showcaption'] = (isset ( $input ['showcaption'] ) && $input ['showcaption'] == 'true' ? true : false);
 		$valid ['inmainloop'] = (isset ( $input ['inmainloop'] ) && $input ['inmainloop'] == 'true' ? true : false);
+		$valid ['showallimagesinlightbox'] = (isset ( $input ['showallimagesinlightbox'] ) && $input ['showallimagesinlightbox'] == 'true' ? true : false);
 
 		if (isset ( $input ['override'] ) && $input ['override'] == 'true') {
 
@@ -150,7 +155,8 @@ class EPA_Admin {
 		<?php selected(EasyPhotoAlbum::get_instance()->linkto, 'attachment', true);?>><?php _e('The attachment page', 'epa');?></option>
 	<option value="lightbox"
 		<?php selected(EasyPhotoAlbum::get_instance()->linkto, 'lightbox', true);?>><?php _e('Lightbox display', 'epa');?></option>
-</select><strong>*</strong>
+</select>
+<strong>*</strong>
 <?php
 	}
 
@@ -255,6 +261,18 @@ HTML;
 			);
 		}
 		$this->show_input_field ( 'inmainloop', 'true', 'checkbox', sprintf ( '<label for="iml">%s</label>', __ ( 'Show Photo Albums on the blog page', 'epa' ) ), $attr );
+	}
+
+	public function display_showallimagesinlightbox_field() {
+		$attr = array (
+				'id' => 'saiil'
+		);
+		if (EasyPhotoAlbum::get_instance ()->showallimagesinlightbox) {
+			$attr += array (
+					'checked' => 'checked'
+			);
+		}
+		$this->show_input_field ( 'showallimagesinlightbox', 'true', 'checkbox', sprintf ( '<label for="saiil">%s</label>', __ ( "Show all the images in the lightbox, also when the album is displayed in excerpt.", 'epa' ) ), $attr );
 	}
 
 	public function display_override_field() {

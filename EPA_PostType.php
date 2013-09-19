@@ -241,12 +241,11 @@ class EPA_PostType {
 			value="<?php echo $this->current_settings['excerpt_number'];?>" /></td>
 	</tr>
 	<tr>
-		<th scope="col"><input type="checkbox" value="true"
+		<th scope="col" colspan="2"><input type="checkbox" value="true"
 			name="<?php echo self::INPUT_NAME;?>[setting][show_caption]"
 			<?php checked($this->current_settings['show_caption']);?>
 			id="epa-setting-show-title" /> <label for="epa-setting-show-title"><?php _e('Show title', 'epa');?></label>
 		</th>
-		<td>&nbsp;</td>
 	</tr>
 	<tr>
 		<th scope="col" colspan="2">
@@ -286,6 +285,13 @@ HTML;
 		}
 		?>
 			</select>
+		</th>
+	</tr>
+	<tr>
+		<th scope="col" colspan ="2"><input type="checkbox" value="true"
+			name="<?php echo self::INPUT_NAME;?>[setting][show_all_images_in_lightbox]"
+			<?php checked($this->current_settings['show_all_images_in_lightbox']);?>
+			id="epa-setting-show-all-images-in-lightbox" /> <label for="epa-setting-show-all-images-in-lightbox"><?php _e('Show all images in lightbox', 'epa');?></label>
 		</th>
 	</tr>
 </table>
@@ -363,6 +369,7 @@ HTML;
 					'lightbox'
 			) ) ? $input ['link_to'] : $valid ['link_to'];
 			$valid ['display_size'] = in_array ( $input ['display_size'], get_intermediate_image_sizes () ) ? $input ['display_size'] : $valid ['display_size'];
+			$valid ['show_all_images_in_lightbox'] = $input['show_all_images_in_lightbox'] == 'true' ? true : false;
 			$this->current_settings = $valid;
 
 			// Empty the current photos var

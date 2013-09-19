@@ -222,7 +222,8 @@ class EasyPhotoAlbum {
 				'inmainloop' => true,
 				'archivepostid' => 0,
 				'displaycolumns' => 3,
-				'displaysize' => 'thumbnail'
+				'displaysize' => 'thumbnail',
+				'showallimagesinlightbox' => false,
 		);
 		$this->options = get_option ( 'EasyPhotoAlbum', $defaults );
 		$this->options = wp_parse_args ( $this->options, $defaults );
@@ -241,7 +242,8 @@ class EasyPhotoAlbum {
 				'excerpt_number' => isset($options['numimageswhennotsingle']) ? $options['numimageswhennotsingle'] : $this->numimageswhennotsingle,
 				'show_caption' => isset($options['showcaption']) ? $options['showcaption'] : $this->showcaption,
 				'link_to' => isset($options['linkto']) ? $options['linkto'] : $this->linkto,
-				'display_size' => isset($options['displaysize']) ? $options['displaysize'] : $this->displaysize
+				'display_size' => isset($options['displaysize']) ? $options['displaysize'] : $this->displaysize,
+				'show_all_images_in_lightbox' => isset($options['showallimagesinlightbox']) ? $options['showallimagesinlightbox'] : $this->showallimagesinlightbox
 		);
 	}
 

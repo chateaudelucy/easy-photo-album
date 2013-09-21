@@ -30,7 +30,7 @@ class EPA_PostType {
 	const INPUT_NAME = 'EasyPhotoAlbums';
 	const POSTTYPE_NAME = 'easy-photo-album';
 	private $current_photos = array ();
-	private $current_settings = array ();
+	private $current_options = array ();
 	private $current_post_id = - 1;
 
 	/**
@@ -226,9 +226,9 @@ class EPA_PostType {
 <?php _e('Columns', 'epa');?>
 </th>
 		<td><input type="number"
-			name="<?php echo self::INPUT_NAME;?>[setting][columns]"
+			name="<?php echo self::INPUT_NAME;?>[option][columns]"
 			class="small-text" step="1" min="1"
-			value="<?php echo $this->current_settings['columns'];?>" /></td>
+			value="<?php echo $this->current_options['columns'];?>" /></td>
 	</tr>
 	<tr>
 		<th scope="col">
@@ -236,29 +236,29 @@ class EPA_PostType {
 			class="description"><?php _e('Set to 0 to show all images', 'epa');?></span>
 		</th>
 		<td><input type="number"
-			name="<?php echo self::INPUT_NAME;?>[setting][excerpt_number]"
+			name="<?php echo self::INPUT_NAME;?>[option][excerpt_number]"
 			class="small-text" step="1" min="0"
-			value="<?php echo $this->current_settings['excerpt_number'];?>" /></td>
+			value="<?php echo $this->current_options['excerpt_number'];?>" /></td>
 	</tr>
 	<tr>
 		<th scope="col" colspan="2"><input type="checkbox" value="true"
-			name="<?php echo self::INPUT_NAME;?>[setting][show_caption]"
-			<?php checked($this->current_settings['show_caption']);?>
-			id="epa-setting-show-title" /> <label for="epa-setting-show-title"><?php _e('Show title', 'epa');?></label>
+			name="<?php echo self::INPUT_NAME;?>[option][show_caption]"
+			<?php checked($this->current_options['show_caption']);?>
+			id="epa-option-show-title" /> <label for="epa-option-show-title"><?php _e('Show title', 'epa');?></label>
 		</th>
 	</tr>
 	<tr>
 		<th scope="col" colspan="2">
 			<?php _e('Link image to', 'epa');?>
 
-		<select name="<?php echo self::INPUT_NAME;?>[setting][link_to]"
+		<select name="<?php echo self::INPUT_NAME;?>[option][link_to]"
 			style="float: right;">
 				<option value="file"
-					<?php selected($this->current_settings['link_to'], 'file');?>><?php _e('The image file', 'epa');?></option>
+					<?php selected($this->current_options['link_to'], 'file');?>><?php _e('The image file', 'epa');?></option>
 				<option value="attachment"
-					<?php selected($this->current_settings['link_to'], 'attachment');?>><?php _e('The attachment page', 'epa');?></option>
+					<?php selected($this->current_options['link_to'], 'attachment');?>><?php _e('The attachment page', 'epa');?></option>
 				<option value="lightbox"
-					<?php selected($this->current_settings['link_to'], 'lightbox');?>><?php _e('Lightbox display', 'epa');?></option>
+					<?php selected($this->current_options['link_to'], 'lightbox');?>><?php _e('Lightbox display', 'epa');?></option>
 		</select>
 		</th>
 	</tr>
@@ -266,7 +266,7 @@ class EPA_PostType {
 		<th scope="col" colspan="2">
 			<?php _e('Image size', 'epa');?>
 
-	<select name="<?php echo self::INPUT_NAME;?>[setting][display_size]"
+	<select name="<?php echo self::INPUT_NAME;?>[option][display_size]"
 			style="float: right;">
 			<?php
 		// Using the same filter as in wp-admin/includes/media.php for the function
@@ -278,7 +278,7 @@ class EPA_PostType {
 				'full' => __ ( 'Full Size' )
 		) );
 		foreach ( $size_names as $size => $displayname ) {
-			$selected = selected ( $this->current_settings ['display_size'], $size, false );
+			$selected = selected ( $this->current_options ['display_size'], $size, false );
 			echo <<<HTML
 			<option value="{$size}" {$selected}>{$displayname}</option>
 HTML;
@@ -289,9 +289,9 @@ HTML;
 	</tr>
 	<tr>
 		<th scope="col" colspan ="2"><input type="checkbox" value="true"
-			name="<?php echo self::INPUT_NAME;?>[setting][show_all_images_in_lightbox]"
-			<?php checked($this->current_settings['show_all_images_in_lightbox']);?>
-			id="epa-setting-show-all-images-in-lightbox" /> <label for="epa-setting-show-all-images-in-lightbox"><?php _e('Show all images in lightbox', 'epa');?></label>
+			name="<?php echo self::INPUT_NAME;?>[option][show_all_images_in_lightbox]"
+			<?php checked($this->current_options['show_all_images_in_lightbox']);?>
+			id="epa-option-show-all-images-in-lightbox" /> <label for="epa-option-show-all-images-in-lightbox"><?php _e('Show all images in lightbox', 'epa');?></label>
 		</th>
 	</tr>
 </table>
@@ -304,14 +304,14 @@ HTML;
 	 * variable.
 	 */
 	private function load_data() {
-		if (empty ( $this->current_photos ) || empty ( $this->current_settings )) {
+		if (empty ( $this->current_photos ) || empty ( $this->current_options )) {
 			// get the post id
 			$post_id = $this->get_current_post_id ();
 			$data = get_post_meta ( $post_id, self::SETTINGS_NAME, true );
 			if ($data && ! empty ( $data )) {
-				if (array_key_exists ( 'settings', $data )) {
-					$this->current_settings = $data ['settings'];
-					unset ( $data ['settings'] );
+				if (array_key_exists ( 'options', $data )) {
+					$this->current_options = $data ['options'];
+					unset ( $data ['options'] );
 				}
 				$this->current_photos = $data;
 				if (empty ( $this->current_photos )) {
@@ -319,7 +319,7 @@ HTML;
 				}
 			}
 			// prase settings
-			$this->current_settings = wp_parse_args ( $this->current_settings, EasyPhotoAlbum::get_instance ()->get_default_display_options () );
+			$this->current_options = wp_parse_args ( $this->current_options, EasyPhotoAlbum::get_instance ()->get_default_display_options () );
 		}
 	}
 
@@ -336,7 +336,7 @@ HTML;
 			$this->current_photos [$index]->order = $index;
 		}
 		$data = $this->current_photos;
-		$data ['settings'] = $this->current_settings;
+		$data ['options'] = $this->current_options;
 		update_post_meta ( $this->get_current_post_id (), self::SETTINGS_NAME, $data );
 	}
 
@@ -358,8 +358,8 @@ HTML;
 			$this->load_data ();
 
 			// Validate and save the album specific settings
-			$valid = $this->current_settings;
-			$input = $_POST [self::INPUT_NAME] ['setting'];
+			$valid = $this->current_options;
+			$input = $_POST [self::INPUT_NAME] ['option'];
 			$valid ['columns'] = is_numeric ( $input ['columns'] ) && intval ( $input ['columns'] ) >= 1 ? intval ( $input ['columns'] ) : $valid ['columns'];
 			$valid ['excerpt_number'] = is_numeric ( $input ['excerpt_number'] ) ? intval ( $input ['excerpt_number'] ) : $valid ['excerpt_number'];
 			$valid ['show_caption'] = $input ['show_caption'] == 'true' ? true : false;
@@ -370,7 +370,7 @@ HTML;
 			) ) ? $input ['link_to'] : $valid ['link_to'];
 			$valid ['display_size'] = in_array ( $input ['display_size'], get_intermediate_image_sizes () ) ? $input ['display_size'] : $valid ['display_size'];
 			$valid ['show_all_images_in_lightbox'] = $input['show_all_images_in_lightbox'] == 'true' ? true : false;
-			$this->current_settings = $valid;
+			$this->current_options = $valid;
 
 			// Empty the current photos var
 			$this->current_photos = array ();
@@ -553,7 +553,7 @@ CSS;
 		if (get_post_type ( $id ) == self::POSTTYPE_NAME) {
 			global $EPA_DOING_SHORTCODE;
 			if ($EPA_DOING_SHORTCODE == true) {
-				return '</li></ul><!-- epa more -->' . ' <a href="' . get_permalink ( $id ) . "#more-{$id}\" class=\"more-link\">$more_text</a>";
+				return '</li></ul><!-- epa more -->' . apply_filters ( 'epa_album_more_link', ' <a href="' . get_permalink ( $id ) . "#more-{$id}\" class=\"more-link\">$more_text</a>", $more_text );
 			}
 			return '</li></ul><!-- epa more -->' . apply_filters ( 'epa_album_more_link', $more_link, $more_text );
 		} else {

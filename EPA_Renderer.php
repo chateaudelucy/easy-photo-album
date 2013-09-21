@@ -42,9 +42,9 @@ class EPA_Renderer {
 	public function __construct($album) {
 		$album = get_post ( $album );
 		$data = get_post_meta ( $album->ID, EPA_PostType::SETTINGS_NAME, true );
-		$data ['settings'] = isset ( $data ['settings'] ) ? $data ['settings'] : array ();
-		$this->display_options = wp_parse_args ( $data ['settings'], EasyPhotoAlbum::get_instance ()->get_default_display_options () );
-		unset ( $data ['settings'] );
+		$data ['options'] = isset ( $data ['options'] ) ? $data ['options'] : array ();
+		$this->display_options = wp_parse_args ( $data ['options'], EasyPhotoAlbum::get_instance ()->get_default_display_options () );
+		unset ( $data ['options'] );
 		$this->photos = $data;
 		$this->album_id = esc_attr ( 'epa-album-' . $album->ID );
 	}

@@ -174,9 +174,9 @@ class EPA_PostType {
 	 * Registers the metabox for the posttype
 	 */
 	public function register_metabox() {
-		add_meta_box ( 'easy-photo-album-display-settings', __ ( "Album display settings", 'epa' ), array (
+		add_meta_box ( 'easy-photo-album-display-options', __ ( "Album display options", 'epa' ), array (
 				&$this,
-				'display_settings_metabox'
+				'display_options_metabox'
 		), null, 'side', 'default' );
 		add_meta_box ( 'easy-photo-album-images', __ ( "Album images", 'epa' ), array (
 				&$this,
@@ -216,7 +216,7 @@ class EPA_PostType {
 		echo "\n" . '</div>' . "\n";
 	}
 
-	public function display_settings_metabox() {
+	public function display_options_metabox() {
 		$this->load_data ();
 		?>
 <p><?php _e('Override the general display settings of the photo albums here.', 'epa')?></p>

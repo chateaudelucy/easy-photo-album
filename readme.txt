@@ -76,6 +76,7 @@ A: The image size is default `thumbnail`. So choose an other image size (`medium
 * Fixed bug: No message if there are no albums in tinymce editor insert album dialog.
 * Security issue fixed: Display included album only if the album is published or the current user has enough rights.
 * New option: Display all photo's in the lightbox (also if the album is displayed as excerpt).
+* New feature: help content for the options.
 
 **1.1.5**
 

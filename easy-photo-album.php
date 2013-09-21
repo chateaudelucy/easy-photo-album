@@ -35,6 +35,7 @@ require_once 'EPA_Renderer.php';
 if (is_admin ()) {
 	require_once 'EPA_List_Table.php';
 	require_once 'EPA_Admin.php';
+	require_once 'EPA_Help.php';
 }
 
 /**
@@ -60,6 +61,7 @@ class EasyPhotoAlbum {
 		$this->tinymce = new EPA_Insert_Album ();
 		if (is_admin ()) {
 			$this->admin = new EPA_Admin ();
+			new EPA_Help();
 		}
 
 		register_activation_hook ( __FILE__, array (

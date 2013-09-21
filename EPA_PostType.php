@@ -219,7 +219,7 @@ class EPA_PostType {
 	public function display_options_metabox() {
 		$this->load_data ();
 		?>
-<p><?php _e('Override the general display settings of the photo albums here.', 'epa')?></p>
+<p><?php _e('Override the default display options of the photo albums here.', 'epa')?></p>
 <table class="form-table">
 	<tr>
 		<th scope="row">

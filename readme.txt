@@ -4,7 +4,7 @@ Donate link:
 Tags:  album, photo's, images, lightbox, responsive
 Requires at least: 3.5
 Tested up to: 3.6.1
-Stable tag: 1.1.5
+Stable tag: 1.1.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -17,7 +17,7 @@ You don't have to change any theme files, the album displays nice right away.
 Photo's can be viewed by a **Lightbox**.
 The albums are **responsive** and you can choose how may columns of images you want.
 The Lightbox displays the most large possible size, resized to the current screen size.
-You can manage the order of the photo's (very easy with **drag and drop**) and tell your story in pictures!
+You can manage the order of the photo's (very easy with **drag and drop**) and tell your story in photo's!
 You can now also **insert your album** in a post or page.
 
 So go ahead, and try it out!

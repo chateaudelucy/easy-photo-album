@@ -85,7 +85,6 @@ var epaInsert;
 									r = JSON.parse(r);
 									var list = '', alt = true;
 									for ( var i in r) {
-										console.log(i, r[i]);
 										var classes = alt ? 'alternate ' : '';
 										list += classes ? '<li class="'
 												+ classes + '">' : '<li>';
@@ -103,6 +102,7 @@ var epaInsert;
 								}
 								input.spinner.hide();
 								epaInsert.bindActions();
+								$('#albums li').removeClass('selected');
 							});
 		},
 

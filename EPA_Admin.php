@@ -44,7 +44,7 @@ class EPA_Admin {
 				&$this,
 				'validate_settings'
 		) );
-		add_settings_section ( 'epa-section', __ ( 'Easy Photo Album Settings', 'epa' ), array (
+		add_settings_section ( 'epa-section', __ ( 'Easy Photo Album default options', 'epa' ), array (
 				&$this,
 				'display_settings_section'
 		), 'media' );
@@ -80,7 +80,6 @@ class EPA_Admin {
 				&$this,
 				'display_numimageswhennotsingle_field'
 		), 'media', 'epa-section' );
-
 		add_settings_field ( 'showcaptionintable', __ ( 'Show the caption', 'epa' ), array (
 				&$this,
 				'display_showcaptionintable_field'
@@ -93,7 +92,7 @@ class EPA_Admin {
 				&$this,
 				'display_showallimagesinlightbox_field'
 		), 'media', 'epa-section' );
-		add_settings_field ( 'override', __ ( 'Override album specific settings', 'epa' ), array (
+		add_settings_field ( 'override', __ ( 'Override album specific options', 'epa' ), array (
 				&$this,
 				'display_override_field'
 		), 'media', 'epa-section' );
@@ -135,7 +134,7 @@ class EPA_Admin {
 			) );
 			foreach ( $albums as $album ) {
 				$data = get_post_meta ( $album->ID, EPA_PostType::SETTINGS_NAME, true );
-				$data ['settings'] = EasyPhotoAlbum::get_instance ()->get_default_display_options ( $valid );
+				$data ['options'] = EasyPhotoAlbum::get_instance ()->get_default_display_options ( $valid );
 				update_post_meta ( $album->ID, EPA_PostType::SETTINGS_NAME, $data );
 			}
 		}
@@ -143,7 +142,7 @@ class EPA_Admin {
 	}
 
 	public function display_settings_section() {
-		printf ( '<p>%1$s</p><p>%2$s</p>', __ ( 'Settings that changes the appreance of the photo albums.', 'epa' ), sprintf ( __ ( 'Do you like this plugin? Please write a review or rate the plugin at %1$swordpress.org%2$s.', 'epa' ), '<a href="http://wordpress.org/support/view/plugin-reviews/easy-photo-album" target="_blank">', '</a>' ) );
+		printf ( '<p>%1$s</p><p>%2$s</p>', __ ( 'Options that changes the appreance of the photo albums. They can be overriden for each specific album.', 'epa' ), sprintf ( __ ( 'Do you like this plugin? Please write a review or rate the plugin at %1$swordpress.org%2$s.', 'epa' ), '<a href="http://wordpress.org/support/view/plugin-reviews/easy-photo-album" target="_blank">', '</a>' ) );
 	}
 
 	public function display_linkto_field() {
@@ -198,7 +197,7 @@ HTML;
 			$attr += array (
 					'checked' => 'checked'
 			);
-		$this->show_input_field ( 'showcaption', 'true', 'checkbox', sprintf ( ' <label for="stwt">%s</label><strong>*</strong>', __ ( 'The title will be displayed under the thumbnail.', 'epa' ) ), $attr );
+		$this->show_input_field ( 'showcaption', 'true', 'checkbox', sprintf ( ' <label for="stwt">%s</label><strong>*</strong>', __ ( 'Show title underneath the photo.', 'epa' ) ), $attr );
 	}
 
 	public function display_showalbumlabel_field() {
@@ -236,7 +235,7 @@ HTML;
 				'class' => 'small-text',
 				'min' => 0
 		) );
-		$this->show_description ( __ ( 'The number of images showed when the album is not on a single page. Set to 0 for all', 'epa' ) );
+		$this->show_description ( __ ( "The number of photo's showed when the album is shown in an archive. Set to 0 to display all photo's", 'epa' ) );
 	}
 
 	public function display_showcaptionintable_field() {
@@ -272,7 +271,7 @@ HTML;
 					'checked' => 'checked'
 			);
 		}
-		$this->show_input_field ( 'showallimagesinlightbox', 'true', 'checkbox', sprintf ( '<label for="saiil">%s</label>', __ ( "Show all the images in the lightbox, also when the album is displayed in excerpt.", 'epa' ) ), $attr );
+		$this->show_input_field ( 'showallimagesinlightbox', 'true', 'checkbox', sprintf ( '<label for="saiil">%s</label>', __ ( "Show all the photo's in the lightbox, also when the album is shown in an archive.", 'epa' ) ), $attr );
 	}
 
 	public function display_override_field() {
@@ -280,7 +279,7 @@ HTML;
 				'id' => 'epa-override'
 		);
 
-		$this->show_input_field ( 'override', 'true', 'checkbox', sprintf ( '<label for="epa-override">%s</label>', __ ( 'Override the display settings (on this page with a *) of each album with the general ones.', 'epa' ) ), $attr );
+		$this->show_input_field ( 'override', 'true', 'checkbox', sprintf ( '<label for="epa-override">%s</label>', __ ( 'Override the display options (of each album with those default ones. (Only the settings with a * can be set for each album)', 'epa' ) ), $attr );
 	}
 
 	/**
@@ -297,7 +296,7 @@ HTML;
 	 *
 	 * @param string $epa_name
 	 *        	name of the input field (without <code>EasyPhotoAlbum[...]</code>. Only what
-	 *        	should be on the ellipsis.
+	 *        	should be on the ellipsis.)
 	 * @param string $value
 	 *        	[optional] The value of the input field, default empty.
 	 * @param string $type

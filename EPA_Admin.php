@@ -279,7 +279,7 @@ HTML;
 				'id' => 'epa-override'
 		);
 
-		$this->show_input_field ( 'override', 'true', 'checkbox', sprintf ( '<label for="epa-override">%s</label>', __ ( 'Override the display options (of each album with those default ones. (Only the settings with a * can be set for each album)', 'epa' ) ), $attr );
+		$this->show_input_field ( 'override', 'true', 'checkbox', sprintf ( '<label for="epa-override">%s</label>', __ ( 'Override the display options of each album with those default ones. (Only the options with a * can be set for each album)', 'epa' ) ), $attr );
 	}
 
 	/**

@@ -362,14 +362,14 @@ HTML;
 			$input = $_POST [self::INPUT_NAME] ['option'];
 			$valid ['columns'] = is_numeric ( $input ['columns'] ) && intval ( $input ['columns'] ) >= 1 ? intval ( $input ['columns'] ) : $valid ['columns'];
 			$valid ['excerpt_number'] = is_numeric ( $input ['excerpt_number'] ) ? intval ( $input ['excerpt_number'] ) : $valid ['excerpt_number'];
-			$valid ['show_caption'] = $input ['show_caption'] == 'true' ? true : false;
+			$valid ['show_caption'] = isset($input ['show_caption']) && $input ['show_caption'] == 'true' ? true : false;
 			$valid ['link_to'] = in_array ( $input ['link_to'], array (
 					'file',
 					'attachment',
 					'lightbox'
 			) ) ? $input ['link_to'] : $valid ['link_to'];
 			$valid ['display_size'] = in_array ( $input ['display_size'], get_intermediate_image_sizes () ) ? $input ['display_size'] : $valid ['display_size'];
-			$valid ['show_all_images_in_lightbox'] = $input['show_all_images_in_lightbox'] == 'true' ? true : false;
+			$valid ['show_all_images_in_lightbox'] = isset($input['show_all_images_in_lightbox']) && $input['show_all_images_in_lightbox'] == 'true' ? true : false;
 			$this->current_options = $valid;
 
 			// Empty the current photos var

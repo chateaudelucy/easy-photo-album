@@ -24,7 +24,7 @@ So go ahead, and try it out!
 
 
 **Feature request, bugs, ideas are welcome!**
-Report your feature request, bug or idea under the support tab.
+Report your feature request, bug or idea under the support tab or the review tab.
 
 Current language support:
 -------------------------
@@ -70,6 +70,9 @@ A: The image size is default `thumbnail`. So choose an other image size (`medium
 4. Example of lightbox display.
 
 == Changelog ==
+
+* Fixed bug: update label with the number of photo's (near the table) when there are photo's added or removed.
+* Fixed bug: When there is a photo with the same id as a valid order, the script breaks.
 
 **1.1.6**
 

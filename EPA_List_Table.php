@@ -280,7 +280,9 @@ IMG;
 				'lang' => array (
 						'mediatitle' => __ ( 'Choose image(s)', 'epa' ),
 						'mediabutton' => __ ( 'Select image(s)', 'epa' ),
-						'deleteconfirm' => __ ( "Are you shure you want to delete photo '{0}'?", 'epa' )
+						'deleteconfirm' => __ ( "Are you shure you want to delete photo '{0}'?", 'epa' ),
+						'photo' => _x('photo', "like 1 photo", 'epa'),
+						'photos' => _x("photo's", "like 2 photo's", 'epa'),
 				),
 				'rowtemplate' => str_replace ( 'class="alternate"', '<%= alternate %>', $rowtemplate )
 		);

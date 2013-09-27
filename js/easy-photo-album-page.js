@@ -73,6 +73,14 @@ window.TVproductions = window.TVproductions || {};
 								}
 							});
 		}
+		// Update also the image count labels:
+		var str;
+		if (EPA.maxOrder == 0)
+			str = EPA.lang.photo;
+		else
+			str = EPA.lang.photos;
+
+		$("#easy-photo-album-images .displaying-num").html( (EPA.maxOrder+1) + " " + str);
 	};
 
 	// Returns the order from the id
@@ -84,9 +92,8 @@ window.TVproductions = window.TVproductions || {};
 
 	// Returns the id from the order
 	var getIdFromOrder = function(order) {
-		var name = $(
-				'input[value="' + order + '"][type="hidden"][name*="'
-						+ EPA.settingName + '["]').attr('name');
+		var name = $('input[value="' + order + '"][type="hidden"][name*="'
+						+ EPA.settingName + '["][name$="[order]"]').attr('name');
 		var reg = /[0-9]+/;
 		return reg.exec(name)[0];
 	};
@@ -139,21 +146,26 @@ window.TVproductions = window.TVproductions || {};
 
 	// Set the click handlers for the actions
 	var setClickHandlers = function() {
+		// first unbind the click events
+		$('.order_up a.epa-move-up, .order_down a.epa-move-down, .delete a').unbind('click');
 		setTimeout(function() {
 			$('.order_up a.epa-move-up').click(function(e) {
-				if (e.target.tagName.toLowerCase() == 'a')
+				if (e.target.tagName.toLowerCase() == 'a') {
 					EPA.moveUp(this);
+				}
 				e.preventDefault();
 			});
 			$('.order_down a.epa-move-down').click(function(e) {
-				if (e.target.tagName.toLowerCase() == 'a')
+				if (e.target.tagName.toLowerCase() == 'a'){
 					EPA.moveDown(this);
+				}
 				e.preventDefault();
 
 			});
 			$('.delete a').click(function(e) {
-				if (e.target.tagName.toLowerCase() == 'a')
+				if (e.target.tagName.toLowerCase() == 'a'){
 					EPA.deletePhoto(this);
+				}
 				e.preventDefault();
 			});
 			$('input[name="' + EPA.settingName + '[add_photo]"]').click(

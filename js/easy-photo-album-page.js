@@ -80,7 +80,8 @@ window.TVproductions = window.TVproductions || {};
 		else
 			str = EPA.lang.photos;
 
-		$("#easy-photo-album-images .displaying-num").html( (EPA.maxOrder+1) + " " + str);
+		$("#easy-photo-album-images .displaying-num").html(
+				(EPA.maxOrder + 1) + " " + str);
 	};
 
 	// Returns the order from the id
@@ -92,8 +93,10 @@ window.TVproductions = window.TVproductions || {};
 
 	// Returns the id from the order
 	var getIdFromOrder = function(order) {
-		var name = $('input[value="' + order + '"][type="hidden"][name*="'
-						+ EPA.settingName + '["][name$="[order]"]').attr('name');
+		var name = $(
+				'input[value="' + order + '"][type="hidden"][name*="'
+						+ EPA.settingName + '["][name$="[order]"]')
+				.attr('name');
 		var reg = /[0-9]+/;
 		return reg.exec(name)[0];
 	};
@@ -109,7 +112,8 @@ window.TVproductions = window.TVproductions || {};
 		return getRowFromElement('input[type=checkbox][value="' + id + '"]');
 	};
 
-	// Returns the row (jQuery object) fromt the given element (DOMelement/jQuery object)
+	// Returns the row (jQuery object) fromt the given element
+	// (DOMelement/jQuery object)
 	var getRowFromElement = function(element) {
 		return $(element).closest('tr');
 	};
@@ -147,7 +151,8 @@ window.TVproductions = window.TVproductions || {};
 	// Set the click handlers for the actions
 	var setClickHandlers = function() {
 		// first unbind the click events
-		$('.order_up a.epa-move-up, .order_down a.epa-move-down, .delete a').unbind('click');
+		$('.order_up a.epa-move-up, .order_down a.epa-move-down, .delete a')
+				.unbind('click');
 		setTimeout(function() {
 			$('.order_up a.epa-move-up').click(function(e) {
 				if (e.target.tagName.toLowerCase() == 'a') {
@@ -156,14 +161,14 @@ window.TVproductions = window.TVproductions || {};
 				e.preventDefault();
 			});
 			$('.order_down a.epa-move-down').click(function(e) {
-				if (e.target.tagName.toLowerCase() == 'a'){
+				if (e.target.tagName.toLowerCase() == 'a') {
 					EPA.moveDown(this);
 				}
 				e.preventDefault();
 
 			});
 			$('.delete a').click(function(e) {
-				if (e.target.tagName.toLowerCase() == 'a'){
+				if (e.target.tagName.toLowerCase() == 'a') {
 					EPA.deletePhoto(this);
 				}
 				e.preventDefault();
@@ -278,7 +283,8 @@ window.TVproductions = window.TVproductions || {};
 		uploader.open();
 	};
 
-	// Deletes the photo fromt the given element (DOMelement or jQuery object) from the album.
+	// Deletes the photo fromt the given element (DOMelement or jQuery object)
+	// from the album.
 	EPA.deletePhoto = function(element) {
 		var id = getIdFromElement(element);
 		if (id && confirm(EPA.lang.deleteconfirm.format(getTitle(id)))) {
@@ -300,44 +306,49 @@ window.TVproductions = window.TVproductions || {};
 
 	// On init: Constructor
 	(function() {
-		if (EPA.settingName == undefined) {
-			console.info('EasyPhotoAlbum: settingName not set, use default');
-			EPA.settingName = 'EasyPhotoAlbums';
-		}
-		if (EPA.maxOrder == undefined) {
-			console.info('EasyPhotoAlbum: maxOrder not set, calculate value');
-			EPA.maxOrder = $('#the-list tr').length;
-		}
+		// Load only when we are on the edit page
+		if (jQuery(".easy-photo-album-table").length) {
+			if (EPA.settingName == undefined) {
+				console
+						.info('EasyPhotoAlbum: settingName not set, use default');
+				EPA.settingName = 'EasyPhotoAlbums';
+			}
+			if (EPA.maxOrder == undefined) {
+				console
+						.info('EasyPhotoAlbum: maxOrder not set, calculate value');
+				EPA.maxOrder = $('#the-list tr').length;
+			}
 
-		correctActions();
-		// Event handlers
-		setClickHandlers();
+			correctActions();
+			// Event handlers
+			setClickHandlers();
 
-		// Sortable
-		$(".easy-photo-album-table tbody").sortable(
-				{
-					axis : 'y',
-					handle : '.column-image img',
-					placeholder : 'sortable-placeholder',
-					forcePlaceholderSize : true,
-					cursor : 'move',
-					opacity : 0.6,
-					update : function(event, ui) {
-						// Correct the order after dragging:
-						jQuery('.easy-photo-album-table tbody tr').each(
-								function(index, elm) {
-									// the current index is the order
-									setOrder(getIdFromElement(elm), index);
-								});
-						// reset colum differents:
-						$('.easy-photo-album-table tr:nth-child(odd)')
-								.addClass('alternate');
-						$('.easy-photo-album-table tr:nth-child(even)')
-								.removeClass('alternate');
-						correctActions();
-						setClickHandlers();
-					}
-				});
+			// Sortable
+			$(".easy-photo-album-table tbody").sortable(
+					{
+						axis : 'y',
+						handle : '.column-image img',
+						placeholder : 'sortable-placeholder',
+						forcePlaceholderSize : true,
+						cursor : 'move',
+						opacity : 0.6,
+						update : function(event, ui) {
+							// Correct the order after dragging:
+							jQuery('.easy-photo-album-table tbody tr').each(
+									function(index, elm) {
+										// the current index is the order
+										setOrder(getIdFromElement(elm), index);
+									});
+							// reset colum differents:
+							$('.easy-photo-album-table tr:nth-child(odd)')
+									.addClass('alternate');
+							$('.easy-photo-album-table tr:nth-child(even)')
+									.removeClass('alternate');
+							correctActions();
+							setClickHandlers();
+						}
+					});
+		}// end if jQuery(".easy-photo-album-table").length
 	})();
 
 	// } (end public)

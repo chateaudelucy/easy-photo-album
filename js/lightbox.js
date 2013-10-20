@@ -29,7 +29,7 @@ Licensed under the Creative Commons Attribution 2.5 License - http://creativecom
   LightboxOptions = (function() {
     function LightboxOptions() {
       this.fadeDuration = 500;
-      this.fitImagesInViewport = true;
+      this.fitImagesInViewport = lightboxSettings.scaleLightbox;
       this.resizeDuration = 700;
       this.showImageNumberLabel = lightboxSettings.showAlbumLabel;
       this.wrapAround = lightboxSettings.wrapAround;

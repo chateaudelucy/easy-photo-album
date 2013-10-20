@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EasyPhotoAlbum 1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/easy-photo-album\n"
-"POT-Creation-Date: 2013-09-21 14:53+0100\n"
-"PO-Revision-Date: 2013-09-21 14:58+0100\n"
+"POT-Creation-Date: 2013-10-20 21:52+0100\n"
+"PO-Revision-Date: 2013-10-20 21:53+0100\n"
 "Last-Translator: TV productions <info@tv-productions.org>\n"
 "Language-Team: TV productions <info@tv-productions.org>\n"
 "Language: nl_NL\n"
@@ -19,11 +19,11 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../easy-photo-album.php:190
+#: ../easy-photo-album.php:196
 msgid "Settings"
 msgstr "Instellingen"
 
-#: ../easy-photo-album.php:219
+#: ../easy-photo-album.php:242
 msgctxt ""
 "Ex: Image 4 of 6, so {0} is the current image number and {1} is the total "
 "number of images."
@@ -62,27 +62,31 @@ msgstr "Album label"
 msgid "Wrap around"
 msgstr "Rond laten gaan"
 
-#: ../EPA_Admin.php:79 ../EPA_PostType.php:235
+#: ../EPA_Admin.php:79
+msgid "Scale images in the lightbox"
+msgstr "Schaal afbeeldingen in de lightbox"
+
+#: ../EPA_Admin.php:83 ../EPA_PostType.php:235
 msgid "Number of images for excerpt"
 msgstr "Aantal afbeeldingen bij samenvatting"
 
-#: ../EPA_Admin.php:83
+#: ../EPA_Admin.php:87
 msgid "Show the caption"
 msgstr "Geef het onderschrift weer"
 
-#: ../EPA_Admin.php:87
+#: ../EPA_Admin.php:91
 msgid "Photo albums on blog page"
 msgstr "Foto albums op de blog pagina"
 
-#: ../EPA_Admin.php:91
+#: ../EPA_Admin.php:95
 msgid "Show all images in the lighbox"
 msgstr "Geef alle afbeeldingen in de lightbox weer"
 
-#: ../EPA_Admin.php:95
+#: ../EPA_Admin.php:99
 msgid "Override album specific options"
 msgstr "Overschrijf specefieke album instellingen"
 
-#: ../EPA_Admin.php:145
+#: ../EPA_Admin.php:150
 msgid ""
 "Options that changes the appreance of the photo albums. They can be "
 "overriden for each specific album."
@@ -90,7 +94,7 @@ msgstr ""
 "Dit zijn instellingen die bepalen hoe de foto albums eruit komen te zien. Ze "
 "kunnen worden overschreven door elk specefiek album."
 
-#: ../EPA_Admin.php:145
+#: ../EPA_Admin.php:150
 #, php-format
 msgid ""
 "Do you like this plugin? Please write a review or rate the plugin at "
@@ -99,47 +103,47 @@ msgstr ""
 "Vind je deze plugin handig? Schrijf alstublieft een recentie of beoordeel de "
 "plugin op %1$swordpress.org%2$s."
 
-#: ../EPA_Admin.php:152 ../EPA_PostType.php:257
+#: ../EPA_Admin.php:157 ../EPA_PostType.php:257
 msgid "The image file"
 msgstr "Het afbeeldingsbestand"
 
-#: ../EPA_Admin.php:154 ../EPA_PostType.php:259
+#: ../EPA_Admin.php:159 ../EPA_PostType.php:259
 msgid "The attachment page"
 msgstr "De bijlage"
 
-#: ../EPA_Admin.php:156 ../EPA_PostType.php:261
+#: ../EPA_Admin.php:161 ../EPA_PostType.php:261
 msgid "Lightbox display"
 msgstr "Lightbox weergave"
 
-#: ../EPA_Admin.php:170
+#: ../EPA_Admin.php:175
 msgid "The number of columns of the album"
 msgstr "Het aantal kolommen voor het album"
 
-#: ../EPA_Admin.php:178 ../EPA_PostType.php:275
+#: ../EPA_Admin.php:183 ../EPA_PostType.php:275
 msgid "Thumbnail"
 msgstr "Thumbnail"
 
-#: ../EPA_Admin.php:179 ../EPA_PostType.php:276
+#: ../EPA_Admin.php:184 ../EPA_PostType.php:276
 msgid "Medium"
 msgstr "Medium"
 
-#: ../EPA_Admin.php:180 ../EPA_PostType.php:277
+#: ../EPA_Admin.php:185 ../EPA_PostType.php:277
 msgid "Large"
 msgstr "Groot"
 
-#: ../EPA_Admin.php:181 ../EPA_PostType.php:278
+#: ../EPA_Admin.php:186 ../EPA_PostType.php:278
 msgid "Full Size"
 msgstr "Volledige grootte"
 
-#: ../EPA_Admin.php:200
+#: ../EPA_Admin.php:205
 msgid "Show title underneath the photo."
 msgstr "Laat de titel onder de foto zien."
 
-#: ../EPA_Admin.php:212
+#: ../EPA_Admin.php:217
 msgid "Display a message like \"Image x of y\" (see next option)"
 msgstr "Laat zoiets als \"Afbeelding x van y\" zien (zie volgende instelling)"
 
-#: ../EPA_Admin.php:217
+#: ../EPA_Admin.php:222
 msgid ""
 "You can translate or change the text. {0} will be replaced with the current "
 "image number, {1} with the total number of images."
@@ -147,7 +151,7 @@ msgstr ""
 "Je kan de tekst vertalen of aanpassen. {0} zal het nummer van de huidige "
 "afbeelding worden en {1} het number van het totaal aantal afbeeldingen."
 
-#: ../EPA_Admin.php:229
+#: ../EPA_Admin.php:234
 msgid ""
 "Wrap the images in the lightbox, i.e. when you reach the last image in the "
 "album and you click on the right arrow, the first image will be displayed"
@@ -156,11 +160,17 @@ msgstr ""
 "afbeelding bent en op het pijltje naar rechts klikt, de eerste afbeelding "
 "zal worden weergegeven."
 
-#: ../EPA_Admin.php:233
+#: ../EPA_Admin.php:246
+msgid "Scale the lightbox to the viewport, so every image displays nice"
+msgstr ""
+"Schaal de lightbox naar de grootte van het scherm, zodat elke afbeelding "
+"goed wordt weergegeven"
+
+#: ../EPA_Admin.php:250
 msgid "images"
 msgstr "Afbeeldingen"
 
-#: ../EPA_Admin.php:238
+#: ../EPA_Admin.php:255
 msgid ""
 "The number of photo's showed when the album is shown in an archive. Set to 0 "
 "to display all photo's"
@@ -168,15 +178,15 @@ msgstr ""
 "Het aantal foto's dat wordt weergegeven als het album in een archief wordt "
 "weergegeven. Zet op 0 om alle foto's te weergeven."
 
-#: ../EPA_Admin.php:250
+#: ../EPA_Admin.php:267
 msgid "Show the caption in the album edit screen"
 msgstr "Geef het onderschrift weer op het album bewerk scherm"
 
-#: ../EPA_Admin.php:262
+#: ../EPA_Admin.php:279
 msgid "Show Photo Albums on the blog page"
 msgstr "Laat Foto Albums zien op de blog pagina"
 
-#: ../EPA_Admin.php:274
+#: ../EPA_Admin.php:291
 msgid ""
 "Show all the photo's in the lightbox, also when the album is shown in an "
 "archive."
@@ -184,7 +194,7 @@ msgstr ""
 "Laat alle fotos zien in de lightbox, ook als het album wordt weergegeven in "
 "een archief."
 
-#: ../EPA_Admin.php:282
+#: ../EPA_Admin.php:299
 msgid ""
 "Override the display options of each album with those default ones. (Only "
 "the options with a * can be set for each album)"
@@ -325,6 +335,16 @@ msgstr "Selecteer afbeelding(en)"
 msgid "Are you shure you want to delete photo '{0}'?"
 msgstr "Weet je zeker dat je de foto '{0}' wil verwijderen?"
 
+#: ../EPA_List_Table.php:284
+msgctxt "like 1 photo"
+msgid "photo"
+msgstr "Foto"
+
+#: ../EPA_List_Table.php:285
+msgctxt "like 2 photo's"
+msgid "photo's"
+msgstr "Foto's"
+
 #: ../EPA_PostType.php:128
 msgctxt "General Photo Albums name (multiple)"
 msgid "Photo Albums"
@@ -419,7 +439,7 @@ msgstr "Zet op 0 om alle afbeeldingen weer te geven"
 msgid "Show title"
 msgstr "Geef titel weer"
 
-#: ../EPA_PostType.php:294
+#: ../EPA_PostType.php:295
 msgid "Show all images in lightbox"
 msgstr "Geef alle afbeeldingen in de lightbox weer"
 

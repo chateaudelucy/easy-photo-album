@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: Easy Photo Album
- * Version: 1.1.6
+ * Version: 1.1.7
  * Author: TV productions
  * Author URI: http://tv-productions.org/
  * Description: This plugin makes it very easy to create and manage photo albums. The albums are responsive and display in a lightbox. You can help by submit bugs and request new features at the plugin page at wordpress.org.
@@ -50,18 +50,17 @@ class EasyPhotoAlbum {
 	private $post_type = null;
 	private $admin = null;
 	private $tinymce = null;
-	public static $version = '1.1.6';
+	public static $version = '1.1.7';
 
 	private function __construct() {
 		load_plugin_textdomain ( 'epa', false, basename ( dirname ( __FILE__ ) ) . '/lang' );
 
 		$this->options_init ();
-
 		$this->post_type = new EPA_PostType ();
 		$this->tinymce = new EPA_Insert_Album ();
 		if (is_admin ()) {
 			$this->admin = new EPA_Admin ();
-			new EPA_Help();
+			new EPA_Help ();
 		}
 
 		register_activation_hook ( __FILE__, array (
@@ -91,6 +90,13 @@ class EasyPhotoAlbum {
 				&$this,
 				'rerender_photos'
 		), 11, 2 );
+
+		/* TODO: POST FIX DOES NOT WORK YET!
+		// Fix for: http://wordpress.org/support/topic/maximum-number-of-pictures-in-an-album
+		add_filter ( 'mod_rewrite_rules', array (
+				&$this,
+				'fix_max_input_vars'
+		) );*/
 	}
 
 	/**
@@ -157,7 +163,7 @@ class EasyPhotoAlbum {
 		// Set the $options to the newvalue
 		$this->options = $newval;
 		$albums = get_posts ( array (
-				'posts_per_page' => -1,
+				'posts_per_page' => - 1,
 				'numberposts' => '',
 				'post_type' => EPA_PostType::POSTTYPE_NAME
 		) );
@@ -189,6 +195,23 @@ class EasyPhotoAlbum {
 	public function add_plugin_settings_link($links) {
 		$links [] = sprintf ( '<a href="%1$s">%2$s</a>', admin_url ( 'options-media.php' ), __ ( 'Settings' ) );
 		return $links;
+	}
+
+	/**
+	 * NOTE: DOES NOT WORK YET: doesn't fix the bug.
+	 * Fixes reported bug for large albums
+	 * Sets <code>max_input_vars</code> to 2000.
+	 * This is done in .htaccess, because this variable
+	 * can't be set by <code>ini_set</code>
+	 *
+	 * @link http://wordpress.org/support/topic/maximum-number-of-pictures-in-an-album
+	 * @param string $rules
+	 * @return string
+	 */
+	public function fix_max_input_vars($rules) {
+		return "# Easy Photo Album WordPress plugin (v" . self::$version . ")
+php_value max_input_vars 2000
+" . $rules;
 	}
 
 	public function __get($name) {
@@ -226,6 +249,7 @@ class EasyPhotoAlbum {
 				'displaycolumns' => 3,
 				'displaysize' => 'thumbnail',
 				'showallimagesinlightbox' => false,
+				'scalelightbox' => true
 		);
 		$this->options = get_option ( 'EasyPhotoAlbum', $defaults );
 		$this->options = wp_parse_args ( $this->options, $defaults );
@@ -240,12 +264,12 @@ class EasyPhotoAlbum {
 	 */
 	public function get_default_display_options($options = array()) {
 		return array (
-				'columns' => isset($options['displaycolumns']) ? (int) $options['displaycolumns'] : ( int ) $this->displaycolumns,
-				'excerpt_number' => isset($options['numimageswhennotsingle']) ? $options['numimageswhennotsingle'] : $this->numimageswhennotsingle,
-				'show_caption' => isset($options['showcaption']) ? $options['showcaption'] : $this->showcaption,
-				'link_to' => isset($options['linkto']) ? $options['linkto'] : $this->linkto,
-				'display_size' => isset($options['displaysize']) ? $options['displaysize'] : $this->displaysize,
-				'show_all_images_in_lightbox' => isset($options['showallimagesinlightbox']) ? $options['showallimagesinlightbox'] : $this->showallimagesinlightbox
+				'columns' => isset ( $options ['displaycolumns'] ) ? ( int ) $options ['displaycolumns'] : ( int ) $this->displaycolumns,
+				'excerpt_number' => isset ( $options ['numimageswhennotsingle'] ) ? $options ['numimageswhennotsingle'] : $this->numimageswhennotsingle,
+				'show_caption' => isset ( $options ['showcaption'] ) ? $options ['showcaption'] : $this->showcaption,
+				'link_to' => isset ( $options ['linkto'] ) ? $options ['linkto'] : $this->linkto,
+				'display_size' => isset ( $options ['displaysize'] ) ? $options ['displaysize'] : $this->displaysize,
+				'show_all_images_in_lightbox' => isset ( $options ['showallimagesinlightbox'] ) ? $options ['showallimagesinlightbox'] : $this->showallimagesinlightbox
 		);
 	}
 

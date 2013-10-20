@@ -76,6 +76,10 @@ class EPA_Admin {
 				&$this,
 				'display_wraparound_field'
 		), 'media', 'epa-section' );
+		add_settings_field ( 'scalelightbox', __ ( 'Scale images in the lightbox', 'epa' ), array (
+				&$this,
+				'display_scalelightbox_field'
+		), 'media', 'epa-section' );
 		add_settings_field ( 'numimageswhennotsingle', __ ( 'Number of images for excerpt', 'epa' ), array (
 				&$this,
 				'display_numimageswhennotsingle_field'
@@ -120,6 +124,7 @@ class EPA_Admin {
 		$valid ['showalbumlabel'] = (isset ( $input ['showalbumlabel'] ) && $input ['showalbumlabel'] == 'true' ? true : false);
 		$valid ['albumlabel'] = (isset ( $input ['albumlabel'] ) && ! empty ( $input ['albumlabel'] ) ? $input ['albumlabel'] : $valid ['albumlabel']);
 		$valid ['wraparound'] = (isset ( $input ['wraparound'] ) && $input ['wraparound'] == 'true' ? true : false);
+		$valid ['scalelightbox'] = (isset ( $input ['scalelightbox'] ) && $input ['scalelightbox'] == 'true' ? true : false);
 		$valid ['numimageswhennotsingle'] = (is_numeric ( $input ['numimageswhennotsingle'] ) ? $input ['numimageswhennotsingle'] : $valid ['numimageswhennotsingle']);
 		$valid ['showcaption'] = (isset ( $input ['showcaption'] ) && $input ['showcaption'] == 'true' ? true : false);
 		$valid ['inmainloop'] = (isset ( $input ['inmainloop'] ) && $input ['inmainloop'] == 'true' ? true : false);
@@ -227,6 +232,18 @@ HTML;
 			);
 		}
 		$this->show_input_field ( 'wraparound', 'true', 'checkbox', sprintf ( '<label for="wa">%s</label>', __ ( 'Wrap the images in the lightbox, i.e. when you reach the last image in the album and you click on the right arrow, the first image will be displayed', 'epa' ) ), $attr );
+	}
+
+	function display_scalelightbox_field() {
+		$attr = array (
+				'id' => 'sl'
+		);
+		if (EasyPhotoAlbum::get_instance ()->scalelightbox) {
+			$attr += array (
+					'checked' => 'checked'
+			);
+		}
+		$this->show_input_field ( 'scalelightbox', 'true', 'checkbox', sprintf ( '<label for="sl">%s</label>', __ ( 'Scale the lightbox to the viewport, so every image displays nice', 'epa' ) ), $attr );
 	}
 
 	public function display_numimageswhennotsingle_field() {

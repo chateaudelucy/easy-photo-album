@@ -4,7 +4,7 @@ Donate link:
 Tags:  album, photo's, images, lightbox, responsive
 Requires at least: 3.5
 Tested up to: 3.6.1
-Stable tag: 1.1.6
+Stable tag: 1.1.7
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -71,8 +71,11 @@ A: The image size is default `thumbnail`. So choose an other image size (`medium
 
 == Changelog ==
 
+**1.1.7**
+
 * Fixed bug: update label with the number of photo's (near the table) when there are photo's added or removed.
 * Fixed bug: When there is a photo with the same id as a valid order, the script breaks.
+* New option: You can now to choose to scale the images in the lightbox to the viewport (default on)
 
 **1.1.6**
 

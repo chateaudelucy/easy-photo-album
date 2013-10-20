@@ -288,10 +288,11 @@ HTML;
 		</th>
 	</tr>
 	<tr>
-		<th scope="col" colspan ="2"><input type="checkbox" value="true"
+		<th scope="col" colspan="2"><input type="checkbox" value="true"
 			name="<?php echo self::INPUT_NAME;?>[option][show_all_images_in_lightbox]"
 			<?php checked($this->current_options['show_all_images_in_lightbox']);?>
-			id="epa-option-show-all-images-in-lightbox" /> <label for="epa-option-show-all-images-in-lightbox"><?php _e('Show all images in lightbox', 'epa');?></label>
+			id="epa-option-show-all-images-in-lightbox" /> <label
+			for="epa-option-show-all-images-in-lightbox"><?php _e('Show all images in lightbox', 'epa');?></label>
 		</th>
 	</tr>
 </table>
@@ -362,14 +363,14 @@ HTML;
 			$input = $_POST [self::INPUT_NAME] ['option'];
 			$valid ['columns'] = is_numeric ( $input ['columns'] ) && intval ( $input ['columns'] ) >= 1 ? intval ( $input ['columns'] ) : $valid ['columns'];
 			$valid ['excerpt_number'] = is_numeric ( $input ['excerpt_number'] ) ? intval ( $input ['excerpt_number'] ) : $valid ['excerpt_number'];
-			$valid ['show_caption'] = isset($input ['show_caption']) && $input ['show_caption'] == 'true' ? true : false;
+			$valid ['show_caption'] = isset ( $input ['show_caption'] ) && $input ['show_caption'] == 'true' ? true : false;
 			$valid ['link_to'] = in_array ( $input ['link_to'], array (
 					'file',
 					'attachment',
 					'lightbox'
 			) ) ? $input ['link_to'] : $valid ['link_to'];
 			$valid ['display_size'] = in_array ( $input ['display_size'], get_intermediate_image_sizes () ) ? $input ['display_size'] : $valid ['display_size'];
-			$valid ['show_all_images_in_lightbox'] = isset($input['show_all_images_in_lightbox']) && $input['show_all_images_in_lightbox'] == 'true' ? true : false;
+			$valid ['show_all_images_in_lightbox'] = isset ( $input ['show_all_images_in_lightbox'] ) && $input ['show_all_images_in_lightbox'] == 'true' ? true : false;
 			$this->current_options = $valid;
 
 			// Empty the current photos var
@@ -378,10 +379,9 @@ HTML;
 			// get the id's of the images
 			$image_ids = isset ( $_POST [self::INPUT_NAME] ['id'] ) ? $_POST [self::INPUT_NAME] ['id'] : array ();
 			// Bulk actions
-			$action = ($_REQUEST ['epa-action'] == '-1' ? $_REQUEST ['epa-action2'] : $_REQUEST ['epa-action']);
+			$action = (isset ( $_REQUEST ['epa-action'] ) || isset ( $_REQUEST ['epa-action2'] ) ? ($_REQUEST ['epa-action'] == '-1' ? $_REQUEST ['epa-action2'] : $_REQUEST ['epa-action']) : '');
 			switch ($action) {
 				case 'delete-photos' :
-				default :
 					$ids_to_delete = isset ( $_POST [self::INPUT_NAME] ['cb'] ) ? $_POST [self::INPUT_NAME] ['cb'] : array ();
 					foreach ( $ids_to_delete as $id ) {
 						$index = array_search ( $id, $image_ids );
@@ -414,7 +414,6 @@ HTML;
 
 			// save it
 			$this->save_data ();
-
 			// Generate HTML and set it as the post content
 			$renderer = new EPA_Renderer ( $this->get_current_post_id () );
 			// unhook this function so it doesn't loop infinitely
@@ -489,7 +488,8 @@ CSS;
 				wp_localize_script ( 'lightbox2-js', 'lightboxSettings', array (
 						'wrapAround' => EasyPhotoAlbum::get_instance ()->wraparound,
 						'showAlbumLabel' => EasyPhotoAlbum::get_instance ()->showalbumlabel,
-						'albumLabel' => EasyPhotoAlbum::get_instance ()->albumlabel
+						'albumLabel' => EasyPhotoAlbum::get_instance ()->albumlabel,
+						'scaleLightbox' => EasyPhotoAlbum::get_instance()->scalelightbox
 				) );
 				wp_enqueue_style ( 'lightbox2-css', plugins_url ( 'css/lightbox.css', __FILE__ ), array (), '2.6' );
 			}

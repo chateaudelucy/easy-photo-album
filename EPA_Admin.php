@@ -126,7 +126,7 @@ class EPA_Admin {
 		$valid ['wraparound'] = (isset ( $input ['wraparound'] ) && $input ['wraparound'] == 'true' ? true : false);
 		$valid ['scalelightbox'] = (isset ( $input ['scalelightbox'] ) && $input ['scalelightbox'] == 'true' ? true : false);
 		$valid ['numimageswhennotsingle'] = (is_numeric ( $input ['numimageswhennotsingle'] ) ? $input ['numimageswhennotsingle'] : $valid ['numimageswhennotsingle']);
-		$valid ['showcaption'] = (isset ( $input ['showcaption'] ) && $input ['showcaption'] == 'true' ? true : false);
+		$valid ['showcaptionintable'] = (isset ( $input ['showcaptionintable'] ) && $input ['showcaptionintable'] == 'true' ? true : false);
 		$valid ['inmainloop'] = (isset ( $input ['inmainloop'] ) && $input ['inmainloop'] == 'true' ? true : false);
 		$valid ['showallimagesinlightbox'] = (isset ( $input ['showallimagesinlightbox'] ) && $input ['showallimagesinlightbox'] == 'true' ? true : false);
 
@@ -202,7 +202,7 @@ HTML;
 			$attr += array (
 					'checked' => 'checked'
 			);
-		$this->show_input_field ( 'showcaption', 'true', 'checkbox', sprintf ( ' <label for="stwt">%s</label><strong>*</strong>', __ ( 'Show title underneath the photo.', 'epa' ) ), $attr );
+		$this->show_input_field ( 'showcaption', 'true', 'checkbox', sprintf ( ' <label for="stwt">&nbsp;%s</label><strong>*</strong>', __ ( 'Show title underneath the photo.', 'epa' ) ), $attr );
 	}
 
 	public function display_showalbumlabel_field() {
@@ -214,7 +214,7 @@ HTML;
 					'checked' => 'checked'
 			);
 		}
-		$this->show_input_field ( 'showalbumlabel', 'true', 'checkbox', sprintf ( '<label for="sal">%s</label>', __ ( 'Display a message like "Image x of y" (see next option)', 'epa' ) ), $attr );
+		$this->show_input_field ( 'showalbumlabel', 'true', 'checkbox', sprintf ( '<label for="sal">&nbsp;%s</label>', __ ( 'Display a message like "Image x of y" (see next option)', 'epa' ) ), $attr );
 	}
 
 	public function display_albumlabel_field() {
@@ -231,7 +231,7 @@ HTML;
 					'checked' => 'checked'
 			);
 		}
-		$this->show_input_field ( 'wraparound', 'true', 'checkbox', sprintf ( '<label for="wa">%s</label>', __ ( 'Wrap the images in the lightbox, i.e. when you reach the last image in the album and you click on the right arrow, the first image will be displayed', 'epa' ) ), $attr );
+		$this->show_input_field ( 'wraparound', 'true', 'checkbox', sprintf ( '<label for="wa">&nbsp;%s</label>', __ ( 'Wrap the images in the lightbox, i.e. when you reach the last image in the album and you click on the right arrow, the first image will be displayed', 'epa' ) ), $attr );
 	}
 
 	function display_scalelightbox_field() {
@@ -243,7 +243,7 @@ HTML;
 					'checked' => 'checked'
 			);
 		}
-		$this->show_input_field ( 'scalelightbox', 'true', 'checkbox', sprintf ( '<label for="sl">%s</label>', __ ( 'Scale the lightbox to the viewport, so every image displays nice', 'epa' ) ), $attr );
+		$this->show_input_field ( 'scalelightbox', 'true', 'checkbox', sprintf ( '<label for="sl">&nbsp;%s</label>', __ ( 'Scale the lightbox to the viewport, so every image displays nice', 'epa' ) ), $attr );
 	}
 
 	public function display_numimageswhennotsingle_field() {
@@ -264,7 +264,7 @@ HTML;
 					'checked' => 'checked'
 			);
 		}
-		$this->show_input_field ( 'showcaptionintable', 'true', 'checkbox', sprintf ( '<label for="sc">%s</label>', __ ( 'Show the caption in the album edit screen', 'epa' ) ), $attr );
+		$this->show_input_field ( 'showcaptionintable', 'true', 'checkbox', sprintf ( '<label for="sc">&nbsp;%s</label>', __ ( 'Show the caption in the album edit screen', 'epa' ) ), $attr );
 	}
 
 	public function display_inmainloop_field() {
@@ -276,7 +276,7 @@ HTML;
 					'checked' => 'checked'
 			);
 		}
-		$this->show_input_field ( 'inmainloop', 'true', 'checkbox', sprintf ( '<label for="iml">%s</label>', __ ( 'Show Photo Albums on the blog page', 'epa' ) ), $attr );
+		$this->show_input_field ( 'inmainloop', 'true', 'checkbox', sprintf ( '<label for="iml">&nbsp;%s</label>', __ ( 'Show Photo Albums on the blog page', 'epa' ) ), $attr );
 	}
 
 	public function display_showallimagesinlightbox_field() {
@@ -288,7 +288,7 @@ HTML;
 					'checked' => 'checked'
 			);
 		}
-		$this->show_input_field ( 'showallimagesinlightbox', 'true', 'checkbox', sprintf ( '<label for="saiil">%s</label>', __ ( "Show all the photo's in the lightbox, also when the album is shown in an archive.", 'epa' ) ), $attr );
+		$this->show_input_field ( 'showallimagesinlightbox', 'true', 'checkbox', sprintf ( '<label for="saiil">&nbsp;%s</label>', __ ( "Show all the photo's in the lightbox, also when the album is shown in an archive.", 'epa' ) ), $attr );
 	}
 
 	public function display_override_field() {
@@ -296,7 +296,7 @@ HTML;
 				'id' => 'epa-override'
 		);
 
-		$this->show_input_field ( 'override', 'true', 'checkbox', sprintf ( '<label for="epa-override">%s</label>', __ ( 'Override the display options of each album with those default ones. (Only the options with a * can be set for each album)', 'epa' ) ), $attr );
+		$this->show_input_field ( 'override', 'true', 'checkbox', sprintf ( '<label for="epa-override">&nbsp;%s</label>', __ ( 'Override the display options of each album with those default ones. (Only the options with a * can be set for each album)', 'epa' ) ), $attr );
 	}
 
 	/**

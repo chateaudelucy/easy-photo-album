@@ -28,8 +28,9 @@ Report your feature request, bug or idea under the support tab or the review tab
 
 Current language support:
 -------------------------
-* English (en)
-* Dutch (nl_NL)
+* English - English (en)
+* Dutch - Nederlands (nl_NL)
+* French - Français (fr_FR)
 
 == Installation ==
 
@@ -70,6 +71,8 @@ A: The image size is default `thumbnail`. So choose an other image size (`medium
 4. Example of lightbox display.
 
 == Changelog ==
+
+* Fixed bug: show caption option doesn't work.
 
 **1.1.7**
 

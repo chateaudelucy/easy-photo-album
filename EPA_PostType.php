@@ -213,6 +213,7 @@ class EPA_PostType {
 		echo "\n" . '<div class="hide-if-no-js">' . "\n";
 		echo '<input type="button" name="' . self::INPUT_NAME . '[add_photo]" value="' . __ ( "Add one or more photo's", 'epa' ) . '" class="button"/>' . "\n";
 		$l->display ();
+		echo "\n" . '<input type="hidden" value="" name="' . self::INPUT_NAME . '[albumdata]" id="epa-albumdata">' . "\n";
 		echo "\n" . '</div>' . "\n";
 	}
 
@@ -376,40 +377,47 @@ HTML;
 			// Empty the current photos var
 			$this->current_photos = array ();
 
-			// get the id's of the images
-			$image_ids = isset ( $_POST [self::INPUT_NAME] ['id'] ) ? $_POST [self::INPUT_NAME] ['id'] : array ();
+			// Get albumdata
+			$albumdata = isset ( $_POST [self::INPUT_NAME] ['albumdata'] ) ? $_POST [self::INPUT_NAME] ['albumdata'] : '';
+			$images = json_decode ( stripslashes($albumdata), false );
+
+			// Normalize the images array
+			// Make shure all the fields are there.
+			$tmp_images = array ();
+			foreach ( $images as $index => $object ) {
+				if (! isset ( $object->title ))
+					$object->title = "";
+				if (! isset ( $object->caption ))
+					$object->caption = "";
+
+				$tmp_images [$object->id] = $object;
+			}
+			$images = $tmp_images;
+			unset ( $tmp_images );
+
 			// Bulk actions
 			$action = (isset ( $_REQUEST ['epa-action'] ) || isset ( $_REQUEST ['epa-action2'] ) ? ($_REQUEST ['epa-action'] == '-1' ? $_REQUEST ['epa-action2'] : $_REQUEST ['epa-action']) : '');
 			switch ($action) {
 				case 'delete-photos' :
 					$ids_to_delete = isset ( $_POST [self::INPUT_NAME] ['cb'] ) ? $_POST [self::INPUT_NAME] ['cb'] : array ();
 					foreach ( $ids_to_delete as $id ) {
-						$index = array_search ( $id, $image_ids );
-						if (false !== $index) {
-							unset ( $image_ids [$index] );
+						if (isset ( $images [$id] )) {
+							unset ( $images [$id] );
 						}
 					}
 					break;
 			}
 
-			foreach ( $image_ids as $imageid ) {
-				$img = new stdClass ();
-
+			foreach ( $images as $imageid => $imageobj ) {
 				// update the fields
 				wp_update_post ( array (
 						'ID' => $imageid,
-						'post_title' => $_POST [self::INPUT_NAME] [$imageid] ['title'],
-						'post_content' => $_POST [self::INPUT_NAME] [$imageid] ['caption']
+						'post_title' => $imageobj->title,
+						'post_content' => $imageobj->caption
 				) );
 
-				// create object
-				$img->id = $imageid;
-				$img->order = $_POST [self::INPUT_NAME] [$imageid] ['order'];
-				$img->title = $_POST [self::INPUT_NAME] [$imageid] ['title'];
-				$img->caption = $_POST [self::INPUT_NAME] [$imageid] ['caption'];
-
 				// In the data array
-				$this->current_photos [$_POST [self::INPUT_NAME] [$imageid] ['order']] = $img;
+				$this->current_photos [$imageobj->order] = $imageobj;
 			}
 
 			// save it
@@ -489,7 +497,7 @@ CSS;
 						'wrapAround' => EasyPhotoAlbum::get_instance ()->wraparound,
 						'showAlbumLabel' => EasyPhotoAlbum::get_instance ()->showalbumlabel,
 						'albumLabel' => EasyPhotoAlbum::get_instance ()->albumlabel,
-						'scaleLightbox' => EasyPhotoAlbum::get_instance()->scalelightbox
+						'scaleLightbox' => EasyPhotoAlbum::get_instance ()->scalelightbox
 				) );
 				wp_enqueue_style ( 'lightbox2-css', plugins_url ( 'css/lightbox.css', __FILE__ ), array (), '2.6' );
 			}

@@ -36,6 +36,36 @@ window.TVproductions = window.TVproductions || {};
 	// Wordpress (wp.media) uploader
 	var uploader = null;
 
+	// Selects the row with the corresponding data
+	// attrname is the name of the data, value is the value
+	var selectRowWith = function(attrname, value) {
+		return $('.easy-photo-album-table tr[' + attrname + '="' + value + '"]');
+	};
+
+	var build = function() {
+		// Building can take much time when there are much images...
+		var arr = [];
+		$('.easy-photo-album-table tr td.column-image').each(
+				function(index, elm) {
+					$row = getRowFromElement(elm);
+					var Id = parseInt($row.attr('data-epa-id'), 10);
+					var obj = {
+						id : Id,
+						order : parseInt($row.attr('data-epa-order'), 10),
+						title : getTitle(Id),
+						caption : getCaption(Id)
+					};
+					arr.push(obj);
+				});
+
+		$('#epa-albumdata').val(JSON.stringify(arr));
+	}
+
+	var refresh = function() {
+		correctActions();
+		setClickHandlers();
+	};
+
 	// Makes shure the right actions are shown
 	var correctActions = function() {
 		if (EPA.maxOrder < 1) {
@@ -44,11 +74,12 @@ window.TVproductions = window.TVproductions || {};
 					'.easy-photo-album-table .row-actions .order_up, .easy-photo-album-table .row-actions .order_down')
 					.hide();
 		} else {
-			$('#the-list .column-image')
+			$('.easy-photo-album-table tr td.column-image')
 					.each(
 							function(index, elm) {
 								$row = getRowFromElement(elm);
-								order = getOrder(getIdFromElement(elm));
+								order = parseInt($row.attr('data-epa-order'),
+										10);
 								if (order <= 0) {
 									// most upper row
 									$('.row-actions .order_up', $row).hide();
@@ -86,29 +117,27 @@ window.TVproductions = window.TVproductions || {};
 
 	// Returns the order from the id
 	var getOrder = function(id) {
-		return parseInt($(
-				'input[name="' + EPA.settingName + '[' + id + '][order]"]')
-				.val());
+		var $elm = selectRowWith('data-epa-id', id);
+		if ($elm === undefined) {
+			return -1;
+		} else {
+			return parseInt($elm.attr('data-epa-order'), 10);
+		}
 	};
 
 	// Returns the id from the order
 	var getIdFromOrder = function(order) {
-		var name = $(
-				'input[value="' + order + '"][type="hidden"][name*="'
-						+ EPA.settingName + '["][name$="[order]"]')
-				.attr('name');
-		var reg = /[0-9]+/;
-		return reg.exec(name)[0];
-	};
-
-	// Returns the id from a DOMelement
-	var getIdFromElement = function(element) {
-		$row = getRowFromElement(element);
-		return $('input[type=checkbox]', $row).val();
+		var $elm = selectRowWith('data-epa-order', order);
+		if ($elm === undefined) {
+			return -1;
+		} else {
+			return parseInt($elm.attr('data-epa-id'), 10)
+		}
 	};
 
 	// Returns the row (jQuery objct) with the given id.
 	var getRowFromId = function(id) {
+		var $elm = selectRowWith('data-epa-id', id);
 		return getRowFromElement('input[type=checkbox][value="' + id + '"]');
 	};
 
@@ -121,8 +150,8 @@ window.TVproductions = window.TVproductions || {};
 	// Switch two rows. Switch movingId with oldOrder to the newOrder
 	var switchRows = function(oldOrder, movingId, newOrder) {
 		var forcedMoveId = getIdFromOrder(newOrder);
-		var $forcedMoveRow = getRowFromId(forcedMoveId);
-		var $movingRow = getRowFromId(movingId);
+		var $forcedMoveRow = selectRowWith('data-epa-id', forcedMoveId);
+		var $movingRow = selectRowWith('data-epa-id', movingId);
 		if ($.isEmptyObject($forcedMoveRow) || $.isEmptyObject($movingRow)) {
 			return; // moving not possible...
 		}
@@ -136,16 +165,20 @@ window.TVproductions = window.TVproductions || {};
 		$movingRow.html(replaceOrder(forcedMoveHtml, newOrder, oldOrder));
 	};
 
-	// replace the oldOrder with the newOrder in the given html (jQuery object)
+	// replace the oldOrder with the newOrder in the given html
 	var replaceOrder = function(html, oldOrder, newOrder) {
-		return html.replace('value="' + oldOrder + '"', 'value="' + newOrder
-				+ '"');
+		return html.replace('data-epa-order="' + oldOrder + '"',
+				'data-epa-order="' + newOrder + '"');
 	};
 
 	// Set the order to order for the given id
 	var setOrder = function(id, order) {
-		$('input[name="' + EPA.settingName + '[' + id + '][order]"]')
-				.val(order);
+		var $elm = selectRowWith('data-epa-id', id);
+		if ($elm === undefined) {
+			return;
+		} else {
+			$elm.attr('data-epa-order', order);
+		}
 	};
 
 	// Set the click handlers for the actions
@@ -188,9 +221,12 @@ window.TVproductions = window.TVproductions || {};
 
 	// Returns the title of the photo with the given id
 	var getTitle = function(id) {
-		return $(
-				'input[type="text"][name="' + EPA.settingName + '[' + id
-						+ '][title]"]').val();
+		return $('input#' + EPA.settingName + '-title-' + id + '').val();
+	};
+
+	// Returns the caption of the photo with the given id
+	var getCaption = function(id) {
+		return $('input#' + EPA.settingName + '-caption-' + id + '').val();
 	};
 
 	// } (end private)
@@ -199,28 +235,26 @@ window.TVproductions = window.TVproductions || {};
 
 	// Moves the given element (DOMelement or jQuery object) a position up
 	EPA.moveUp = function(element) {
-		var id = getIdFromElement(element);
+		var id = parseInt(getRowFromElement(element).attr('data-epa-id'), 10);
 		var order = getOrder(id);
 		if (order <= 0)
 			return; // upper image
 		var newOrder = order - 1; // Move up
 		switchRows(order, id, newOrder);
 
-		correctActions();
-		setClickHandlers();
+		refresh();
 	};
 
 	// Moves the given element (DOMelement or jQuery object) a position down
 	EPA.moveDown = function(element) {
-		var id = getIdFromElement(element);
+		var id = parseInt(getRowFromElement(element).attr('data-epa-id'), 10);
 		var order = getOrder(id);
 		if (order >= EPA.maxOrder)
 			return; // bottom
 		var newOrder = order + 1; // move down
 		switchRows(order, id, newOrder);
 
-		correctActions();
-		setClickHandlers();
+		refresh();
 	};
 
 	// Shows the media uploader and adds the selected photo's to the album
@@ -273,8 +307,7 @@ window.TVproductions = window.TVproductions || {};
 													.after(row);
 										});
 
-								correctActions();
-								setClickHandlers();
+								refresh();
 							}, this);
 		}
 		// Set post id
@@ -286,7 +319,8 @@ window.TVproductions = window.TVproductions || {};
 	// Deletes the photo fromt the given element (DOMelement or jQuery object)
 	// from the album.
 	EPA.deletePhoto = function(element) {
-		var id = getIdFromElement(element);
+		var id = parseInt(getRowFromElement(element).attr('data-epa-id'), 10);
+		;
 		if (id && confirm(EPA.lang.deleteconfirm.format(getTitle(id)))) {
 			var deletedorder = getOrder(id);
 
@@ -299,8 +333,7 @@ window.TVproductions = window.TVproductions || {};
 				var needfix = getIdFromOrder(i + 1);
 				setOrder(needfix, i);
 			}
-			setClickHandlers();
-			correctActions();
+			refresh();
 		}
 	};
 
@@ -319,9 +352,7 @@ window.TVproductions = window.TVproductions || {};
 				EPA.maxOrder = $('#the-list tr').length;
 			}
 
-			correctActions();
-			// Event handlers
-			setClickHandlers();
+			refresh();
 
 			// Sortable
 			$(".easy-photo-album-table tbody").sortable(
@@ -333,21 +364,32 @@ window.TVproductions = window.TVproductions || {};
 						cursor : 'move',
 						opacity : 0.6,
 						update : function(event, ui) {
-							// Correct the order after dragging:
+							// Correct the order after
+							// dragging:
 							jQuery('.easy-photo-album-table tbody tr').each(
 									function(index, elm) {
-										// the current index is the order
-										setOrder(getIdFromElement(elm), index);
+										// the
+										// current
+										// index
+										// is
+										// the
+										// order
+										setOrder(parseInt(
+												getRowFromElement(elm).attr(
+														'data-epa-id'), 10),
+												index);
 									});
 							// reset colum differents:
 							$('.easy-photo-album-table tr:nth-child(odd)')
 									.addClass('alternate');
 							$('.easy-photo-album-table tr:nth-child(even)')
 									.removeClass('alternate');
-							correctActions();
-							setClickHandlers();
+							refresh();
 						}
 					});
+			$('#publish').click(function(e) {
+				build();
+			});
 		}// end if jQuery(".easy-photo-album-table").length
 	})();
 

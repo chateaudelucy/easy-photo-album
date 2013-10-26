@@ -61,9 +61,7 @@ class EPA_List_Table extends WP_List_Table {
 				'per_page' => count ( $this->items )
 		) );
 
-		$hidden_columns = array (
-				'order'
-		);
+		$hidden_columns = array ()		;
 		if (! EasyPhotoAlbum::get_instance ()->showcaptionintable)
 			$hidden_columns = array_merge ( $hidden_columns, array (
 					'caption'
@@ -89,9 +87,8 @@ class EPA_List_Table extends WP_List_Table {
 		return array (
 				'cb' => __ ( 'Select All' ),
 				'image' => __ ( 'Image' ),
-				'title' => __ ( 'Title' ),
 				'caption' => __ ( 'Caption' ),
-				'order' => __ ( 'Order' )
+				'title' => __ ( 'Title' )
 		);
 	}
 
@@ -124,8 +121,8 @@ IMG;
 		// Showing the right actions is done with javascript.
 		$actions = array (
 				'delete' => '<a href="#">' . __ ( 'Delete' ) . '</a>',
-				'order_up' => '<a href="#" class="epa-move-up" data-id="' . $item->id . '">' . __ ( 'Up', 'epa' ) . '</a>',
-				'order_down' => '<a href="#" class="epa-move-down" data-id="' . $item->id . '">' . __ ( 'Down', 'epa' ) . '</a>'
+				'order_up' => '<a href="#" class="epa-move-up">' . __ ( 'Up', 'epa' ) . '</a>',
+				'order_down' => '<a href="#" class="epa-move-down">' . __ ( 'Down', 'epa' ) . '</a>'
 		);
 		echo $this->row_actions ( $actions );
 	}
@@ -140,31 +137,21 @@ IMG;
 	}
 
 	/**
-	 * Renders the contents of the title column for each item.
-	 *
-	 * @param stdClass $item
-	 */
-	function column_title($item) {
-		echo '<input type="text" style="width: 100%;" name="' . EPA_PostType::INPUT_NAME . '[' . $item->id . '][title]" value="' . $item->title . '"/>';
-	}
-
-	/**
 	 * Renders the contents of the caption column for each item.
 	 *
 	 * @param stdClass $item
 	 */
 	function column_caption($item) {
-		echo '<textarea style="width: 100%; height: 100%" name="' . EPA_PostType::INPUT_NAME . '[' . $item->id . '][caption]">' . $item->caption . '</textarea>';
+		echo '<textarea style="width: 100%; height: 100%" id="' . EPA_PostType::INPUT_NAME . '-caption-' . $item->id . '">' . $item->caption . '</textarea>';
 	}
 
 	/**
-	 * Renders the contents of the order column for each item.
+	 * Renders the contents of the title column for each item.
 	 *
 	 * @param stdClass $item
 	 */
-	function column_order($item) {
-		echo '<input name="' . EPA_PostType::INPUT_NAME . '[' . $item->id . '][order]" value="' . $item->order . '" type="hidden"/>';
-		echo '<input name="' . EPA_PostType::INPUT_NAME . '[id][]" value="' . $item->id . '" type="hidden"/>';
+	function column_title($item) {
+		echo '<input type="text" style="width: 100%;" id="' . EPA_PostType::INPUT_NAME . '-title-' . $item->id . '" value="' . $item->title . '"/>';
 	}
 
 	/* (non-PHPdoc)
@@ -254,6 +241,19 @@ IMG;
 		return $classes;
 	}
 
+	/* (non-PHPdoc)
+	 * @see WP_List_Table::single_row()
+	 */
+	function single_row($item) {
+		static $row_class = '';
+		$row_class = ($row_class == '' ? ' class="alternate"' : '');
+
+		// the only difference is to add the data attributes to the tr element.
+		echo '<tr' . $row_class . ' data-epa-id="' . $item->id . '" data-epa-order="' . $item->order . '">';
+		$this->single_row_columns ( $item );
+		echo '</tr>';
+	}
+
 	/**
 	 * Add some javascript so that some data can be accessed by javascript.
 	 */
@@ -281,8 +281,8 @@ IMG;
 						'mediatitle' => __ ( 'Choose image(s)', 'epa' ),
 						'mediabutton' => __ ( 'Select image(s)', 'epa' ),
 						'deleteconfirm' => __ ( "Are you shure you want to delete photo '{0}'?", 'epa' ),
-						'photo' => _x('photo', "like 1 photo", 'epa'),
-						'photos' => _x("photo's", "like 2 photo's", 'epa'),
+						'photo' => _x ( 'photo', "like 1 photo", 'epa' ),
+						'photos' => _x ( "photo's", "like 2 photo's", 'epa' )
 				),
 				'rowtemplate' => str_replace ( 'class="alternate"', '<%= alternate %>', $rowtemplate )
 		);

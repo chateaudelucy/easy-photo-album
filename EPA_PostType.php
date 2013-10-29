@@ -81,26 +81,10 @@ class EPA_PostType {
 				&$this,
 				'special_excerpt'
 		) );
-
-		// Archive nav menu item not yet ready for use.
-		/*
-		add_filter ( 'nav_menu_items_' . self::POSTTYPE_NAME, array (
+		add_filter ( 'attachment_fields_to_save', array (
 				&$this,
-				'add_archive_nav_item'
-		), 10, 3 );
-		add_filter ( 'wp_setup_nav_menu_item', array (
-				&$this,
-				'setup_archive_item'
+				'need_to_update_image_fields'
 		) );
-		// Fix for the archive menuitem
-		add_action ( 'wp_ajax_add-menu-item', array (
-				&$this,
-				'change_menu_item_type_to_custom'
-		), 0 );
-		add_filter ( 'wp_nav_menu_objects', array (
-				&$this,
-				'update_archive_link_after_rewrite'
-		) );*/
 	}
 
 	/**
@@ -245,7 +229,7 @@ class EPA_PostType {
 		<th scope="col" colspan="2"><input type="checkbox" value="true"
 			name="<?php echo self::INPUT_NAME;?>[option][show_caption]"
 			<?php checked($this->current_options['show_caption']);?>
-			id="epa-option-show-title" /> <label for="epa-option-show-title"><?php _e('Show title', 'epa');?></label>
+			id="epa-option-show-caption" /> <label for="epa-option-show-caption"><?php _e('Show caption under the images', 'epa');?></label>
 		</th>
 	</tr>
 	<tr>
@@ -293,7 +277,7 @@ HTML;
 			name="<?php echo self::INPUT_NAME;?>[option][show_all_images_in_lightbox]"
 			<?php checked($this->current_options['show_all_images_in_lightbox']);?>
 			id="epa-option-show-all-images-in-lightbox" /> <label
-			for="epa-option-show-all-images-in-lightbox"><?php _e('Show all images in lightbox', 'epa');?></label>
+			for="epa-option-show-all-images-in-lightbox"><?php _e('Show all images in lightbox when the user views them in the archive view', 'epa');?></label>
 		</th>
 	</tr>
 </table>
@@ -318,6 +302,18 @@ HTML;
 				$this->current_photos = $data;
 				if (empty ( $this->current_photos )) {
 					$this->current_photos = array ();
+				}
+
+				// Load data from the attachments if needed.
+				if (get_option ( 'epa_update_fields', false )) {
+					delete_option ( 'epa_update_fields' );
+					// Update title and caption fields
+					foreach ( $this->current_photos as $order => $imageobj ) {
+						$att = get_post ( $imageobj->id );
+						$imageobj->title = $att->post_title;
+						$imageobj->caption = $att->post_excerpt;
+						$this->current_photos [$order] = $imageobj;
+					}
 				}
 			}
 			// prase settings
@@ -379,7 +375,7 @@ HTML;
 
 			// Get albumdata
 			$albumdata = isset ( $_POST [self::INPUT_NAME] ['albumdata'] ) ? $_POST [self::INPUT_NAME] ['albumdata'] : '';
-			$images = json_decode ( stripslashes($albumdata), false );
+			$images = json_decode ( stripslashes ( $albumdata ), false );
 
 			// Normalize the images array
 			// Make shure all the fields are there.
@@ -410,12 +406,11 @@ HTML;
 
 			foreach ( $images as $imageid => $imageobj ) {
 				// update the fields
-				wp_update_post ( array (
+				$a = wp_update_post ( array (
 						'ID' => $imageid,
 						'post_title' => $imageobj->title,
-						'post_content' => $imageobj->caption
+						'post_excerpt' => $imageobj->caption
 				) );
-
 				// In the data array
 				$this->current_photos [$imageobj->order] = $imageobj;
 			}
@@ -485,12 +480,12 @@ CSS;
 		// if the post is a photo album OR we are in the main query (and option is set) /*OR it is
 		// the
 		// archive page*/ OR when the current page has a photo album shortcode
-		if ((isset ( $post->post_type ) && self::POSTTYPE_NAME == $post->post_type) || (is_main_query () && EasyPhotoAlbum::get_instance ()->inmainloop) /*|| ($post->ID == EasyPhotoAlbum::get_instance ()->archivepageid)*/ || has_shortcode ( $post->post_content, 'epa-album' )) {
+		if (isset ( $post ) && ((isset ( $post->post_type ) && self::POSTTYPE_NAME == $post->post_type) || (is_home () && EasyPhotoAlbum::get_instance ()->inmainloop) || has_shortcode ( $post->post_content, 'epa-album' ))) {
 			// it is a photo album
-			wp_enqueue_style ( 'epa-template', plugins_url ( 'css/easy-photo-album-template.css', __FILE__ ), array (), EasyPhotoAlbum::$version, 'all' );
+			wp_enqueue_style ( 'epa-template', plugins_url ( 'css/easy-photo-album-template' . (defined ( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min') . '.css', __FILE__ ), array (), EasyPhotoAlbum::$version, 'all' );
 
 			if (EasyPhotoAlbum::get_instance ()->linkto == 'lightbox') {
-				wp_enqueue_script ( 'lightbox2-js', plugins_url ( 'js/lightbox.js', __FILE__ ), array (
+				wp_enqueue_script ( 'lightbox2-js', plugins_url ( 'js/lightbox' . (defined ( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min') . '.js', __FILE__ ), array (
 						'jquery'
 				), '2.6', true );
 				wp_localize_script ( 'lightbox2-js', 'lightboxSettings', array (
@@ -499,7 +494,7 @@ CSS;
 						'albumLabel' => EasyPhotoAlbum::get_instance ()->albumlabel,
 						'scaleLightbox' => EasyPhotoAlbum::get_instance ()->scalelightbox
 				) );
-				wp_enqueue_style ( 'lightbox2-css', plugins_url ( 'css/lightbox.css', __FILE__ ), array (), '2.6' );
+				wp_enqueue_style ( 'lightbox2-css', plugins_url ( 'css/lightbox' . (defined ( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min') . '.css', __FILE__ ), array (), '2.6' );
 			}
 		}
 	}
@@ -599,83 +594,16 @@ CSS;
 		return $query;
 	}
 
-	public function display_archive($content) {
-		if ($this->get_current_post_id () == EasyPhotoAlbum::get_instance ()->archivepageid) {
-			// this is the archive page id
-		} else {
-			return $content;
-		}
-	}
-
-	public function add_archive_nav_item($posts, $args, $post_type) {
-		$archive_item_id = get_option ( 'easy_photo_album_archive_nav_item_id' );
-		if ($archive_item_id == false) {
-			$archive_item_data = array (
-					'menu-item-title' => esc_attr ( __ ( 'Photo Album Archive', 'epa' ) ),
-					'menu-item-type' => 'post_type_archive',
-					'menu-item-object' => esc_attr ( self::POSTTYPE_NAME ),
-					'menu-item-url' => get_post_type_archive_link ( self::POSTTYPE_NAME )
-			);
-			$archive_item_id = wp_update_nav_menu_item ( 0, 0, $archive_item_data );
-			if (is_wp_error ( $archive_item_id ))
-				return $posts;
-
-			update_option ( 'easy_photo_album_archive_nav_item_id', $archive_item_id );
-		}
-
-		$archive_item_object = get_post ( $archive_item_id );
-		if (! empty ( $archive_item_object->ID )) {
-			$archive_item_object = wp_setup_nav_menu_item ( $archive_item_object );
-			$archive_item_object->label = $archive_item_object->title;
-		}
-
-		$posts [] = $archive_item_object;
-		return $posts;
-		// wp_setup_nav_menu_item()
-	}
-
 	/**
-	 * Assign menu item the appropriate url and ID
+	 * This function sets the option <code>epa_update_fields</code> to true if there's some media
+	 * updated.
 	 *
-	 * @param object $menu_item
-	 * @return object $menu_item
+	 * @param array $stuff
+	 * @return array
 	 */
-	public function setup_archive_item($menu_item) {
-		if ($menu_item->type !== 'post_type_archive' || $menu_item->ID != get_option ( 'easy_photo_album_archive_nav_item_id' ))
-			return $menu_item;
-
-		$post_type = $menu_item->object;
-		$menu_item->url = get_post_type_archive_link ( $post_type );
-		$menu_item->object_id = $menu_item->ID;
-
-		return $menu_item;
-	}
-
-	/**
-	 * Fix notices in admin-ajax.php (wp_ajax_add_menu_item)
-	 * by changing the menu-item-type to custom (in place of post_type_archive)
-	 */
-	public function change_menu_item_type_to_custom() {
-		check_ajax_referer ( 'add-menu_item', 'menu-settings-column-nonce' );
-
-		if (! current_user_can ( 'edit_theme_options' ))
-			wp_die ( - 1 );
-
-		$id = get_option ( 'easy_photo_album_archive_nav_item_id' );
-
-		// If the menu item is our archive one, fix the notices in ajax-actions.php
-		if (isset ( $_POST ['menu-item'] [$id] )) {
-			$_POST ['menu-item'] [$id] ['menu-item-type'] = 'custom';
-		}
-	}
-
-	public function update_archive_link_after_rewrite($items) {
-		foreach ( $items as $item ) {
-			if (($item->ID == get_option ( 'easy_photo_album_archive_nav_item_id' ) + 1) && ($item->url != get_post_type_archive_link ( self::POSTTYPE_NAME ))) {
-				$item->url = get_post_type_archive_link ( self::POSTTYPE_NAME );
-			}
-		}
-		return $items;
+	public function need_to_update_image_fields($stuff) {
+		add_option ( 'epa_update_fields', true );
+		return $stuff;
 	}
 
 	/**

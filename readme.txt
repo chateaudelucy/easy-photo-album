@@ -14,9 +14,9 @@ Easy Photo Album is a plugin that makes it easy for you to create and manage pho
 
 This plugin enables you to create and manage photo albums, just like posts.
 You don't have to change any theme files, the album displays nice right away.
-Photo's can be viewed by a **Lightbox**.
+Photo's can be viewed in a **Lightbox**.
 The albums are **responsive** and you can choose how may columns of images you want.
-The Lightbox displays the most large possible size, resized to the current screen size.
+The Lightbox displays the most large size possible, resized to the current screen size.
 You can manage the order of the photo's (very easy with **drag and drop**) and tell your story in photo's!
 You can now also **insert your album** in a post or page.
 
@@ -30,7 +30,7 @@ Current language support:
 -------------------------
 * English - English (en)
 * Dutch - Nederlands (nl_NL)
-* French - Français (fr_FR)
+* French - Français (fr_FR) (by [Dan](http://bp-fr.net)
 
 == Installation ==
 
@@ -43,7 +43,7 @@ download, upload and install .zip under Plugins > Add New > Upload.
 
 = Q: Where can I find the settings for this plugin? =
 
-A: You can find the settings under Settings > Media.
+A: You can find the settings under Settings > Easy Photo Album.
 
 = Q: I want to add a photo album to the menu. Where can I select the photo albums? =
 
@@ -54,10 +54,6 @@ A: You have to check `Photo Albums` in the Screen options box under Appearance >
 A: *When you have enabled permalinks*: You can display the photo album archive by visiting `example.com/albums/` (where `example.com` is your WordPress home URL).
 
 *When you have NOT enabled permalinks*: You can display the photo album archive by visiting `example.com/?post_type=easy-photo-album` (where `example.com` is your WordPress home URL).
-
-= Q: What does the setting `Override album specific settings` on Settings > Media mean? =
-
-A: When you check this checkbox, the current settings will override all the album specific settings.
 
 = Q: The images are small; there is much more space, so how do I display larger images? =
 
@@ -72,7 +68,17 @@ A: The image size is default `thumbnail`. So choose an other image size (`medium
 
 == Changelog ==
 
-* Fixed bug: show caption option doesn't work.
+**1.2**
+
+* New settings page: you can now find the settings under `Settings > Easy Photo Album`
+* New about page: A quick overview of the update and some tips and tricks
+* Added minfied versions of ccs and js files. This will cause faster load times
+* Wordpress 3.7 compatible
+* Fixed bug: The show caption option doesn't work.
+* Fixed bug: The number of photo's is limited by the server.
+* Fixed bug: The captions are not saved at the right place.
+* Fixed bug: Included, not published albums are visible for logged in users
+* Fixed bug: When you edit the caption in the media library, the caption in the album isn't updated
 
 **1.1.7**
 

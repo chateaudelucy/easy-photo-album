@@ -1,11 +1,13 @@
 <?php
 /*
  * Plugin Name: Easy Photo Album
- * Version: 1.1.7
+ * Version: 1.2-RC
  * Author: TV productions
  * Author URI: http://tv-productions.org/
  * Description: This plugin makes it very easy to create and manage photo albums. The albums are responsive and display in a lightbox. You can help by submit bugs and request new features at the plugin page at wordpress.org.
  * Licence: GPL3
+ * Text Domain:   epa
+ * Domain Path:   /lang/
  */
 
 /*
@@ -50,7 +52,7 @@ class EasyPhotoAlbum {
 	private $post_type = null;
 	private $admin = null;
 	private $tinymce = null;
-	public static $version = '1.1.7';
+	public static $version = '1.2-RC';
 
 	private function __construct() {
 		load_plugin_textdomain ( 'epa', false, basename ( dirname ( __FILE__ ) ) . '/lang' );
@@ -78,7 +80,7 @@ class EasyPhotoAlbum {
 
 		add_filter ( "plugin_action_links_" . plugin_basename ( __FILE__ ), array (
 				&$this,
-				'add_plugin_settings_link'
+				'add_plugin_links'
 		), 10, 1 );
 
 		// Rerender the albums every time the settings are updated.
@@ -90,13 +92,6 @@ class EasyPhotoAlbum {
 				&$this,
 				'rerender_photos'
 		), 11, 2 );
-
-		/* TODO: POST FIX DOES NOT WORK YET!
-		// Fix for: http://wordpress.org/support/topic/maximum-number-of-pictures-in-an-album
-		add_filter ( 'mod_rewrite_rules', array (
-				&$this,
-				'fix_max_input_vars'
-		) );*/
 	}
 
 	/**
@@ -111,6 +106,8 @@ class EasyPhotoAlbum {
 		flush_rewrite_rules ();
 		// regenerate the albums, if any options are changed by plugin update.
 		$this->rerender_photos ( null, $this->options );
+		// Redirect to about page after activation
+		add_option ( 'epa_redirect_' . get_current_user_id (), true );
 	}
 
 	/**
@@ -184,6 +181,13 @@ class EasyPhotoAlbum {
 	public static function uninstall() {
 		// Remove options
 		delete_option ( 'EasyPhotoAlbum' );
+		// Remove the option for all users
+		foreach ( get_users ( array (
+				'who' => 'autors'
+		) ) as $user ) {
+			delete_option ( 'epa_redirect_' . $user->id );
+		}
+		delete_option ( 'epa_update_fields' );
 	}
 
 	/**
@@ -192,26 +196,10 @@ class EasyPhotoAlbum {
 	 * @param array $links
 	 * @return array
 	 */
-	public function add_plugin_settings_link($links) {
-		$links [] = sprintf ( '<a href="%1$s">%2$s</a>', admin_url ( 'options-media.php' ), __ ( 'Settings' ) );
+	public function add_plugin_links($links) {
+		$links [] = sprintf ( '<a href="%1$s">%2$s</a>', admin_url ( 'options-general.php?page=epa-settings' ), __ ( 'Settings' ) );
+		$links [] = sprintf ( '<a href="%1$s">%2$s</a>', admin_url ( 'index.php?page=epa-about' ), __ ( 'About' ) );
 		return $links;
-	}
-
-	/**
-	 * NOTE: DOES NOT WORK YET: doesn't fix the bug.
-	 * Fixes reported bug for large albums
-	 * Sets <code>max_input_vars</code> to 2000.
-	 * This is done in .htaccess, because this variable
-	 * can't be set by <code>ini_set</code>
-	 *
-	 * @link http://wordpress.org/support/topic/maximum-number-of-pictures-in-an-album
-	 * @param string $rules
-	 * @return string
-	 */
-	public function fix_max_input_vars($rules) {
-		return "# Easy Photo Album WordPress plugin (v" . self::$version . ")
-php_value max_input_vars 2000
-" . $rules;
 	}
 
 	public function __get($name) {
@@ -243,7 +231,7 @@ php_value max_input_vars 2000
 				'showalbumlabel' => true,
 				'showcaption' => true,
 				'numimageswhennotsingle' => 3,
-				'showcaptionintable' => false,
+				'showtitleintable' => false,
 				'inmainloop' => true,
 				'archivepostid' => 0,
 				'displaycolumns' => 3,
@@ -287,3 +275,7 @@ php_value max_input_vars 2000
 
 // Create a new instance: startup plugin
 EasyPhotoAlbum::get_instance ();
+return;
+
+// Some strings for translation of the plugin description
+_n_noop ( 'This plugin makes it very easy to create and manage photo albums. The albums are responsive and display in a lightbox. You can help by submit bugs and request new features at the plugin page at wordpress.org.', 'This plugin makes it very easy to create and manage photo albums. The albums are responsive and display in a lightbox. You can help by submit bugs and request new features at the plugin page at wordpress.org.', 'epa' );

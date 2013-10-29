@@ -57,7 +57,7 @@ window.TVproductions = window.TVproductions || {};
 					};
 					arr.push(obj);
 				});
-
+		console.log(JSON.stringify(arr));
 		$('#epa-albumdata').val(JSON.stringify(arr));
 	}
 
@@ -221,12 +221,12 @@ window.TVproductions = window.TVproductions || {};
 
 	// Returns the title of the photo with the given id
 	var getTitle = function(id) {
-		return $('input#' + EPA.settingName + '-title-' + id + '').val();
+		return $('input#' + EPA.settingName + '-title-' + id).val();
 	};
 
 	// Returns the caption of the photo with the given id
 	var getCaption = function(id) {
-		return $('input#' + EPA.settingName + '-caption-' + id + '').val();
+		return $('textarea#' + EPA.settingName + '-caption-' + id).val();
 	};
 
 	// } (end private)

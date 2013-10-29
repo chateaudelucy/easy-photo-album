@@ -61,10 +61,10 @@ class EPA_List_Table extends WP_List_Table {
 				'per_page' => count ( $this->items )
 		) );
 
-		$hidden_columns = array ()		;
-		if (! EasyPhotoAlbum::get_instance ()->showcaptionintable)
+		$hidden_columns = array ();
+		if (! EasyPhotoAlbum::get_instance ()->showtitleintable)
 			$hidden_columns = array_merge ( $hidden_columns, array (
-					'caption'
+					'title'
 			) );
 		$this->_column_headers = array (
 				$this->get_columns (), // columns
@@ -280,7 +280,7 @@ IMG;
 				'lang' => array (
 						'mediatitle' => __ ( 'Choose image(s)', 'epa' ),
 						'mediabutton' => __ ( 'Select image(s)', 'epa' ),
-						'deleteconfirm' => __ ( "Are you shure you want to delete photo '{0}'?", 'epa' ),
+						'deleteconfirm' => __ ( "The photo '{0}' will be removed. Are you shure?", 'epa' ),
 						'photo' => _x ( 'photo', "like 1 photo", 'epa' ),
 						'photos' => _x ( "photo's", "like 2 photo's", 'epa' )
 				),

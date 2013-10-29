@@ -27,79 +27,146 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 class EPA_Admin {
+	private $admin_page = '';
+	private $about_page = '';
 
 	public function __construct() {
+		add_action ( 'admin_menu', array (
+				&$this,
+				'add_pages'
+		) );
 		add_action ( 'admin_init', array (
 				&$this,
-				'register_settings'
+				'admin_init'
 		) );
+		add_action ( 'admin_head', array (
+				&$this,
+				'admin_head'
+		) );
+		add_action ( 'load-index.php', array (
+				&$this,
+				'load_about_page'
+		) );
+		add_action ( 'load-plugins.php', array (
+				&$this,
+				'load_about_page'
+		) );
+	}
+
+	/**
+	 * Add settings and about pages
+	 *
+	 * @since 1.2
+	 */
+	public function add_pages() {
+		$this->admin_page = add_options_page ( _x ( 'Easy Photo Album Settings', 'Page title of settings page', 'epa' ), _x ( 'Easy Photo Album', 'Menu title for the Easy Photo Album settings page.', 'epa' ), 'manage_options', 'epa-settings', array (
+				&$this,
+				'render_admin_page'
+		) );
+		// The menu link is removed in admin_head
+		$this->about_page = add_dashboard_page ( __ ( 'About Easy Photo Album', 'epa' ), 'About epa', 'manage_options', 'epa-about', create_function ( '', "require_once 'EPA_about.php';" ) );
+	}
+
+	/**
+	 * Loads the about page if the plugin is activated in a bulk action
+	 *
+	 * @since 1.2
+	 */
+	public function load_about_page() {
+		// Redirect to about page if the plugin is just activated
+		if (get_option ( 'epa_redirect_' . get_current_user_id (), false )) {
+			if (! isset ( $_GET ['activate-multi'] )) {
+				// only delete the option before a redirect
+				delete_option ( 'epa_redirect_' . get_current_user_id () );
+				wp_redirect ( 'index.php?page=epa-about' );
+			}
+		}
+	}
+
+	/**
+	 * Do some styling for the menu
+	 *
+	 * @since 1.2
+	 */
+	public function admin_head() {
+		// Remove the menu item for the about page.
+		remove_submenu_page ( 'index.php', 'epa-about' );
 	}
 
 	/**
 	 * Add the settings to the media options screen
 	 */
-	public function register_settings() {
+	public function admin_init() {
 		// Add the settings to the media options screen
-		register_setting ( 'media', 'EasyPhotoAlbum', array (
+		register_setting ( 'EasyPhotoAlbumSettings', 'EasyPhotoAlbum', array (
 				&$this,
 				'validate_settings'
 		) );
-		add_settings_section ( 'epa-section', __ ( 'Easy Photo Album default options', 'epa' ), array (
+		add_settings_section ( 'epa-section-general', __ ( 'General options', 'epa' ), array (
 				&$this,
-				'display_settings_section'
-		), 'media' );
+				'display_general_settings_section'
+		), $this->admin_page );
 		add_settings_field ( 'linkto', __ ( 'Link image to', 'epa' ), array (
 				&$this,
 				'display_linkto_field'
-		), 'media', 'epa-section' );
+		), $this->admin_page, 'epa-section-general' );
 		add_settings_field ( 'displaycolumns', __ ( 'Columns', 'epa' ), array (
 				&$this,
 				'display_displaycolumns_field'
-		), 'media', 'epa-section' );
+		), $this->admin_page, 'epa-section-general' );
 		add_settings_field ( 'displaysize', __ ( 'Image size', 'epa' ), array (
 				&$this,
 				'display_displaysize_field'
-		), 'media', 'epa-section' );
-		add_settings_field ( 'showcaption', __ ( 'Title', 'epa' ), array (
+		), $this->admin_page, 'epa-section-general' );
+		add_settings_field ( 'showcaption', __ ( 'Show caption', 'epa' ), array (
 				&$this,
 				'display_showcaption_field'
-		), 'media', 'epa-section' );
-		add_settings_field ( 'showalbumlabel', __ ( 'Show the album label under the lightbox', 'epa' ), array (
-				&$this,
-				'display_showalbumlabel_field'
-		), 'media', 'epa-section' );
-		add_settings_field ( 'albumlabel', __ ( 'Album label', 'epa' ), array (
-				&$this,
-				'display_albumlabel_field'
-		), 'media', 'epa-section' );
-		add_settings_field ( 'wraparound', __ ( 'Wrap around', 'epa' ), array (
-				&$this,
-				'display_wraparound_field'
-		), 'media', 'epa-section' );
-		add_settings_field ( 'scalelightbox', __ ( 'Scale images in the lightbox', 'epa' ), array (
-				&$this,
-				'display_scalelightbox_field'
-		), 'media', 'epa-section' );
+		), $this->admin_page, 'epa-section-general' );
 		add_settings_field ( 'numimageswhennotsingle', __ ( 'Number of images for excerpt', 'epa' ), array (
 				&$this,
 				'display_numimageswhennotsingle_field'
-		), 'media', 'epa-section' );
-		add_settings_field ( 'showcaptionintable', __ ( 'Show the caption', 'epa' ), array (
+		), $this->admin_page, 'epa-section-general' );
+		add_settings_field ( 'showtitleintable', __ ( 'Show the title', 'epa' ), array (
 				&$this,
-				'display_showcaptionintable_field'
-		), 'media', 'epa-section' );
+				'display_showtitleintable_field'
+		), $this->admin_page, 'epa-section-general' );
 		add_settings_field ( 'inmainloop', __ ( 'Photo albums on blog page', 'epa' ), array (
 				&$this,
 				'display_inmainloop_field'
-		), 'media', 'epa-section' );
+		), $this->admin_page, 'epa-section-general' );
+
+		// LIGHTBOX SECTION
+		add_settings_section ( 'epa-section-lightbox', __ ( 'Lightbox settings' ), array (
+				&$this,
+				'display_lightbox_settings_section'
+		), $this->admin_page );
+		add_settings_field ( 'showalbumlabel', __ ( 'Show the album label under the lightbox', 'epa' ), array (
+				&$this,
+				'display_showalbumlabel_field'
+		), $this->admin_page, 'epa-section-lightbox' );
+		add_settings_field ( 'albumlabel', __ ( 'Album label', 'epa' ), array (
+				&$this,
+				'display_albumlabel_field'
+		), $this->admin_page, 'epa-section-lightbox' );
+		add_settings_field ( 'wraparound', __ ( 'Wrap around', 'epa' ), array (
+				&$this,
+				'display_wraparound_field'
+		), $this->admin_page, 'epa-section-lightbox' );
+		add_settings_field ( 'scalelightbox', __ ( 'Scale images in the lightbox', 'epa' ), array (
+				&$this,
+				'display_scalelightbox_field'
+		), $this->admin_page, 'epa-section-lightbox' );
 		add_settings_field ( 'showallimagesinlightbox', __ ( 'Show all images in the lighbox', 'epa' ), array (
 				&$this,
 				'display_showallimagesinlightbox_field'
-		), 'media', 'epa-section' );
+		), $this->admin_page, 'epa-section-lightbox' );
+
+		// OVERRIDE SECTION
+		add_settings_section ( 'epa-section-override', __ ( 'Override options', 'epa' ), null, $this->admin_page );
 		add_settings_field ( 'override', __ ( 'Override album specific options', 'epa' ), array (
 				&$this,
 				'display_override_field'
-		), 'media', 'epa-section' );
+		), $this->admin_page, 'epa-section-override' );
 	}
 
 	/**
@@ -126,7 +193,7 @@ class EPA_Admin {
 		$valid ['wraparound'] = (isset ( $input ['wraparound'] ) && $input ['wraparound'] == 'true' ? true : false);
 		$valid ['scalelightbox'] = (isset ( $input ['scalelightbox'] ) && $input ['scalelightbox'] == 'true' ? true : false);
 		$valid ['numimageswhennotsingle'] = (is_numeric ( $input ['numimageswhennotsingle'] ) ? $input ['numimageswhennotsingle'] : $valid ['numimageswhennotsingle']);
-		$valid ['showcaptionintable'] = (isset ( $input ['showcaptionintable'] ) && $input ['showcaptionintable'] == 'true' ? true : false);
+		$valid ['showtitleintable'] = (isset ( $input ['showtitleintable'] ) && $input ['showtitleintable'] == 'true' ? true : false);
 		$valid ['inmainloop'] = (isset ( $input ['inmainloop'] ) && $input ['inmainloop'] == 'true' ? true : false);
 		$valid ['showallimagesinlightbox'] = (isset ( $input ['showallimagesinlightbox'] ) && $input ['showallimagesinlightbox'] == 'true' ? true : false);
 
@@ -146,8 +213,8 @@ class EPA_Admin {
 		return $valid;
 	}
 
-	public function display_settings_section() {
-		printf ( '<p>%1$s</p><p>%2$s</p>', __ ( 'Options that changes the appreance of the photo albums. They can be overriden for each specific album.', 'epa' ), sprintf ( __ ( 'Do you like this plugin? Please write a review or rate the plugin at %1$swordpress.org%2$s.', 'epa' ), '<a href="http://wordpress.org/support/view/plugin-reviews/easy-photo-album" target="_blank">', '</a>' ) );
+	public function display_general_settings_section() {
+		printf ( '<p>%1$s</p><p>%2$s</p>', __ ( 'With those options you can change the display of the photo albums.', 'epa' ), sprintf ( __ ( 'Do you like this plugin? Please write a review or rate the plugin at %1$swordpress.org%2$s.', 'epa' ), '<a href="http://wordpress.org/support/view/plugin-reviews/easy-photo-album" target="_blank">', '</a>' ) );
 	}
 
 	public function display_linkto_field() {
@@ -158,10 +225,11 @@ class EPA_Admin {
 	<option value="attachment"
 		<?php selected(EasyPhotoAlbum::get_instance()->linkto, 'attachment', true);?>><?php _e('The attachment page', 'epa');?></option>
 	<option value="lightbox"
-		<?php selected(EasyPhotoAlbum::get_instance()->linkto, 'lightbox', true);?>><?php _e('Lightbox display', 'epa');?></option>
+		<?php selected(EasyPhotoAlbum::get_instance()->linkto, 'lightbox', true);?>><?php _e('Lightbox', 'epa');?></option>
 </select>
 <strong>*</strong>
 <?php
+		$this->show_description ( __ ( "i.e. what will happen when the user clicks on an image?" ) );
 	}
 
 	public function display_displaycolumns_field() {
@@ -172,7 +240,7 @@ class EPA_Admin {
 				'max' => 15
 		) );
 		// 'max' => 15 means Minimum size of the images is then 5%
-		$this->show_description ( __ ( 'The number of columns of the album', 'epa' ) );
+		$this->show_description ( __ ( 'How many collumns the album will have.', 'epa' ) );
 	}
 
 	public function display_displaysize_field() {
@@ -192,6 +260,7 @@ class EPA_Admin {
 HTML;
 		}
 		echo '</select><strong>*</strong>';
+		$this->show_description ( __ ( 'The image size that will be used when for the display of the album.' ) );
 	}
 
 	public function display_showcaption_field() {
@@ -202,7 +271,11 @@ HTML;
 			$attr += array (
 					'checked' => 'checked'
 			);
-		$this->show_input_field ( 'showcaption', 'true', 'checkbox', sprintf ( ' <label for="stwt">&nbsp;%s</label><strong>*</strong>', __ ( 'Show title underneath the photo.', 'epa' ) ), $attr );
+		$this->show_input_field ( 'showcaption', 'true', 'checkbox', sprintf ( ' <label for="stwt">&nbsp;%s</label><strong>*</strong>', __ ( 'Show the caption underneath the photo when the album is displayed.', 'epa' ) ), $attr );
+	}
+
+	public function display_lightbox_settings_section() {
+		printf ( '<p id="epa-lightbox-settings">%s</p>', __ ( 'Those settings will only have effect if the "link image to" option is set to lightbox.', 'epa' ) );
 	}
 
 	public function display_showalbumlabel_field() {
@@ -214,12 +287,12 @@ HTML;
 					'checked' => 'checked'
 			);
 		}
-		$this->show_input_field ( 'showalbumlabel', 'true', 'checkbox', sprintf ( '<label for="sal">&nbsp;%s</label>', __ ( 'Display a message like "Image x of y" (see next option)', 'epa' ) ), $attr );
+		$this->show_input_field ( 'showalbumlabel', 'true', 'checkbox', sprintf ( '<label for="sal">&nbsp;%s</label>', __ ( 'Display a message like "Image x of y" underneath the lightbox (see next option)', 'epa' ) ), $attr );
 	}
 
 	public function display_albumlabel_field() {
 		$this->show_input_field ( 'albumlabel', EasyPhotoAlbum::get_instance ()->albumlabel );
-		$this->show_description ( __ ( 'You can translate or change the text. {0} will be replaced with the current image number, {1} with the total number of images.', 'epa' ) );
+		$this->show_description ( __ ( 'You can translate or change the text that can be displayed underneath the lightbox (see the option above). {0} will be replaced with the current image number, {1} with the total number of images.', 'epa' ) );
 	}
 
 	public function display_wraparound_field() {
@@ -243,7 +316,7 @@ HTML;
 					'checked' => 'checked'
 			);
 		}
-		$this->show_input_field ( 'scalelightbox', 'true', 'checkbox', sprintf ( '<label for="sl">&nbsp;%s</label>', __ ( 'Scale the lightbox to the viewport, so every image displays nice', 'epa' ) ), $attr );
+		$this->show_input_field ( 'scalelightbox', 'true', 'checkbox', sprintf ( '<label for="sl">&nbsp;%s</label>', __ ( 'Scale the lightbox to the viewport, so every image fits nice on the screen.', 'epa' ) ), $attr );
 	}
 
 	public function display_numimageswhennotsingle_field() {
@@ -252,19 +325,19 @@ HTML;
 				'class' => 'small-text',
 				'min' => 0
 		) );
-		$this->show_description ( __ ( "The number of photo's showed when the album is shown in an archive. Set to 0 to display all photo's", 'epa' ) );
+		$this->show_description ( __ ( "The number of photo's shown when you view the album in an archive. Set to 0 to display all photo's", 'epa' ) );
 	}
 
-	public function display_showcaptionintable_field() {
+	public function display_showtitleintable_field() {
 		$attr = array (
-				'id' => 'sc'
+				'id' => 'st'
 		);
-		if (EasyPhotoAlbum::get_instance ()->showcaptionintable) {
+		if (EasyPhotoAlbum::get_instance ()->showtitleintable) {
 			$attr += array (
 					'checked' => 'checked'
 			);
 		}
-		$this->show_input_field ( 'showcaptionintable', 'true', 'checkbox', sprintf ( '<label for="sc">&nbsp;%s</label>', __ ( 'Show the caption in the album edit screen', 'epa' ) ), $attr );
+		$this->show_input_field ( 'showtitleintable', 'true', 'checkbox', sprintf ( '<label for="st">&nbsp;%s</label>', __ ( 'Show the title field in the album edit screen', 'epa' ) ), $attr );
 	}
 
 	public function display_inmainloop_field() {
@@ -276,7 +349,7 @@ HTML;
 					'checked' => 'checked'
 			);
 		}
-		$this->show_input_field ( 'inmainloop', 'true', 'checkbox', sprintf ( '<label for="iml">&nbsp;%s</label>', __ ( 'Show Photo Albums on the blog page', 'epa' ) ), $attr );
+		$this->show_input_field ( 'inmainloop', 'true', 'checkbox', sprintf ( '<label for="iml">&nbsp;%s</label>', __ ( 'Show photo albums on the blog page (they will be included in the main loop).', 'epa' ) ), $attr );
 	}
 
 	public function display_showallimagesinlightbox_field() {
@@ -288,7 +361,7 @@ HTML;
 					'checked' => 'checked'
 			);
 		}
-		$this->show_input_field ( 'showallimagesinlightbox', 'true', 'checkbox', sprintf ( '<label for="saiil">&nbsp;%s</label>', __ ( "Show all the photo's in the lightbox, also when the album is shown in an archive.", 'epa' ) ), $attr );
+		$this->show_input_field ( 'showallimagesinlightbox', 'true', 'checkbox', sprintf ( '<label for="saiil">&nbsp;%s</label>', __ ( "When an user watches some images in a lightbox from archive view, should the lightbox display all the images (also the ones that aren't shown in the archive view)?", 'epa' ) ), $attr );
 	}
 
 	public function display_override_field() {
@@ -296,16 +369,60 @@ HTML;
 				'id' => 'epa-override'
 		);
 
-		$this->show_input_field ( 'override', 'true', 'checkbox', sprintf ( '<label for="epa-override">&nbsp;%s</label>', __ ( 'Override the display options of each album with those default ones. (Only the options with a * can be set for each album)', 'epa' ) ), $attr );
+		$this->show_input_field ( 'override', 'true', 'checkbox', sprintf ( '<label for="epa-override">&nbsp;%s</label>', __ ( 'Override the display options of each album with the default ones.', 'epa' ) ), $attr );
+		$this->show_description ( sprintf ( esc_html ( __ ( 'You can change some display options for each album seperatly. The default options for new albums are the ones you have set here. This only affects the options marked with a %s.', 'epa' ) ), '<strong>*</strong>' ), false );
+	}
+
+	/**
+	 * Renders and displays the admin settings page.
+	 */
+	public function render_admin_page() {
+		// Explanation for the javascript:
+		// Disable lightbox options when the lightbox isn't used
+		// Enable those options before submit, else they wont be submitted.
+		?>
+<div class="wrap">
+		<?php screen_icon(); ?>
+		<h2><?php _ex('Easy Photo Album Settings', 'Page title of settings page', 'epa');?></h2>
+		<?php settings_errors('EasyPhotoAlbumSettings')?>
+		<style type="text/css">
+table tr td strong {
+	font-size: 150%;
+	color: red;
+}
+</style>
+	<form method="post" action="options.php">
+		<?php
+		settings_fields ( 'EasyPhotoAlbumSettings' );
+		do_settings_sections ( $this->admin_page );
+		submit_button ();
+		?>
+		</form>
+	<script>
+		jQuery(document).ready(function($){
+			$('select[name="EasyPhotoAlbum[linkto]"]').change(function(){
+				var $lightbox_settings = $('#epa-lightbox-settings').next('table');
+				$('input', $lightbox_settings).prop('disabled', $(this).val() != 'lightbox');
+			});
+			$('#submit').click(function(e){
+				$('input:disabled').prop('disabled', false);
+			})
+			$('select[name="EasyPhotoAlbum[linkto]"]').change();
+		});
+		</script>
+</div>
+<?php
 	}
 
 	/**
 	 * Prints settings description
 	 *
 	 * @param string $description
+	 * @param bool $escape
+	 *        	[optional] Escape the content? Default true
 	 */
-	private function show_description($description) {
-		printf ( '<span class="description">%s</span>', esc_html ( $description ) );
+	private function show_description($description, $escape = true) {
+		printf ( '<span class="description">%s</span>', ($escape ? esc_html ( $description ) : $description) );
 	}
 
 	/**

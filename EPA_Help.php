@@ -28,8 +28,8 @@ class EPA_Help {
 	}
 
 	public function add_help() {
-		// media help
-		$this->add_tab ( 'options-media', 'epa-media-options', __ ( "Easy Photo Album Options", 'epa' ), sprintf ( '<p>%1$s</p><p><b>%2$s</b><br/>%3$s</p><p>%4$s <a href="http://wordpress.org/support/plugin/easy-photo-album">%5$s</a>.</p>', __ ( "On this page can you set the default options for the photo albums. These default options can be overriden by each album in the Album display options meta box", 'epa' ), __('Overriding options', 'epa'), __('The album specific options can be overriden by the default options. Check the override checkbox and press Save Changes.', 'epa'), __('For more help, please visit the','epa'), __('support forums', 'epa') ) );
+		// settings help
+		$this->add_tab ( 'settings_page_epa-settings', 'epa-media-options', __ ( "Easy Photo Album Options", 'epa' ), sprintf ( '<p>%1$s</p><p><b>%2$s</b><br/>%3$s</p><p>%4$s <a href="http://wordpress.org/support/plugin/easy-photo-album">%5$s</a>.</p>', __ ( "On this page can you set the default options for the photo albums. These default options can be overriden by each album in the Album display options meta box", 'epa' ), __('Overriding options', 'epa'), __('The album specific options can be overriden by the default options. Check the override checkbox and press Save Changes.', 'epa'), __('For more help, please visit the','epa'), __('support forums', 'epa') ) );
 		// photo album edit screen
 		//$this->add_tab(EPA_PostType::POSTTYPE_NAME, 'epa-edit-help', __($text), $content);
 	}

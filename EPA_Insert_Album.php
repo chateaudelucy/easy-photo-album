@@ -86,10 +86,14 @@ class EPA_Insert_Album {
 		), $atts, 'epa-album' );
 
 		// Is the curren album published or...?
-		if (get_post_status($atts['id']) != 'publish') {
-			// Check if the current user can read the post
-			if (!current_user_can(get_post_type_object(EPA_PostType::POSTTYPE_NAME)->cap->read, $atts['id']))
+		if (in_array ( get_post_status ( $atts ['id'] ), apply_filters ( 'epa_include_album_status', array (
+				'publish'
+		) ) )) {
+			// if the user is logged in and so forth..
+			if (current_user_can ( get_post_type_object ( EPA_PostType::POSTTYPE_NAME )->cap->publish_posts ))
 				return "<!-- You're not allowed to view the photo album. Is it a draft..? -->";
+			else
+				return;
 		}
 
 		// for the functions

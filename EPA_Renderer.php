@@ -120,12 +120,12 @@ class EPA_Renderer {
 
 		$title = "";
 		if ($this->display_options ['show_caption']) {
-			$title = '<br/><span class="epa-title wp-caption">' . $photo->title . '</span>';
+			$title = '<br/><span class="epa-title wp-caption">' . $photo->caption . '</span>';
 		}
 		$html = <<<HTML
 
 		<div class="epa-image">
-			<a href="{$url}" {$a_attr} title="{$photo->title}">
+			<a href="{$url}" {$a_attr} title="{$photo->caption}">
 				<img src="{$src}" alt="{$photo->title}"/>
 				{$title}
 			</a>

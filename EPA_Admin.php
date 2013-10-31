@@ -136,7 +136,7 @@ class EPA_Admin {
 		), $this->admin_page, 'epa-section-general' );
 
 		// LIGHTBOX SECTION
-		add_settings_section ( 'epa-section-lightbox', __ ( 'Lightbox settings' ), array (
+		add_settings_section ( 'epa-section-lightbox', __ ( 'Lightbox settings', 'epa' ), array (
 				&$this,
 				'display_lightbox_settings_section'
 		), $this->admin_page );
@@ -229,7 +229,7 @@ class EPA_Admin {
 </select>
 <strong>*</strong>
 <?php
-		$this->show_description ( __ ( "i.e. what will happen when the user clicks on an image?" ) );
+		$this->show_description ( __ ( "i.e. what will happen when the user clicks on an image?", 'epa' ) );
 	}
 
 	public function display_displaycolumns_field() {
@@ -260,7 +260,7 @@ class EPA_Admin {
 HTML;
 		}
 		echo '</select><strong>*</strong>';
-		$this->show_description ( __ ( 'The image size that will be used when for the display of the album.' ) );
+		$this->show_description ( __ ( 'The image size that will be used when for the display of the album.', 'epa' ) );
 	}
 
 	public function display_showcaption_field() {
@@ -422,7 +422,7 @@ table tr td strong {
 	 *        	[optional] Escape the content? Default true
 	 */
 	private function show_description($description, $escape = true) {
-		printf ( '<span class="description">%s</span>', ($escape ? esc_html ( $description ) : $description) );
+		echo ($escape ? esc_html ( $description ) : $description );
 	}
 
 	/**

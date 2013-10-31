@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Easy Photo Album package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Easy Photo Album 1.2-RC\n"
+"Project-Id-Version: Easy Photo Album 1.2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/easy-photo-album\n"
-"POT-Creation-Date: 2013-10-30 15:52:42+00:00\n"
+"POT-Creation-Date: 2013-10-31 17:16:57+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -180,8 +180,8 @@ msgstr ""
 
 #: EPA_Admin.php:328
 msgid ""
-"The number of photo's shown when you view the album in an archive. Set to 0 "
-"to display all photo's"
+"The number of photos shown when you view the album in an archive. Set to 0 "
+"to display all photos"
 msgstr ""
 
 #: EPA_Admin.php:340
@@ -290,7 +290,7 @@ msgid "Image"
 msgstr ""
 
 #: EPA_List_Table.php:80
-msgid "No photo's added yet."
+msgid "No photos added yet."
 msgstr ""
 
 #: EPA_List_Table.php:88
@@ -343,8 +343,8 @@ msgid "photo"
 msgstr ""
 
 #: EPA_List_Table.php:285
-msgctxt "like 2 photo's"
-msgid "photo's"
+msgctxt "like 2 photos"
+msgid "photos"
 msgstr ""
 
 #: EPA_PostType.php:112
@@ -426,7 +426,7 @@ msgid "Album images"
 msgstr ""
 
 #: EPA_PostType.php:198
-msgid "Add one or more photo's"
+msgid "Add one or more photos"
 msgstr ""
 
 #: EPA_PostType.php:207
@@ -501,7 +501,7 @@ msgid ""
 msgstr ""
 
 #: EPA_PostType.php:571
-msgid "More photo's..."
+msgid "More photos..."
 msgstr ""
 
 #: EPA_PostType.php:613
@@ -534,7 +534,7 @@ msgstr ""
 
 #: EPA_about.php:43
 msgid ""
-"The new setttings page makes it very easy for you to change the display of "
+"The new settings page makes it very easy for you to change the display of "
 "the albums. The options for the lightbox are now grouped together, so they "
 "are easy to find."
 msgstr ""
@@ -556,89 +556,95 @@ msgstr ""
 msgid "No need to edit your theme"
 msgstr ""
 
-#: EPA_about.php:55
+#: EPA_about.php:56
 msgid "The albums display almost always nice right away"
 msgstr ""
 
-#: EPA_about.php:57
+#: EPA_about.php:58
 msgid ""
-"The only thing you have to do is to add the photo's, change the order, write "
+"The only thing you have to do is to add the photos, change the order, write "
 "a nice caption for them and press the publish button!"
 msgstr ""
 
-#: EPA_about.php:58
+#: EPA_about.php:59
 msgid ""
 "And the files for the albums will be only included on the pages when that is "
 "necessary. This makes your website faster."
 msgstr ""
 
-#: EPA_about.php:63
+#: EPA_about.php:64
 msgid "Title versus Caption"
 msgstr ""
 
-#: EPA_about.php:64
+#: EPA_about.php:65
 msgid ""
 "You can see two fields for each image on the album edit screen. The title "
 "field and the caption field. The title is just a short name, so you know "
-"about what the image is when you read the titel. The caption is a short "
+"about what the image is when you read the title. The caption is a short "
 "description of the image. Easy Photo Album uses the caption for the text "
 "under the images."
 msgstr ""
 
-#: EPA_about.php:67
+#: EPA_about.php:68
 msgid "Responsive albums"
 msgstr ""
 
-#: EPA_about.php:68
+#: EPA_about.php:69
 msgid ""
 "The albums are responsive and displays nice on every device. The number of "
 "columns stays always the same."
 msgstr ""
 
-#: EPA_about.php:74
+#: EPA_about.php:75
 msgid "And further on"
 msgstr ""
 
-#: EPA_about.php:78
+#: EPA_about.php:79
 msgid "Bugfixes"
 msgstr ""
 
-#: EPA_about.php:79
+#: EPA_about.php:80
 msgid ""
-"We fixed one bug in this release. See the <a href=\"%2$s\">changelog</a>."
+"We fixed one bug in this release. See the <a href=\"%2$s\" target=\"_blank"
+"\">changelog</a>."
 msgid_plural ""
-"We fixed %1$s bugs in this release. See the <a href=\"%2$s\">changelog</a>."
+"We fixed %1$s bugs in this release. See the <a href=\"%2$s\" target=\"_blank"
+"\">changelog</a>."
 msgstr[0] ""
 msgstr[1] ""
 
-#: EPA_about.php:82
+#: EPA_about.php:83
 msgid "Support"
 msgstr ""
 
-#: EPA_about.php:83
+#: EPA_about.php:84
 msgid ""
 "Do you have a question, a bug found or a feature request? Report it at the "
 "%1$ssupport forums%2$s."
 msgstr ""
 
-#: EPA_about.php:86
+#: EPA_about.php:87
 msgid "Translation"
 msgstr ""
 
-#: EPA_about.php:87
-msgctxt "Translators: Add your own name (with link) here."
-msgid "This translation is made by: TV productions."
+#: EPA_about.php:88
+msgid "This translation is made by: %s."
 msgstr ""
 
-#: EPA_about.php:95
+#: EPA_about.php:88
+msgctxt "Translators: insert your name here (with link if you want)"
+msgid "TV productions"
+msgstr ""
+
+#: EPA_about.php:96
 msgid "Go to Settings &rarr; Easy Photo Album"
 msgstr ""
 
-#: EPA_about.php:97
+#: EPA_about.php:98
 msgid "Go to Dashboard &rarr; Home"
 msgstr ""
 
-#: EPA_about.php:97
+#: EPA_about.php:98
 msgid "Go to Dashboard"
 msgstr ""
 

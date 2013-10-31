@@ -86,7 +86,7 @@ class EPA_Insert_Album {
 		), $atts, 'epa-album' );
 
 		// Is the curren album published or...?
-		if (in_array ( get_post_status ( $atts ['id'] ), apply_filters ( 'epa_include_album_status', array (
+		if (!in_array ( get_post_status ( $atts ['id'] ), apply_filters ( 'epa_include_album_status', array (
 				'publish'
 		) ) )) {
 			// if the user is logged in and so forth..

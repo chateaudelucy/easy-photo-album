@@ -28,9 +28,9 @@ defined ( 'ABSPATH' ) or die ();
 
 	<h1><?php printf( __( 'Welcome to Easy Photo Album %s', 'epa' ), EasyPhotoAlbum::$version ); ?></h1>
 
-	<div class="about-text"><?php printf( __( 'Thank you for updating to the latest version. Easy Photo Album %s makes it even easier for you to create and manage photo albums.' ), EasyPhotoAlbum::$version ); ?></div>
+	<div class="about-text"><?php printf( __( 'Thank you for updating to the latest version. Easy Photo Album %s makes it even easier for you to create and manage photo albums.', 'epa' ), EasyPhotoAlbum::$version ); ?></div>
 
-	<div class="wp-badge" style="background: url('<?php echo plugin_dir_url(__FILE__);?>css/img/epa-badge.png?ver=20131027') no-repeat scroll 0 0 rgba(0, 0, 0, 0);" ><?php printf( __( 'Version %s' ), EasyPhotoAlbum::$version ); ?></div>
+	<div class="wp-badge" style="background: url('<?php echo plugin_dir_url(__FILE__);?>css/img/epa-badge.png?ver=20131027') no-repeat scroll 0 0 rgba(0, 0, 0, 0);" ><?php printf( __( 'Version %s', 'epa' ), EasyPhotoAlbum::$version ); ?></div>
 	<h2 class="nav-tab-wrapper"></h2>
 	<div class="changelog">
 		<h3><?php _e( 'New settings page', 'epa' ); ?></h3>
@@ -40,7 +40,7 @@ defined ( 'ABSPATH' ) or die ();
 				src="<?php echo plugin_dir_url(__FILE__); ?>css/img/epa-settings-1.2.png"
 				style="width: 35%; float: right; margin: 0 5px 12px 2em;" />
 			<h4><?php _e( 'Change the display of the albums', 'epa' ); ?></h4>
-			<p><?php _e( "The new setttings page makes it very easy for you to change the display of the albums. The options for the lightbox are now grouped together, so they are easy to find.", 'epa'); ?></p>
+			<p><?php _e( "The new settings page makes it very easy for you to change the display of the albums. The options for the lightbox are now grouped together, so they are easy to find.", 'epa'); ?></p>
 			<p><?php _e( 'Besides the options on the settings page, you can edit some options for each individual album. You can adjust the display of the album to the contents of it.', 'epa'); ?></p>
 			<p><?php _e( 'You can find this new settings page under <strong>Settings > Easy Photo Album</strong>', 'epa' ); ?></p>
 		</div>
@@ -50,18 +50,19 @@ defined ( 'ABSPATH' ) or die ();
 		<h3><?php _e( 'No need to edit your theme', 'epa' ); ?></h3>
 
 		<div class="feature-section images-stagger-right">
-			<img alt="" src="<?php echo plugin_dir_url(__FILE__); ?>css/img/epa-album-1.2.png"
+			<img alt=""
+				src="<?php echo plugin_dir_url(__FILE__); ?>css/img/epa-album-1.2.png"
 				style="width: 35%; float: left; margin: 0 5px 12px 2em;" />
 			<h4><?php _e( 'The albums display almost always nice right away', 'epa' ); ?></h4>
 			<p></p>
-			<p><?php _e( "The only thing you have to do is to add the photo's, change the order, write a nice caption for them and press the publish button!", 'epa' ); ?></p>
-			<p><?php _e( 'And the files for the albums will be only included on the pages when that is necessary. This makes your website faster.' ); ?></p>
+			<p><?php _e( "The only thing you have to do is to add the photos, change the order, write a nice caption for them and press the publish button!", 'epa' ); ?></p>
+			<p><?php _e( 'And the files for the albums will be only included on the pages when that is necessary. This makes your website faster.' , 'epa'); ?></p>
 		</div>
 
 		<div class="feature-section col two-col">
 			<div>
 				<h4><?php _e( 'Title versus Caption', 'epa' ); ?></h4>
-				<p><?php _e( 'You can see two fields for each image on the album edit screen. The title field and the caption field. The title is just a short name, so you know about what the image is when you read the titel. The caption is a short description of the image. Easy Photo Album uses the caption for the text under the images.', 'epa' ); ?></p>
+				<p><?php _e( 'You can see two fields for each image on the album edit screen. The title field and the caption field. The title is just a short name, so you know about what the image is when you read the title. The caption is a short description of the image. Easy Photo Album uses the caption for the text under the images.', 'epa' ); ?></p>
 			</div>
 			<div class="last-feature">
 				<h4><?php _e( 'Responsive albums' ); ?></h4>
@@ -76,15 +77,15 @@ defined ( 'ABSPATH' ) or die ();
 		<div class="feature-section col three-col">
 			<div>
 				<h4><?php _e( 'Bugfixes', 'epa' ); ?></h4>
-				<p><?php printf(_n('We fixed one bug in this release. See the <a href="%2$s">changelog</a>.', 'We fixed %1$s bugs in this release. See the <a href="%2$s">changelog</a>.', 5, 'epa'), 5, 'http://wordpress.org/plugins/easy-photo-album/changelog/'); ?></p>
+				<p><?php printf(_n('We fixed one bug in this release. See the <a href="%2$s" target="_blank">changelog</a>.', 'We fixed %1$s bugs in this release. See the <a href="%2$s" target="_blank">changelog</a>.', 5, 'epa'), 5, 'http://wordpress.org/plugins/easy-photo-album/changelog/'); ?></p>
 			</div>
 			<div>
 				<h4><?php _e( 'Support', 'epa' ); ?></h4>
-				<p><?php printf(__( 'Do you have a question, a bug found or a feature request? Report it at the %1$ssupport forums%2$s.', 'epa' ), '<a href="http://wordpress.org/support/plugin/easy-photo-album">', '</a>'); ?></p>
+				<p><?php printf(__( 'Do you have a question, a bug found or a feature request? Report it at the %1$ssupport forums%2$s.', 'epa' ), '<a href="http://wordpress.org/support/plugin/easy-photo-album" target="_blank">', '</a>'); ?></p>
 			</div>
 			<div class="last-feature">
 				<h4><?php _e( 'Translation', 'epa' ); ?></h4>
-				<p><?php _ex( 'This translation is made by: TV productions.', 'Translators: Add your own name (with link) here.' ,'epa' ); ?></p>
+				<p><?php printf(__( 'This translation is made by: %s.','epa' ), _x('TV productions', 'Translators: insert your name here (with link if you want)', 'epa')); ?></p>
 			</div>
 		</div>
 	</div>
@@ -94,7 +95,7 @@ defined ( 'ABSPATH' ) or die ();
 			href="<?php echo esc_url( self_admin_url( 'options-general.php?page=epa-settings' ) ); ?>"><?php
 			_e ( 'Go to Settings &rarr; Easy Photo Album', 'epa' );
 			?></a> | <a href="<?php echo esc_url( self_admin_url() ); ?>"><?php
-			is_blog_admin () ? _e ( 'Go to Dashboard &rarr; Home' ) : _e ( 'Go to Dashboard' );
+			is_blog_admin () ? _e ( 'Go to Dashboard &rarr; Home', 'epa' ) : _e ( 'Go to Dashboard', 'epa' );
 			?></a>
 	</div>
 

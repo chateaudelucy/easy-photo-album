@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Easy Photo Album package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Easy Photo Album 1.1.6\n"
+"Project-Id-Version: Easy Photo Album 1.2-RC\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/easy-photo-album\n"
-"POT-Creation-Date: 2013-09-21 13:07:23+00:00\n"
+"POT-Creation-Date: 2013-10-30 15:52:42+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,150 +12,203 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: EPA_Admin.php:47
-msgid "Easy Photo Album default options"
+#: EPA_Admin.php:62 EPA_Admin.php:386
+msgctxt "Page title of settings page"
+msgid "Easy Photo Album Settings"
 msgstr ""
 
-#: EPA_Admin.php:51 EPA_PostType.php:252
-msgid "Link image to"
-msgstr ""
-
-#: EPA_Admin.php:55 EPA_PostType.php:226
-msgid "Columns"
-msgstr ""
-
-#: EPA_Admin.php:59 EPA_PostType.php:267
-msgid "Image size"
-msgstr ""
-
-#: EPA_Admin.php:63 EPA_List_Table.php:92
-msgid "Title"
+#: EPA_Admin.php:62
+msgctxt "Menu title for the Easy Photo Album settings page."
+msgid "Easy Photo Album"
 msgstr ""
 
 #: EPA_Admin.php:67
-msgid "Show the album label under the lightbox"
+msgid "About Easy Photo Album"
 msgstr ""
 
-#: EPA_Admin.php:71
-msgid "Album label"
+#: EPA_Admin.php:105
+msgid "General options"
 msgstr ""
 
-#: EPA_Admin.php:75
-msgid "Wrap around"
+#: EPA_Admin.php:109 EPA_PostType.php:237
+msgid "Link image to"
 msgstr ""
 
-#: EPA_Admin.php:79 EPA_PostType.php:235
+#: EPA_Admin.php:113 EPA_PostType.php:211
+msgid "Columns"
+msgstr ""
+
+#: EPA_Admin.php:117 EPA_PostType.php:252
+msgid "Image size"
+msgstr ""
+
+#: EPA_Admin.php:121
+msgid "Show caption"
+msgstr ""
+
+#: EPA_Admin.php:125 EPA_PostType.php:220
 msgid "Number of images for excerpt"
 msgstr ""
 
-#: EPA_Admin.php:83
-msgid "Show the caption"
+#: EPA_Admin.php:129
+msgid "Show the title"
 msgstr ""
 
-#: EPA_Admin.php:87
+#: EPA_Admin.php:133
 msgid "Photo albums on blog page"
 msgstr ""
 
-#: EPA_Admin.php:91
+#: EPA_Admin.php:139
+msgid "Lightbox settings"
+msgstr ""
+
+#: EPA_Admin.php:143
+msgid "Show the album label under the lightbox"
+msgstr ""
+
+#: EPA_Admin.php:147
+msgid "Album label"
+msgstr ""
+
+#: EPA_Admin.php:151
+msgid "Wrap around"
+msgstr ""
+
+#: EPA_Admin.php:155
+msgid "Scale images in the lightbox"
+msgstr ""
+
+#: EPA_Admin.php:159
 msgid "Show all images in the lighbox"
 msgstr ""
 
-#: EPA_Admin.php:95
+#: EPA_Admin.php:165
+msgid "Override options"
+msgstr ""
+
+#: EPA_Admin.php:166
 msgid "Override album specific options"
 msgstr ""
 
-#: EPA_Admin.php:145
-msgid ""
-"Options that changes the appreance of the photo albums. They can be "
-"overriden for each specific album."
+#: EPA_Admin.php:217
+msgid "With those options you can change the display of the photo albums."
 msgstr ""
 
-#: EPA_Admin.php:145
+#: EPA_Admin.php:217
 msgid ""
 "Do you like this plugin? Please write a review or rate the plugin at "
 "%1$swordpress.org%2$s."
 msgstr ""
 
-#: EPA_Admin.php:152 EPA_PostType.php:257
+#: EPA_Admin.php:224 EPA_PostType.php:242
 msgid "The image file"
 msgstr ""
 
-#: EPA_Admin.php:154 EPA_PostType.php:259
+#: EPA_Admin.php:226 EPA_PostType.php:244
 msgid "The attachment page"
 msgstr ""
 
-#: EPA_Admin.php:156 EPA_PostType.php:261
-msgid "Lightbox display"
+#: EPA_Admin.php:228
+msgid "Lightbox"
 msgstr ""
 
-#: EPA_Admin.php:170
-msgid "The number of columns of the album"
+#: EPA_Admin.php:232
+msgid "i.e. what will happen when the user clicks on an image?"
 msgstr ""
 
-#: EPA_Admin.php:178 EPA_PostType.php:275
+#: EPA_Admin.php:243
+msgid "How many collumns the album will have."
+msgstr ""
+
+#: EPA_Admin.php:251 EPA_PostType.php:260
 msgid "Thumbnail"
 msgstr ""
 
-#: EPA_Admin.php:179 EPA_PostType.php:276
+#: EPA_Admin.php:252 EPA_PostType.php:261
 msgid "Medium"
 msgstr ""
 
-#: EPA_Admin.php:180 EPA_PostType.php:277
+#: EPA_Admin.php:253 EPA_PostType.php:262
 msgid "Large"
 msgstr ""
 
-#: EPA_Admin.php:181 EPA_PostType.php:278
+#: EPA_Admin.php:254 EPA_PostType.php:263
 msgid "Full Size"
 msgstr ""
 
-#: EPA_Admin.php:200
-msgid "Show title underneath the photo."
+#: EPA_Admin.php:263
+msgid "The image size that will be used when for the display of the album."
 msgstr ""
 
-#: EPA_Admin.php:212
-msgid "Display a message like \"Image x of y\" (see next option)"
+#: EPA_Admin.php:274
+msgid "Show the caption underneath the photo when the album is displayed."
 msgstr ""
 
-#: EPA_Admin.php:217
+#: EPA_Admin.php:278
 msgid ""
-"You can translate or change the text. {0} will be replaced with the current "
-"image number, {1} with the total number of images."
+"Those settings will only have effect if the \"link image to\" option is set "
+"to lightbox."
 msgstr ""
 
-#: EPA_Admin.php:229
+#: EPA_Admin.php:290
+msgid ""
+"Display a message like \"Image x of y\" underneath the lightbox (see next "
+"option)"
+msgstr ""
+
+#: EPA_Admin.php:295
+msgid ""
+"You can translate or change the text that can be displayed underneath the "
+"lightbox (see the option above). {0} will be replaced with the current image "
+"number, {1} with the total number of images."
+msgstr ""
+
+#: EPA_Admin.php:307
 msgid ""
 "Wrap the images in the lightbox, i.e. when you reach the last image in the "
 "album and you click on the right arrow, the first image will be displayed"
 msgstr ""
 
-#: EPA_Admin.php:233
+#: EPA_Admin.php:319
+msgid ""
+"Scale the lightbox to the viewport, so every image fits nice on the screen."
+msgstr ""
+
+#: EPA_Admin.php:323
 msgid "images"
 msgstr ""
 
-#: EPA_Admin.php:238
+#: EPA_Admin.php:328
 msgid ""
-"The number of photo's showed when the album is shown in an archive. Set to 0 "
+"The number of photo's shown when you view the album in an archive. Set to 0 "
 "to display all photo's"
 msgstr ""
 
-#: EPA_Admin.php:250
-msgid "Show the caption in the album edit screen"
+#: EPA_Admin.php:340
+msgid "Show the title field in the album edit screen"
 msgstr ""
 
-#: EPA_Admin.php:262
-msgid "Show Photo Albums on the blog page"
-msgstr ""
-
-#: EPA_Admin.php:274
+#: EPA_Admin.php:352
 msgid ""
-"Show all the photo's in the lightbox, also when the album is shown in an "
-"archive."
+"Show photo albums on the blog page (they will be included in the main loop)."
 msgstr ""
 
-#: EPA_Admin.php:282
+#: EPA_Admin.php:364
 msgid ""
-"Override the display options of each album with those default ones. (Only "
-"the options with a * can be set for each album)"
+"When an user watches some images in a lightbox from archive view, should the "
+"lightbox display all the images (also the ones that aren't shown in the "
+"archive view)?"
+msgstr ""
+
+#: EPA_Admin.php:372
+msgid "Override the display options of each album with the default ones."
+msgstr ""
+
+#: EPA_Admin.php:373
+msgid ""
+"You can change some display options for each album seperatly. The default "
+"options for new albums are the ones you have set here. This only affects the "
+"options marked with a %s."
 msgstr ""
 
 #: EPA_Help.php:32
@@ -187,44 +240,44 @@ msgstr ""
 msgid "support forums"
 msgstr ""
 
-#: EPA_Insert_Album.php:133
+#: EPA_Insert_Album.php:137
 msgid "View more photo's"
 msgstr ""
 
-#: EPA_Insert_Album.php:213
+#: EPA_Insert_Album.php:217
 msgid "No albums found"
 msgstr ""
 
-#: EPA_Insert_Album.php:221
+#: EPA_Insert_Album.php:225
 msgid "Select an album to insert."
 msgstr ""
 
-#: EPA_Insert_Album.php:229
+#: EPA_Insert_Album.php:233
 msgid "How should the album be displayed?"
 msgstr ""
 
-#: EPA_Insert_Album.php:231
+#: EPA_Insert_Album.php:235
 msgid "Show album title"
 msgstr ""
 
-#: EPA_Insert_Album.php:234
+#: EPA_Insert_Album.php:238
 msgctxt "Like Display: excerpt"
 msgid "Display:"
 msgstr ""
 
-#: EPA_Insert_Album.php:236
+#: EPA_Insert_Album.php:240
 msgid "Excerpt"
 msgstr ""
 
-#: EPA_Insert_Album.php:237
+#: EPA_Insert_Album.php:241
 msgid "Full album"
 msgstr ""
 
-#: EPA_Insert_Album.php:245
+#: EPA_Insert_Album.php:249
 msgid "Insert Album"
 msgstr ""
 
-#: EPA_Insert_Album.php:248 js/tinymce/langs.php:34
+#: EPA_Insert_Album.php:252 js/tinymce/langs.php:34
 msgid "Cancel"
 msgstr ""
 
@@ -232,43 +285,43 @@ msgstr ""
 msgid "Images"
 msgstr ""
 
-#: EPA_List_Table.php:40 EPA_List_Table.php:91
+#: EPA_List_Table.php:40 EPA_List_Table.php:89
 msgid "Image"
 msgstr ""
 
-#: EPA_List_Table.php:82
+#: EPA_List_Table.php:80
 msgid "No photo's added yet."
 msgstr ""
 
-#: EPA_List_Table.php:90
+#: EPA_List_Table.php:88
 msgid "Select All"
 msgstr ""
 
-#: EPA_List_Table.php:93
+#: EPA_List_Table.php:90
 msgid "Caption"
 msgstr ""
 
-#: EPA_List_Table.php:94
-msgid "Order"
+#: EPA_List_Table.php:91
+msgid "Title"
 msgstr ""
 
-#: EPA_List_Table.php:126 EPA_List_Table.php:175
+#: EPA_List_Table.php:123 EPA_List_Table.php:162
 msgid "Delete"
 msgstr ""
 
-#: EPA_List_Table.php:127
+#: EPA_List_Table.php:124
 msgid "Up"
 msgstr ""
 
-#: EPA_List_Table.php:128
+#: EPA_List_Table.php:125
 msgid "Down"
 msgstr ""
 
-#: EPA_List_Table.php:202
+#: EPA_List_Table.php:189
 msgid "Bulk Actions"
 msgstr ""
 
-#: EPA_List_Table.php:212
+#: EPA_List_Table.php:199
 msgid "Apply"
 msgstr ""
 
@@ -281,181 +334,345 @@ msgid "Select image(s)"
 msgstr ""
 
 #: EPA_List_Table.php:283
-msgid "Are you shure you want to delete photo '{0}'?"
+msgid "The photo '{0}' will be removed. Are you shure?"
 msgstr ""
 
-#: EPA_PostType.php:128
+#: EPA_List_Table.php:284
+msgctxt "like 1 photo"
+msgid "photo"
+msgstr ""
+
+#: EPA_List_Table.php:285
+msgctxt "like 2 photo's"
+msgid "photo's"
+msgstr ""
+
+#: EPA_PostType.php:112
 msgctxt "General Photo Albums name (multiple)"
 msgid "Photo Albums"
 msgstr ""
 
-#: EPA_PostType.php:129
+#: EPA_PostType.php:113
 msgctxt "General singular Photo Albums name"
 msgid "Photo Album"
 msgstr ""
 
-#: EPA_PostType.php:130
+#: EPA_PostType.php:114
 msgctxt "Add new menu item"
 msgid "Add New"
 msgstr ""
 
-#: EPA_PostType.php:131
+#: EPA_PostType.php:115
 msgctxt "Add new menu item extended"
 msgid "Add New Photo Album"
 msgstr ""
 
-#: EPA_PostType.php:132
+#: EPA_PostType.php:116
 msgctxt "Edit menu item"
 msgid "Edit Photo Album"
 msgstr ""
 
-#: EPA_PostType.php:133
+#: EPA_PostType.php:117
 msgctxt "New menu item"
 msgid "New Photo Album"
 msgstr ""
 
-#: EPA_PostType.php:134
+#: EPA_PostType.php:118
 msgctxt "View menu item"
 msgid "View Photo Album"
 msgstr ""
 
-#: EPA_PostType.php:135
+#: EPA_PostType.php:119
 msgctxt "Search menu item"
 msgid "Search Photo Album"
 msgstr ""
 
-#: EPA_PostType.php:136
+#: EPA_PostType.php:120
 msgctxt "No Photo Albums found message"
 msgid "No Photo Albums found"
 msgstr ""
 
-#: EPA_PostType.php:137
+#: EPA_PostType.php:121
 msgctxt "No Photo Albums found in trash message"
 msgid "No Photo Albums found in Trash"
 msgstr ""
 
-#: EPA_PostType.php:138
+#: EPA_PostType.php:122
 msgctxt "Parent Photo album label"
 msgid "Parent Photo Album:"
 msgstr ""
 
-#: EPA_PostType.php:139
+#: EPA_PostType.php:123
 msgctxt "Menu name"
 msgid "Photo Albums"
 msgstr ""
 
-#: EPA_PostType.php:142
+#: EPA_PostType.php:126
 msgctxt "Posttype description"
 msgid "Post easy Photo Albums with Easy Photo Album"
 msgstr ""
 
-#: EPA_PostType.php:160
+#: EPA_PostType.php:144
 msgctxt "Rewrite slug"
 msgid "albums"
 msgstr ""
 
-#: EPA_PostType.php:177
+#: EPA_PostType.php:161
 msgid "Album display options"
 msgstr ""
 
-#: EPA_PostType.php:181
+#: EPA_PostType.php:165
 msgid "Album images"
 msgstr ""
 
-#: EPA_PostType.php:214
+#: EPA_PostType.php:198
 msgid "Add one or more photo's"
 msgstr ""
 
-#: EPA_PostType.php:222
+#: EPA_PostType.php:207
 msgid "Override the default display options of the photo albums here."
 msgstr ""
 
-#: EPA_PostType.php:236
+#: EPA_PostType.php:221
 msgid "Set to 0 to show all images"
 msgstr ""
 
-#: EPA_PostType.php:247
-msgid "Show title"
+#: EPA_PostType.php:232
+msgid "Show caption under the images"
 msgstr ""
 
-#: EPA_PostType.php:294
-msgid "Show all images in lightbox"
+#: EPA_PostType.php:246
+msgid "Lightbox display"
 msgstr ""
 
-#: EPA_PostType.php:525
-msgid "Photo Album updated. <a href=\"%s\">View Album</a>"
-msgstr ""
-
-#: EPA_PostType.php:526
-msgid "Custom field updated."
-msgstr ""
-
-#: EPA_PostType.php:527
-msgid "Custom field deleted."
+#: EPA_PostType.php:280
+msgid ""
+"Show all images in lightbox when the user views them in the archive view"
 msgstr ""
 
 #: EPA_PostType.php:528
+msgid "Photo Album updated. <a href=\"%s\">View Album</a>"
+msgstr ""
+
+#: EPA_PostType.php:529
+msgid "Custom field updated."
+msgstr ""
+
+#: EPA_PostType.php:530
+msgid "Custom field deleted."
+msgstr ""
+
+#: EPA_PostType.php:531
 msgid "Photo Album updated."
 msgstr ""
 
 #. translators: %s: date and time of the revision
-#: EPA_PostType.php:530
+#: EPA_PostType.php:533
 msgid "Photo Album restored to revision from %s"
 msgstr ""
 
-#: EPA_PostType.php:531
+#: EPA_PostType.php:534
 msgid "Photo Album published. <a href=\"%s\">View Album</a>"
 msgstr ""
 
-#: EPA_PostType.php:532
+#: EPA_PostType.php:535
 msgid "Photo Album saved."
 msgstr ""
 
-#: EPA_PostType.php:533
+#: EPA_PostType.php:536
 msgid ""
 "Photo Album submitted. <a target=\"_blank\" href=\"%s\">Preview Album</a>"
 msgstr ""
 
-#: EPA_PostType.php:534
+#: EPA_PostType.php:537
 msgid ""
 "Photo Album scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href="
 "\"%2$s\">Preview Album</a>"
 msgstr ""
 
 #. translators: Publish box date format, see http:php.net/date
-#: EPA_PostType.php:536
+#: EPA_PostType.php:539
 msgid "M j, Y @ G:i"
 msgstr ""
 
-#: EPA_PostType.php:537
+#: EPA_PostType.php:540
 msgid ""
 "Photo Album draft updated. <a target=\"_blank\" href=\"%s\">Preview Album</a>"
 msgstr ""
 
-#: EPA_PostType.php:568
+#: EPA_PostType.php:571
 msgid "More photo's..."
 msgstr ""
 
-#: EPA_PostType.php:606
-msgid "Photo Album Archive"
-msgstr ""
-
-#: EPA_PostType.php:677
+#: EPA_PostType.php:613
 msgid ""
 "Javascript is disabled. Please enable Javascript and reload the page before "
 "you continue."
 msgstr ""
 
-#: easy-photo-album.php:190
+#: EPA_about.php:29
+msgid "Welcome to Easy Photo Album %s"
+msgstr ""
+
+#: EPA_about.php:31
+msgid ""
+"Thank you for updating to the latest version. Easy Photo Album %s makes it "
+"even easier for you to create and manage photo albums."
+msgstr ""
+
+#: EPA_about.php:33
+msgid "Version %s"
+msgstr ""
+
+#: EPA_about.php:36
+msgid "New settings page"
+msgstr ""
+
+#: EPA_about.php:42
+msgid "Change the display of the albums"
+msgstr ""
+
+#: EPA_about.php:43
+msgid ""
+"The new setttings page makes it very easy for you to change the display of "
+"the albums. The options for the lightbox are now grouped together, so they "
+"are easy to find."
+msgstr ""
+
+#: EPA_about.php:44
+msgid ""
+"Besides the options on the settings page, you can edit some options for each "
+"individual album. You can adjust the display of the album to the contents of "
+"it."
+msgstr ""
+
+#: EPA_about.php:45
+msgid ""
+"You can find this new settings page under <strong>Settings > Easy Photo "
+"Album</strong>"
+msgstr ""
+
+#: EPA_about.php:50
+msgid "No need to edit your theme"
+msgstr ""
+
+#: EPA_about.php:55
+msgid "The albums display almost always nice right away"
+msgstr ""
+
+#: EPA_about.php:57
+msgid ""
+"The only thing you have to do is to add the photo's, change the order, write "
+"a nice caption for them and press the publish button!"
+msgstr ""
+
+#: EPA_about.php:58
+msgid ""
+"And the files for the albums will be only included on the pages when that is "
+"necessary. This makes your website faster."
+msgstr ""
+
+#: EPA_about.php:63
+msgid "Title versus Caption"
+msgstr ""
+
+#: EPA_about.php:64
+msgid ""
+"You can see two fields for each image on the album edit screen. The title "
+"field and the caption field. The title is just a short name, so you know "
+"about what the image is when you read the titel. The caption is a short "
+"description of the image. Easy Photo Album uses the caption for the text "
+"under the images."
+msgstr ""
+
+#: EPA_about.php:67
+msgid "Responsive albums"
+msgstr ""
+
+#: EPA_about.php:68
+msgid ""
+"The albums are responsive and displays nice on every device. The number of "
+"columns stays always the same."
+msgstr ""
+
+#: EPA_about.php:74
+msgid "And further on"
+msgstr ""
+
+#: EPA_about.php:78
+msgid "Bugfixes"
+msgstr ""
+
+#: EPA_about.php:79
+msgid ""
+"We fixed one bug in this release. See the <a href=\"%2$s\">changelog</a>."
+msgid_plural ""
+"We fixed %1$s bugs in this release. See the <a href=\"%2$s\">changelog</a>."
+msgstr[0] ""
+msgstr[1] ""
+
+#: EPA_about.php:82
+msgid "Support"
+msgstr ""
+
+#: EPA_about.php:83
+msgid ""
+"Do you have a question, a bug found or a feature request? Report it at the "
+"%1$ssupport forums%2$s."
+msgstr ""
+
+#: EPA_about.php:86
+msgid "Translation"
+msgstr ""
+
+#: EPA_about.php:87
+msgctxt "Translators: Add your own name (with link) here."
+msgid "This translation is made by: TV productions."
+msgstr ""
+
+#: EPA_about.php:95
+msgid "Go to Settings &rarr; Easy Photo Album"
+msgstr ""
+
+#: EPA_about.php:97
+msgid "Go to Dashboard &rarr; Home"
+msgstr ""
+
+#: EPA_about.php:97
+msgid "Go to Dashboard"
+msgstr ""
+
+#: easy-photo-album.php:200
 msgid "Settings"
 msgstr ""
 
-#: easy-photo-album.php:219
+#: easy-photo-album.php:201
+msgid "About"
+msgstr ""
+
+#: easy-photo-album.php:230
 msgctxt ""
 "Ex: Image 4 of 6, so {0} is the current image number and {1} is the total "
 "number of images."
 msgid "Image {0} of {1}"
 msgstr ""
+
+#. #-#-#-#-#  plugin.pot (Easy Photo Album 1.2-RC)  #-#-#-#-#
+#. Description of the plugin/theme
+#: easy-photo-album.php:281
+#, fuzzy
+msgid ""
+"This plugin makes it very easy to create and manage photo albums. The albums "
+"are responsive and display in a lightbox. You can help by submit bugs and "
+"request new features at the plugin page at wordpress.org."
+msgid_plural ""
+"This plugin makes it very easy to create and manage photo albums. The albums "
+"are responsive and display in a lightbox. You can help by submit bugs and "
+"request new features at the plugin page at wordpress.org."
+msgstr[0] ""
+"#-#-#-#-#  plugin.pot (Easy Photo Album 1.2-RC)  #-#-#-#-#\n"
+"#-#-#-#-#  plugin.pot (Easy Photo Album 1.2-RC)  #-#-#-#-#\n"
+msgstr[1] "#-#-#-#-#  plugin.pot (Easy Photo Album 1.2-RC)  #-#-#-#-#\n"
 
 #: js/tinymce/langs.php:33
 msgid "Insert"
@@ -467,13 +684,6 @@ msgstr ""
 
 #. Plugin Name of the plugin/theme
 msgid "Easy Photo Album"
-msgstr ""
-
-#. Description of the plugin/theme
-msgid ""
-"This plugin makes it very easy to create and manage photo albums. The albums "
-"are responsive and display in a lightbox. You can help by submit bugs and "
-"request new features at the plugin page at wordpress.org."
 msgstr ""
 
 #. Author of the plugin/theme

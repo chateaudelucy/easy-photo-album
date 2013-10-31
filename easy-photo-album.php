@@ -197,8 +197,8 @@ class EasyPhotoAlbum {
 	 * @return array
 	 */
 	public function add_plugin_links($links) {
-		$links [] = sprintf ( '<a href="%1$s">%2$s</a>', admin_url ( 'options-general.php?page=epa-settings' ), __ ( 'Settings' ) );
-		$links [] = sprintf ( '<a href="%1$s">%2$s</a>', admin_url ( 'index.php?page=epa-about' ), __ ( 'About' ) );
+		$links [] = sprintf ( '<a href="%1$s">%2$s</a>', admin_url ( 'options-general.php?page=epa-settings' ), __ ( 'Settings', 'epa' ) );
+		$links [] = sprintf ( '<a href="%1$s">%2$s</a>', admin_url ( 'index.php?page=epa-about' ), __ ( 'About', 'epa' ) );
 		return $links;
 	}
 

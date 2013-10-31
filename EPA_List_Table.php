@@ -77,7 +77,7 @@ class EPA_List_Table extends WP_List_Table {
 	 * @see WP_List_Table::no_items()
 	 */
 	function no_items() {
-		return __ ( "No photo's added yet.", 'epa' );
+		return __ ( "No photos added yet.", 'epa' );
 	}
 
 	/* (non-PHPdoc)
@@ -282,7 +282,7 @@ IMG;
 						'mediabutton' => __ ( 'Select image(s)', 'epa' ),
 						'deleteconfirm' => __ ( "The photo '{0}' will be removed. Are you shure?", 'epa' ),
 						'photo' => _x ( 'photo', "like 1 photo", 'epa' ),
-						'photos' => _x ( "photo's", "like 2 photo's", 'epa' )
+						'photos' => _x ( "photos", "like 2 photos", 'epa' )
 				),
 				'rowtemplate' => str_replace ( 'class="alternate"', '<%= alternate %>', $rowtemplate )
 		);

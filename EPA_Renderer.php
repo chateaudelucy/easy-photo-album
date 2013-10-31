@@ -50,7 +50,7 @@ class EPA_Renderer {
 	}
 
 	/**
-	 * Renders the photo's
+	 * Renders the photos
 	 *
 	 * @param bool $echo
 	 * @return string

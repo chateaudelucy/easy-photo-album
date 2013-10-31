@@ -325,7 +325,7 @@ HTML;
 				'class' => 'small-text',
 				'min' => 0
 		) );
-		$this->show_description ( __ ( "The number of photo's shown when you view the album in an archive. Set to 0 to display all photo's", 'epa' ) );
+		$this->show_description ( __ ( "The number of photos shown when you view the album in an archive. Set to 0 to display all photos", 'epa' ) );
 	}
 
 	public function display_showtitleintable_field() {

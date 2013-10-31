@@ -195,7 +195,7 @@ class EPA_PostType {
 		$this->load_data ();
 		$l = new EPA_List_Table ( get_current_screen (), $this->current_photos );
 		echo "\n" . '<div class="hide-if-no-js">' . "\n";
-		echo '<input type="button" name="' . self::INPUT_NAME . '[add_photo]" value="' . __ ( "Add one or more photo's", 'epa' ) . '" class="button"/>' . "\n";
+		echo '<input type="button" name="' . self::INPUT_NAME . '[add_photo]" value="' . __ ( "Add one or more photos", 'epa' ) . '" class="button"/>' . "\n";
 		$l->display ();
 		echo "\n" . '<input type="hidden" value="" name="' . self::INPUT_NAME . '[albumdata]" id="epa-albumdata">' . "\n";
 		echo "\n" . '</div>' . "\n";
@@ -568,7 +568,7 @@ CSS;
 		// Using the global var $id, cause setup_postdata() doesn't set $post;
 		global $id;
 		if (get_post_type ( $id ) == self::POSTTYPE_NAME) {
-			return get_the_content ( apply_filters ( 'epa_excerpt_more_link_text', __ ( "More photo's...", 'epa' ) ) );
+			return get_the_content ( apply_filters ( 'epa_excerpt_more_link_text', __ ( "More photos...", 'epa' ) ) );
 		} else {
 			return $excerpt;
 		}

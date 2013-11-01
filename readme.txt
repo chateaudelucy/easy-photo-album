@@ -3,8 +3,8 @@ Contributors: TV productions
 Donate link:
 Tags:  album, photo's, images, lightbox, responsive
 Requires at least: 3.5
-Tested up to: 3.6.1
-Stable tag: 1.1.7
+Tested up to: 3.7.1
+Stable tag: 1.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -30,7 +30,7 @@ Current language support:
 -------------------------
 * English - English (en)
 * Dutch - Nederlands (nl_NL)
-* French - Français (fr_FR) (by [Dan](http://bp-fr.net)
+* French - Français (fr_FR) (by [Dan](http://bp-fr.net))
 
 == Installation ==
 
@@ -74,6 +74,7 @@ A: The image size is default `thumbnail`. So choose an other image size (`medium
 * New about page: A quick overview of the update and some tips and tricks
 * Added minfied versions of ccs and js files. This will cause faster load times
 * Wordpress 3.7 compatible
+* Added French translation by [Dan](http://bp-fr.net)
 * Fixed bug: The show caption option doesn't work.
 * Fixed bug: The number of photo's is limited by the server.
 * Fixed bug: The captions are not saved at the right place.

@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: Easy Photo Album
- * Version: 1.2-RC
+ * Version: 1.2
  * Author: TV productions
  * Author URI: http://tv-productions.org/
  * Description: This plugin makes it very easy to create and manage photo albums. The albums are responsive and display in a lightbox. You can help by submit bugs and request new features at the plugin page at wordpress.org.
@@ -52,7 +52,7 @@ class EasyPhotoAlbum {
 	private $post_type = null;
 	private $admin = null;
 	private $tinymce = null;
-	public static $version = '1.2-RC';
+	public static $version = '1.2';
 
 	private function __construct() {
 		load_plugin_textdomain ( 'epa', false, basename ( dirname ( __FILE__ ) ) . '/lang' );
@@ -208,7 +208,7 @@ class EasyPhotoAlbum {
 		if (isset ( $this->options [$name] ))
 			return $this->options [$name];
 		else
-			throw new Exception ( sprintf ( "Property not found Exception in EasyPhotoAlbum: property '%s' isn't valid.", $name ), 101 );
+			throw new Exception ( sprintf ( __ ( 'Property not found Exception in EasyPhotoAlbum: property "%s" isn&#39;t valid.', 'epa' ), $name ), 101 );
 	}
 
 	/**

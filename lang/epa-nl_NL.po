@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EasyPhotoAlbum 1.2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/easy-photo-album\n"
-"POT-Creation-Date: 2013-10-31 18:12+0100\n"
-"PO-Revision-Date: 2013-10-31 18:14+0100\n"
+"POT-Creation-Date: 2013-11-01 12:04+0100\n"
+"PO-Revision-Date: 2013-11-01 12:05+0100\n"
 "Last-Translator: TV productions <info@tv-productions.org>\n"
 "Language-Team: TV productions <info@tv-productions.org>\n"
 "Language: nl_NL\n"
@@ -26,6 +26,15 @@ msgstr "Instellingen"
 #: ../easy-photo-album.php:201
 msgid "About"
 msgstr "Over"
+
+#: ../easy-photo-album.php:211
+#, php-format
+msgid ""
+"Property not found Exception in EasyPhotoAlbum: property \"%s\" isn&#39;t "
+"valid."
+msgstr ""
+"Eigenschap niet gevonden uitzonderin in EasyPhotoAlbum: eigenschap \"%s\" is "
+"niet geldig."
 
 #: ../easy-photo-album.php:230
 msgctxt ""
@@ -429,7 +438,7 @@ msgstr ""
 #: ../EPA_Admin.php:364
 msgid ""
 "When an user watches some images in a lightbox from archive view, should the "
-"lightbox display all the images (also the ones that aren't shown in the "
+"lightbox display all the images (also the ones that aren&#39;t shown in the "
 "archive view)?"
 msgstr ""
 "Als een gebruiker de foto's in een lightbox bekijkt vanuit een archief, moet "

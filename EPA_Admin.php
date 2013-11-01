@@ -361,7 +361,7 @@ HTML;
 					'checked' => 'checked'
 			);
 		}
-		$this->show_input_field ( 'showallimagesinlightbox', 'true', 'checkbox', sprintf ( '<label for="saiil">&nbsp;%s</label>', __ ( "When an user watches some images in a lightbox from archive view, should the lightbox display all the images (also the ones that aren't shown in the archive view)?", 'epa' ) ), $attr );
+		$this->show_input_field ( 'showallimagesinlightbox', 'true', 'checkbox', sprintf ( '<label for="saiil">&nbsp;%s</label>', __ ( "When an user watches some images in a lightbox from archive view, should the lightbox display all the images (also the ones that aren&#39;t shown in the archive view)?", 'epa' ) ), $attr );
 	}
 
 	public function display_override_field() {

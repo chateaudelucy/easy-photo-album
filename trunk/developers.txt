@@ -1,0 +1,14 @@
+EASY PHOTO ALBUM WORDPRESS PLUGIN
+=================================
+Developer information
+
+This file contains some information for developers/contributors of Easy Photo Album.
+
+Filters
+-------
+
+Filter name					|Location of filter					|Description
+----------------------------+-----------------------------------+--------------------------
+epa_main_loop_post_types	|EPA_PostType::add_to_main_loop		|You can use this filter to edit the post_type(s) that are queried for the main loop. Default post and easy-photo-album
+epa_excerpt_more_link_text	|EPA_PostType::special_excerpt		|The excerpt more link text, if there is no more tag
+epa_album_more_link			|EPA_PostType::special_more_link	|Edit the more link for the photo albums

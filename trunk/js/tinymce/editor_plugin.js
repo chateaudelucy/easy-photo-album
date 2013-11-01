@@ -1,4 +1,0 @@
-/*
- * This file is part of Easy Photo Album plugin for WordPress.
- */
-(function(){tinymce.PluginManager.requireLangPack("EasyPhotoAlbum");tinymce.create("tinymce.plugins.EasyPhotoAlbum",{init:function(e,t){e.addButton("epa_insert",{title:e.getLang("epa.insert"),cmd:"epa_insert_album",image:t+"/insert.png"});e.addCommand("epa_insert_album",function(){e.windowManager.open({width:480,height:"auto",wpDialog:true,id:"epa-insert",title:e.getLang("epa.dlg_title")},{plugin_url:t})})},createControl:function(e,t){return null},getInfo:function(){return{longname:"Easy Photo Album Plugin",author:"TV productions",authorurl:"http://tv-productions.org",version:"0.1"}}});tinymce.PluginManager.add("EasyPhotoAlbum",tinymce.plugins.EasyPhotoAlbum)})()

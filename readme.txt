@@ -30,14 +30,14 @@ Current language support:
 -------------------------
 * English - English (en)
 * Dutch - Nederlands (nl_NL)
-* French - Français (fr_FR) (by [Dan](http://bp-fr.net))
+* French - Fran&#231;ais (fr_FR) (by [Dan](http://bp-fr.net))
 
 == Installation ==
 
 1. Upload the plugin folder to the `/wp-content/plugins/` directory OR
 download, upload and install .zip under Plugins > Add New > Upload.
 1. Activate the plugin through the 'Plugins' menu in WordPress.
-1. Go to Settings > Media to review the default settings.
+1. Go to Settings > Easy Photo Album to review the default settings.
 
 == Frequently asked questions ==
 

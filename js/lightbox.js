@@ -18,6 +18,8 @@ http://lokeshdhakar.com/projects/lightbox2/
 Licensed under the Creative Commons Attribution 2.5 License - http://creativecommons.org/licenses/by/2.5/
 - free for use in both personal and commercial projects
 - attribution requires leaving author name, author link, and the license info intact
+
+Small edits by TV productions: fix image scale bug --> v2.6.1
 */
 
 
@@ -180,6 +182,8 @@ Licensed under the Creative Commons Attribution 2.5 License - http://creativecom
         var $preloader, imageHeight, imageWidth, maxImageHeight, maxImageWidth, windowHeight, windowWidth;
         $image.attr('src', _this.album[imageNumber].link);
         $preloader = $(preloader);
+        imageWidth = preloader.width;
+        imageHeight = preloader.height;
         $image.width(preloader.width);
         $image.height(preloader.height);
         if (_this.options.fitImagesInViewport) {

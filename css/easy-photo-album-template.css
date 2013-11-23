@@ -20,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-.epa-album {
+.epa-album, .epa-album ul, .epa-album li {
 	margin: 0 !important;
 	padding: 0 !important;
 }

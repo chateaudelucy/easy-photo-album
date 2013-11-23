@@ -53,10 +53,26 @@ class EPA_PostType {
 				&$this,
 				'save_metadata'
 		), 1, 2 );
+		add_action ( 'save_post', array (
+				&$this,
+				'save_revision_meta_field'
+		), 10, 2 );
 		add_action ( 'wp_enqueue_scripts', array (
 				&$this,
 				'enqueue_scripts'
 		) );
+		add_action ( 'wp_restore_post_revision', array (
+				&$this,
+				'restore_revision_data'
+		), 10, 2 );
+		add_action ( '_wp_post_revision_fields', array (
+				&$this,
+				'add_revision_field'
+		) );
+		add_action ( '_wp_post_revision_field_epa-revision', array (
+				&$this,
+				'render_revision_field'
+		), 10, 4 );
 		// Make shure there is no html added to the content of the album
 		if (remove_filter ( 'the_content', 'wpautop' )) {
 			// filter existed and is removed
@@ -345,96 +361,175 @@ HTML;
 	 * @param WP_Post $post
 	 */
 	public function save_metadata($post_id, $post) {
-		// return if the current user has not the edit_epa_album cap or (if the user isn't the
+		// no update if the current user has not the edit_epa_album cap or (if the user isn't the
 		// author) the edit_others_epa_albums cap
-		if (! current_user_can ( 'edit_epa_album', $post_id ) || ($post->post_author != get_current_user_id () && ! current_user_can ( 'edit_others_epa_albums' ))) {
-			return;
-		}
-		// It is from the right post type
-		if (isset ( $_POST [self::INPUT_NAME] ) && is_array ( $_POST [self::INPUT_NAME] )) {
-			// Make shure everyting is loaded
-			$this->load_data ();
+		if (current_user_can ( 'edit_epa_album', $post_id ) || ($post->post_author != get_current_user_id () && current_user_can ( 'edit_others_epa_albums' ))) {
 
-			// Validate and save the album specific settings
-			$valid = $this->current_options;
-			$input = $_POST [self::INPUT_NAME] ['option'];
-			$valid ['columns'] = is_numeric ( $input ['columns'] ) && intval ( $input ['columns'] ) >= 1 ? intval ( $input ['columns'] ) : $valid ['columns'];
-			$valid ['excerpt_number'] = is_numeric ( $input ['excerpt_number'] ) ? intval ( $input ['excerpt_number'] ) : $valid ['excerpt_number'];
-			$valid ['show_caption'] = isset ( $input ['show_caption'] ) && $input ['show_caption'] == 'true' ? true : false;
-			$valid ['link_to'] = in_array ( $input ['link_to'], array (
-					'file',
-					'attachment',
-					'lightbox'
-			) ) ? $input ['link_to'] : $valid ['link_to'];
-			$valid ['display_size'] = in_array ( $input ['display_size'], get_intermediate_image_sizes () ) ? $input ['display_size'] : $valid ['display_size'];
-			$valid ['show_all_images_in_lightbox'] = isset ( $input ['show_all_images_in_lightbox'] ) && $input ['show_all_images_in_lightbox'] == 'true' ? true : false;
-			$this->current_options = $valid;
+			// It is from the right post type
+			if (isset ( $_POST [self::INPUT_NAME] ) && is_array ( $_POST [self::INPUT_NAME] )) {
+				// Make shure everyting is loaded
+				$this->load_data ();
 
-			// Empty the current photos var
-			$this->current_photos = array ();
+				// Validate and save the album specific settings
+				$valid = $this->current_options;
+				$input = $_POST [self::INPUT_NAME] ['option'];
+				$valid ['columns'] = is_numeric ( $input ['columns'] ) && intval ( $input ['columns'] ) >= 1 ? intval ( $input ['columns'] ) : $valid ['columns'];
+				$valid ['excerpt_number'] = is_numeric ( $input ['excerpt_number'] ) ? intval ( $input ['excerpt_number'] ) : $valid ['excerpt_number'];
+				$valid ['show_caption'] = isset ( $input ['show_caption'] ) && $input ['show_caption'] == 'true' ? true : false;
+				$valid ['link_to'] = in_array ( $input ['link_to'], array (
+						'file',
+						'attachment',
+						'lightbox'
+				) ) ? $input ['link_to'] : $valid ['link_to'];
+				$valid ['display_size'] = in_array ( $input ['display_size'], get_intermediate_image_sizes () ) ? $input ['display_size'] : $valid ['display_size'];
+				$valid ['show_all_images_in_lightbox'] = isset ( $input ['show_all_images_in_lightbox'] ) && $input ['show_all_images_in_lightbox'] == 'true' ? true : false;
+				$this->current_options = $valid;
 
-			// Get albumdata
-			$albumdata = isset ( $_POST [self::INPUT_NAME] ['albumdata'] ) ? $_POST [self::INPUT_NAME] ['albumdata'] : '';
-			$images = json_decode ( stripslashes ( $albumdata ), false );
+				// Empty the current photos var
+				$this->current_photos = array ();
 
-			// Normalize the images array
-			// Make shure all the fields are there.
-			$tmp_images = array ();
-			foreach ( $images as $index => $object ) {
-				if (! isset ( $object->title ))
-					$object->title = "";
-				if (! isset ( $object->caption ))
-					$object->caption = "";
+				// Get albumdata
+				$albumdata = isset ( $_POST [self::INPUT_NAME] ['albumdata'] ) ? $_POST [self::INPUT_NAME] ['albumdata'] : '';
+				$images = json_decode ( stripslashes ( $albumdata ), false );
 
-				$tmp_images [$object->id] = $object;
-			}
-			$images = $tmp_images;
-			unset ( $tmp_images );
+				// Normalize the images array
+				// Make shure all the fields are there.
+				$tmp_images = array ();
+				foreach ( $images as $index => $object ) {
+					if (! isset ( $object->title ))
+						$object->title = "";
+					if (! isset ( $object->caption ))
+						$object->caption = "";
 
-			// Bulk actions
-			$action = (isset ( $_REQUEST ['epa-action'] ) || isset ( $_REQUEST ['epa-action2'] ) ? ($_REQUEST ['epa-action'] == '-1' ? $_REQUEST ['epa-action2'] : $_REQUEST ['epa-action']) : '');
-			switch ($action) {
-				case 'delete-photos' :
-					$ids_to_delete = isset ( $_POST [self::INPUT_NAME] ['cb'] ) ? $_POST [self::INPUT_NAME] ['cb'] : array ();
-					foreach ( $ids_to_delete as $id ) {
-						if (isset ( $images [$id] )) {
-							unset ( $images [$id] );
+					$tmp_images [$object->id] = $object;
+				}
+				$images = $tmp_images;
+				unset ( $tmp_images );
+
+				// Bulk actions
+				$action = (isset ( $_REQUEST ['epa-action'] ) || isset ( $_REQUEST ['epa-action2'] ) ? ($_REQUEST ['epa-action'] == '-1' ? $_REQUEST ['epa-action2'] : $_REQUEST ['epa-action']) : '');
+				switch ($action) {
+					case 'delete-photos' :
+						$ids_to_delete = isset ( $_POST [self::INPUT_NAME] ['cb'] ) ? $_POST [self::INPUT_NAME] ['cb'] : array ();
+						foreach ( $ids_to_delete as $id ) {
+							if (isset ( $images [$id] )) {
+								unset ( $images [$id] );
+							}
 						}
-					}
-					break;
-			}
+						break;
+				}
 
-			foreach ( $images as $imageid => $imageobj ) {
-				// update the fields
-				$a = wp_update_post ( array (
-						'ID' => $imageid,
-						'post_title' => $imageobj->title,
-						'post_excerpt' => $imageobj->caption
+				foreach ( $images as $imageid => $imageobj ) {
+					// update the fields
+					$a = wp_update_post ( array (
+							'ID' => $imageid,
+							'post_title' => $imageobj->title,
+							'post_excerpt' => $imageobj->caption
+					) );
+					// In the data array
+					$this->current_photos [$imageobj->order] = $imageobj;
+				}
+
+				// save it
+				$this->save_data ();
+				// Generate HTML and set it as the post content
+				$renderer = new EPA_Renderer ( $this->get_current_post_id () );
+				// unhook this function so it doesn't loop infinitely
+				remove_action ( 'save_post', array (
+						&$this,
+						'save_metadata'
+				), 1, 2 );
+				// update the post, which calls save_post again
+				wp_update_post ( array (
+						'ID' => $post_id,
+						'post_content' => $renderer->render ( false )
 				) );
-				// In the data array
-				$this->current_photos [$imageobj->order] = $imageobj;
+				// re-hook this function
+				add_action ( 'save_post', array (
+						&$this,
+						'save_metadata'
+				), 1, 2 );
 			}
+			// end isset($_POST...)
+		} // end user check
+	}
 
-			// save it
-			$this->save_data ();
-			// Generate HTML and set it as the post content
-			$renderer = new EPA_Renderer ( $this->get_current_post_id () );
-			// unhook this function so it doesn't loop infinitely
-			remove_action ( 'save_post', array (
-					&$this,
-					'save_metadata'
-			), 1, 2 );
-			// update the post, which calls save_post again
-			wp_update_post ( array (
-					'ID' => $post_id,
-					'post_content' => $renderer->render ( false )
-			) );
-			// re-hook this function
-			add_action ( 'save_post', array (
-					&$this,
-					'save_metadata'
-			), 1, 2 );
+	/**
+	 * Restores the revision data on wp_restore_post_revision.
+	 *
+	 * @param int $post_id
+	 * @param int $revision_id
+	 */
+	public function restore_revision_data($post_id, $revision_id) {
+		$data = get_metadata ( 'post', $revision_id, self::SETTINGS_NAME, true );
+		if (false !== $data) {
+			update_post_meta ( $post_id, self::SETTINGS_NAME, $data );
 		}
+	}
+
+	/**
+	 * Add Easy Photo Album data field to revision screen.
+	 * Hook: _wp_post_revision_fields
+	 *
+	 * @param array $fields
+	 * @return array
+	 */
+	public function add_revision_field($fields) {
+		// Insert the epa-field at position 2 of the fields array
+		// Code from: http://php.net/manual/en/function.array-splice.php#56794
+		$first_array = array_splice ( $fields, 0, 1 );
+		return array_merge ( $first_array, array (
+				'epa-revision' => _x ( 'Easy Photo Album data', 'Revisions screen', 'epa' )
+		), $fields );
+	}
+
+	/**
+	 * Saves the post_meta for revisions
+	 * Hook: save_post
+	 *
+	 * @param int $post_id
+	 * @param WP_Post $post
+	 */
+	public function save_revision_meta_field($post_id, $post) {
+		$parent_id = wp_is_post_revision ( $post_id );
+		if (false !== $parent_id && get_post_type ( $parent_id ) == self::POSTTYPE_NAME) {
+			// it is a revision, so set the data
+			$data = get_post_meta ( $parent_id, self::SETTINGS_NAME, true );
+			add_metadata ( 'post', $post_id, self::SETTINGS_NAME, $data );
+		}
+	}
+
+	/**
+	 * Render the album revision data
+	 * Hook: _wp_post_revision_field_epa-revision
+	 *
+	 * @param mixed $value
+	 * @param string $field
+	 * @param WP_Post $object
+	 * @param string $direction
+	 * @return string
+	 */
+	public function render_revision_field($value = '', $field = '', $object = '', $direction = '') {
+		$data = get_metadata ( 'post', $object->ID, self::SETTINGS_NAME, true );
+		$result = '';
+		if (false !== $data && ! empty ( $data )) {
+			$result .= __ ( 'Display settings', 'epa' ) . ": " . "\n";
+			$result .= sprintf ( '%1$s: %2$s', __ ( 'Columns', 'epa' ), $data ['options'] ['columns'] ) . "\n";
+			$result .= sprintf ( '%1$s: %2$s', __ ( 'Number of images for excerpt', 'epa' ), $data ['options'] ['excerpt_number'] ) . "\n";
+			$result .= sprintf ( '%1$s: %2$s', __ ( 'Show caption under the images', 'epa' ), ($data ['options'] ['show_caption'] ? __ ( 'yes', 'epa' ) : __ ( 'no', 'epa' )) ) . "\n";
+			$result .= sprintf ( '%1$s: %2$s', __ ( 'Link image to', 'epa' ), $data ['options'] ['link_to'] ) . "\n";
+			$result .= sprintf ( '%1$s: %2$s', __ ( 'Image size', 'epa' ), $data ['options'] ['display_size'] ) . "\n";
+			$result .= sprintf ( '%1$s: %2$s', __ ( 'Show all images in lightbox when the user views them in the archive view', 'epa' ), ($data ['options'] ['show_all_images_in_lightbox']) ? __ ( 'yes', 'epa' ) : __ ( 'no', 'epa' ) ) . "\n";
+			$result .= "\n";
+			$result .= __ ( 'Photos' ) . ": " . "\n";
+			unset ( $data ['options'] );
+			foreach ( $data as $order => $imageobj ) {
+				$result .= $order . '. ' . __ ( 'Photo ID', 'epa' ) . ': ' . $imageobj->id . "\n";
+				$result .= '    ' . __ ( 'Title', 'epa' ) . ': ' . $imageobj->title . "\n";
+				$result .= '    ' . __ ( 'Caption', 'epa' ) . ': ' . $imageobj->caption . "\n";
+			}
+		}
+		return $result;
 	}
 
 	/**
@@ -487,14 +582,14 @@ CSS;
 			if (EasyPhotoAlbum::get_instance ()->linkto == 'lightbox') {
 				wp_enqueue_script ( 'lightbox2-js', plugins_url ( 'js/lightbox' . (defined ( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min') . '.js', __FILE__ ), array (
 						'jquery'
-				), '2.6', true );
+				), '2.6.1', true );
 				wp_localize_script ( 'lightbox2-js', 'lightboxSettings', array (
 						'wrapAround' => EasyPhotoAlbum::get_instance ()->wraparound,
 						'showAlbumLabel' => EasyPhotoAlbum::get_instance ()->showalbumlabel,
 						'albumLabel' => EasyPhotoAlbum::get_instance ()->albumlabel,
 						'scaleLightbox' => EasyPhotoAlbum::get_instance ()->scalelightbox
 				) );
-				wp_enqueue_style ( 'lightbox2-css', plugins_url ( 'css/lightbox' . (defined ( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min') . '.css', __FILE__ ), array (), '2.6' );
+				wp_enqueue_style ( 'lightbox2-css', plugins_url ( 'css/lightbox' . (defined ( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min') . '.css', __FILE__ ), array (), '2.6.1' );
 			}
 		}
 	}

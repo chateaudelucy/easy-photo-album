@@ -205,7 +205,7 @@ Small edits by TV productions: fix image scale bug --> v2.6.1
             }
           }
         }
-        return _this.sizeContainer($image.width(), $image.height());
+        return _this.sizeContainer(imageWidth, imageHeight);
       };
       preloader.src = this.album[imageNumber].link;
       this.currentImageIndex = imageNumber;

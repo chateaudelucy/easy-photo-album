@@ -30,9 +30,7 @@ if ( ! class_exists( '_WP_Editors' ) )
 
 function easy_photo_album_insert_dialog_translation() {
 	$strings = array(
-			'insert' => __('Insert', 'epa'),
-			'cancel' => __('Cancel', 'epa'),
-			'dlg_title' => __('Insert a Photo Album', 'epa'),
+		'dlg_title' => __('Insert a Photo Album', 'epa'),
 
 	);
 	$locale = _WP_Editors::$mce_locale;

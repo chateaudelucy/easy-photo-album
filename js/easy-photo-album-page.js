@@ -57,7 +57,6 @@ window.TVproductions = window.TVproductions || {};
 					};
 					arr.push(obj);
 				});
-		console.log(JSON.stringify(arr));
 		$('#epa-albumdata').val(JSON.stringify(arr));
 	}
 
@@ -83,9 +82,11 @@ window.TVproductions = window.TVproductions || {};
 								if (order <= 0) {
 									// most upper row
 									$('.row-actions .order_up', $row).hide();
+									$('.row-actions .order_down', $row).show();
 								} else if (order >= EPA.maxOrder) {
 									// most lower row
 									$('.row-actions .order_down', $row).hide();
+									$('.row-actions .order_up', $row).show();
 									// remove |
 									$('.row-actions .order_up', $row).html(
 											$('.row-actions .order_up', $row)

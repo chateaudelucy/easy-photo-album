@@ -649,11 +649,17 @@ CSS;
 		global $id;
 
 		if (get_post_type ( $id ) == self::POSTTYPE_NAME) {
+			/*
+ 			* Filter: epa_album_content_after
+			* @param string $html		The current html that will be added after the album
+			* @param bool $excerpt		Is the current album an excerpt?
+			*/
+			$html_after = apply_filters ( 'epa_album_content_after', '', true );
 			global $EPA_DOING_SHORTCODE;
 			if ($EPA_DOING_SHORTCODE == true) {
-				return '</li></ul><!-- epa more -->' . apply_filters ( 'epa_album_more_link', ' <a href="' . get_permalink ( $id ) . "#more-{$id}\" class=\"more-link\">$more_text</a>", $more_text );
+				return '</li></ul>'.$html_after.'<!-- epa more -->' . apply_filters ( 'epa_album_more_link', ' <a href="' . get_permalink ( $id ) . "#more-{$id}\" class=\"more-link\">$more_text</a>", $more_text );
 			}
-			return '</li></ul><!-- epa more -->' . apply_filters ( 'epa_album_more_link', $more_link, $more_text );
+			return '</li></ul>'.$html_after.'<!-- epa more -->' . apply_filters ( 'epa_album_more_link', $more_link, $more_text );
 		} else {
 			return $more_link;
 		}

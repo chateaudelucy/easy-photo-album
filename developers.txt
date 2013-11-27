@@ -7,8 +7,10 @@ This file contains some information for developers/contributors of Easy Photo Al
 Filters
 -------
 
-Filter name					|Location of filter					|Description
-----------------------------+-----------------------------------+--------------------------
-epa_main_loop_post_types	|EPA_PostType::add_to_main_loop		|You can use this filter to edit the post_type(s) that are queried for the main loop. Default post and easy-photo-album
-epa_excerpt_more_link_text	|EPA_PostType::special_excerpt		|The excerpt more link text, if there is no more tag
-epa_album_more_link			|EPA_PostType::special_more_link	|Edit the more link for the photo albums
+Filter name					|Location of filter										|Description
+----------------------------+-------------------------------------------------------+--------------------------
+epa_main_loop_post_types	|EPA_PostType::add_to_main_loop							|You can use this filter to edit the post_type(s) that are queried for the main loop. Default post and easy-photo-album
+epa_excerpt_more_link_text	|EPA_PostType::special_excerpt							|The excerpt more link text, if there is no more tag
+epa_album_more_link			|EPA_PostType::special_more_link						|Edit the more link for the photo albums
+epa_album_content_before	|EPA_Renderer::render									|You can use this filter to add html before the photo album
+epa_album_content_after		|EPA_Renderer::render EPA_PostType::special_more_link	|You can use this filter to add html after the photo album. The first passed argument is the html, the second is a bool, true if the album is displayed in excerpt view.

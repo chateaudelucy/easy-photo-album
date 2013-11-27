@@ -59,6 +59,7 @@ class EPA_Renderer {
 		$html = '<!-- Easy Photo Album -->
 ';
 		$html .= $this->render_style_block ();
+		$html .= apply_filters('epa_album_content_before', '');
 		$html .= '<ul id="' . $this->album_id . '" class="epa-album epa-cf">
 <li class="epa-row  epa-cf">
 				';
@@ -83,6 +84,13 @@ class EPA_Renderer {
 		}
 
 		$html .= $this->render_closing_tags ();
+
+		/*
+		 * Filter: epa_album_content_after
+		 * @param string $html		The current html that will be added after the album
+		 * @param bool $excerpt		Is the current album an excerpt?
+		 */
+		$html .= apply_filters('epa_album_content_after', '', false);
 
 		if ($echo)
 			echo $html;

@@ -79,6 +79,7 @@ class EPA_Admin {
 				// only delete the option before a redirect
 				delete_option ( 'epa_redirect_' . get_current_user_id () );
 				wp_redirect ( 'index.php?page=epa-about' );
+				exit();
 			}
 		}
 	}

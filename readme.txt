@@ -1,6 +1,6 @@
 === Easy Photo Album ===
 Contributors: TV productions
-Donate link:
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AK8Y5W7ZSMRTA
 Tags:  album, photo's, images, lightbox, responsive
 Requires at least: 3.5
 Tested up to: 3.7.1
@@ -67,6 +67,8 @@ A: The image size is default `thumbnail`. So choose an other image size (`medium
 4. Example of lightbox display.
 
 == Changelog ==
+
+* Fixed bug: Error after deleting last image of an album.
 
 **1.2**
 

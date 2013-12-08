@@ -395,7 +395,7 @@ HTML;
 				// Normalize the images array
 				// Make shure all the fields are there.
 				$tmp_images = array ();
-				foreach ( $images as $index => $object ) {
+				foreach ( (array) $images as $index => $object ) {
 					if (! isset ( $object->title ))
 						$object->title = "";
 					if (! isset ( $object->caption ))

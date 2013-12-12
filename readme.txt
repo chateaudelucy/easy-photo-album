@@ -69,6 +69,7 @@ A: The image size is default `thumbnail`. So choose an other image size (`medium
 == Changelog ==
 
 * Fixed bug: Error after deleting last image of an album.
+* Fixed bug: Included albums don't display right when viewed on blog page.
 
 **1.2**
 

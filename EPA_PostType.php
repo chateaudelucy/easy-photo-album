@@ -395,7 +395,7 @@ HTML;
 				// Normalize the images array
 				// Make shure all the fields are there.
 				$tmp_images = array ();
-				foreach ( (array) $images as $index => $object ) {
+				foreach ( ( array ) $images as $index => $object ) {
 					if (! isset ( $object->title ))
 						$object->title = "";
 					if (! isset ( $object->caption ))
@@ -572,10 +572,11 @@ CSS;
 	 */
 	public function enqueue_scripts() {
 		global $post;
-		// if the post is a photo album OR we are in the main query (and option is set) /*OR it is
-		// the
-		// archive page*/ OR when the current page has a photo album shortcode
-		if (isset ( $post ) && ((isset ( $post->post_type ) && self::POSTTYPE_NAME == $post->post_type) || (is_home () && EasyPhotoAlbum::get_instance ()->inmainloop) || has_shortcode ( $post->post_content, 'epa-album' ))) {
+		// if the post is a photo album
+		// OR we are in the main query (and option is set)
+		// OR when the current page has a photo album shortcode
+		// OR when we are in the main query and a post has the shortcode
+		if (isset ( $post ) && ((isset ( $post->post_type ) && self::POSTTYPE_NAME == $post->post_type) || (is_home () && EasyPhotoAlbum::get_instance ()->inmainloop) || has_shortcode ( $post->post_content, 'epa-album' )) || (is_main_query () && $this->query_has_shortcode ( $GLOBALS ['wp_query'], 'epa-album' ))) {
 			// it is a photo album
 			wp_enqueue_style ( 'epa-template', plugins_url ( 'css/easy-photo-album-template' . (defined ( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min') . '.css', __FILE__ ), array (), EasyPhotoAlbum::$version, 'all' );
 
@@ -657,9 +658,9 @@ CSS;
 			$html_after = apply_filters ( 'epa_album_content_after', '', true );
 			global $EPA_DOING_SHORTCODE;
 			if ($EPA_DOING_SHORTCODE == true) {
-				return '</li></ul>'.$html_after.'<!-- epa more -->' . apply_filters ( 'epa_album_more_link', ' <a href="' . get_permalink ( $id ) . "#more-{$id}\" class=\"more-link\">$more_text</a>", $more_text );
+				return '</li></ul>' . $html_after . '<!-- epa more -->' . apply_filters ( 'epa_album_more_link', ' <a href="' . get_permalink ( $id ) . "#more-{$id}\" class=\"more-link\">$more_text</a>", $more_text );
 			}
-			return '</li></ul>'.$html_after.'<!-- epa more -->' . apply_filters ( 'epa_album_more_link', $more_link, $more_text );
+			return '</li></ul>' . $html_after . '<!-- epa more -->' . apply_filters ( 'epa_album_more_link', $more_link, $more_text );
 		} else {
 			return $more_link;
 		}
@@ -727,6 +728,35 @@ NO_JS;
 	private function get_current_post_id() {
 		global $post;
 		return ($this->current_post_id == - 1 ? (is_object ( $post ) && ! empty ( $post->ID ) ? $post->ID : (empty ( $_REQUEST ['post'] ) ? - 1 : $_REQUEST ['post'])) : $this->current_post_id);
+	}
+
+	/**
+	 * Checks for the shortcode in the given query.
+	 * NOTE: this function should NOT be called inside the loop of the given query.
+	 *
+	 * @param WP_Query $query
+	 *        	query to search in
+	 * @param string $shortcode
+	 *        	shortcode tag to search for
+	 * @return bool If the shotcode was found in the query.
+	 */
+	private function query_has_shortcode($query, $shortcode) {
+		// First check if we are at the beginning
+		if ($query->have_posts () == false)
+			$query->rewind_posts ();
+		$has_shortcode = false;
+		global $post;
+
+		while ( $query->have_posts () ) {
+			$query->the_post ();
+			if (has_shortcode ( $post->post_content, $shortcode )) {
+				$has_shortcode = true;
+				break;
+			}
+		}
+		// Rewind the query
+		$query->rewind_posts();
+		return $has_shortcode;
 	}
 }
 

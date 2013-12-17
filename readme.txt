@@ -49,6 +49,10 @@ A: You can find the settings under Settings > Easy Photo Album.
 
 A: You have to check `Photo Albums` in the Screen options box under Appearance > Menus
 
+= Q: Can I add a description to a photo album? =
+
+A: No, you can't. What you can do is include your album in a post or page with the `epa-album` shortcode. Look for the button with the Easy Photo Album icon in the editor.
+
 = Q: How can I display all the photo albums? =
 
 A: *When you have enabled permalinks*: You can display the photo album archive by visiting `example.com/albums/` (where `example.com` is your WordPress home URL).

@@ -19,7 +19,7 @@
 		 */
 		init : function(ed, url) {
 			ed.addButton('epa_insert', {
-				title : ed.getLang('epa.insert'),
+				title : ed.getLang('epa.dlg_title'),
 				cmd : 'epa_insert_album',
 				image : url + '/insert.png'
 			});

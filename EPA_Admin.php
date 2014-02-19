@@ -35,6 +35,10 @@ class EPA_Admin {
 				&$this,
 				'add_pages'
 		) );
+		add_action ( 'network_admin_menu', array (
+				&$this,
+				'add_about_page'
+		) );
 		add_action ( 'admin_init', array (
 				&$this,
 				'admin_init'
@@ -63,6 +67,14 @@ class EPA_Admin {
 				&$this,
 				'render_admin_page'
 		) );
+
+		$this->add_about_page ();
+	}
+
+	/**
+	 * Adds the EPA about page to the dashboard page.
+	 */
+	public function add_about_page() {
 		// The menu link is removed in admin_head
 		$this->about_page = add_dashboard_page ( __ ( 'About Easy Photo Album', 'epa' ), 'About epa', 'manage_options', 'epa-about', create_function ( '', "require_once 'EPA_about.php';" ) );
 	}
@@ -78,8 +90,8 @@ class EPA_Admin {
 			if (! isset ( $_GET ['activate-multi'] )) {
 				// only delete the option before a redirect
 				delete_option ( 'epa_redirect_' . get_current_user_id () );
-				wp_redirect ( 'index.php?page=epa-about' );
-				exit();
+				wp_redirect ( is_network_admin () ? network_admin_url ( 'index.php?page=epa-about' ) : admin_url ( 'index.php?page=epa-about' ) );
+				exit ();
 			}
 		}
 	}
@@ -180,7 +192,7 @@ class EPA_Admin {
 	 *
 	 */
 	public function validate_settings($input) {
-		$valid = EasyPhotoAlbum::get_instance ()->getOptions ();
+		$valid = get_option('EasyPhotoAlbum');
 		$valid ['linkto'] = (in_array ( $input ['linkto'], array (
 				'file',
 				'attachment',
@@ -423,7 +435,7 @@ table tr td strong {
 	 *        	[optional] Escape the content? Default true
 	 */
 	private function show_description($description, $escape = true) {
-		echo ($escape ? esc_html ( $description ) : $description );
+		echo ($escape ? esc_html ( $description ) : $description);
 	}
 
 	/**

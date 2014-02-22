@@ -169,10 +169,6 @@ class EPA_Admin {
 				&$this,
 				'display_scalelightbox_field'
 		), $this->admin_page, 'epa-section-lightbox' );
-		add_settings_field ( 'showallimagesinlightbox', __ ( 'Show all images in the lighbox', 'epa' ), array (
-				&$this,
-				'display_showallimagesinlightbox_field'
-		), $this->admin_page, 'epa-section-lightbox' );
 
 		// OVERRIDE SECTION
 		add_settings_section ( 'epa-section-override', __ ( 'Override options', 'epa' ), null, $this->admin_page );
@@ -363,18 +359,6 @@ HTML;
 			);
 		}
 		$this->show_input_field ( 'inmainloop', 'true', 'checkbox', sprintf ( '<label for="iml">&nbsp;%s</label>', __ ( 'Show photo albums on the blog page (they will be included in the main loop).', 'epa' ) ), $attr );
-	}
-
-	public function display_showallimagesinlightbox_field() {
-		$attr = array (
-				'id' => 'saiil'
-		);
-		if (EasyPhotoAlbum::get_instance ()->showallimagesinlightbox) {
-			$attr += array (
-					'checked' => 'checked'
-			);
-		}
-		$this->show_input_field ( 'showallimagesinlightbox', 'true', 'checkbox', sprintf ( '<label for="saiil">&nbsp;%s</label>', __ ( "When an user watches some images in a lightbox from archive view, should the lightbox display all the images (also the ones that aren&#39;t shown in the archive view)?", 'epa' ) ), $attr );
 	}
 
 	public function display_override_field() {

@@ -51,7 +51,7 @@ class EasyPhotoAlbum {
 	private $options = array ();
 	private $post_type = null;
 	private $admin = null;
-	private $tinymce = null;
+	private $insert_album = null;
 	public static $version = '1.2';
 
 	private function __construct() {
@@ -59,7 +59,7 @@ class EasyPhotoAlbum {
 
 		$this->options_init ();
 		$this->post_type = new EPA_PostType ();
-		$this->tinymce = new EPA_Insert_Album ();
+		$this->insert_album = new EPA_Insert_Album ();
 		if (is_admin ()) {
 			$this->admin = new EPA_Admin ();
 			new EPA_Help ();
@@ -227,7 +227,7 @@ class EasyPhotoAlbum {
 		$defaults = array (
 				'linkto' => 'lightbox',
 				'wraparound' => false,
-				'albumlabel' => _x ( 'Image {0} of {1}', 'Ex: Image 4 of 6, so {0} is the current image number and {1} is the total number of images.', 'epa' ),
+				'albumlabel' => _x ( 'Image {0} of {1}', 'Example: Image 4 of 6, so {0} is the current image number and {1} is the total number of images.', 'epa' ),
 				'showalbumlabel' => true,
 				'showcaption' => true,
 				'numimageswhennotsingle' => 3,
@@ -236,11 +236,15 @@ class EasyPhotoAlbum {
 				'archivepostid' => 0,
 				'displaycolumns' => 3,
 				'displaysize' => 'thumbnail',
-				'showallimagesinlightbox' => false,
 				'scalelightbox' => true
 		);
-		$this->options = get_option ( 'EasyPhotoAlbum', $defaults );
-		$this->options = wp_parse_args ( $this->options, $defaults );
+		$from_db = get_option ( 'EasyPhotoAlbum', false );
+		if (false == $from_db) {
+			// Store the default options
+			add_option('EasyPhotoAlbum', $defaults);
+			$from_db = array();
+		}
+		$this->options = wp_parse_args ( $from_db, $defaults );
 	}
 
 	/**
@@ -259,17 +263,6 @@ class EasyPhotoAlbum {
 				'display_size' => isset ( $options ['displaysize'] ) ? $options ['displaysize'] : $this->displaysize,
 				'show_all_images_in_lightbox' => isset ( $options ['showallimagesinlightbox'] ) ? $options ['showallimagesinlightbox'] : $this->showallimagesinlightbox
 		);
-	}
-
-	/**
-	 * Returns the options.
-	 *
-	 * @internal THIS FUNCTION SHOULD BE CALLED FROM EPA_Admin ONLY!
-	 *
-	 * @return array
-	 */
-	public function getOptions() {
-		return $this->options;
 	}
 }
 

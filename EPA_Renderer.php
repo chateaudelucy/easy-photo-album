@@ -71,13 +71,13 @@ class EPA_Renderer {
 		foreach ( $this->photos as $photo ) {
 			$html .= $this->render_one_photo ( $photo );
 			if ($this->display_options ['excerpt_number'] == $count && $count != $max) {
-				// $count is never 0, so by 0, all the images will be displayed.
+				// $count is never 0, so by excerpt_number = 0, all the images will be displayed.
 				$html .= $this->more_tag ();
 			}
-			// IF: there is need for a new row and we are not in the hidden div
+			// IF: there is need for a new row and it is not the last row
 			// ($display_option['show_all_images_in_lightbox'])
-			// ($count % $colums == 0 AND $count != $max AND !$in_hidden_div)
-			if ($count % $this->display_options ['columns'] == 0 && $count != $max && $this->in_hidden_div == false) {
+			// ($count % $colums == 0 AND $count != $max)
+			if ($count % $this->display_options ['columns'] == 0 && $count != $max) {
 				$html .= '</li><li class="epa-row epa-cf">';
 			}
 			$count += 1;
@@ -164,14 +164,6 @@ STYLE;
 	 * @return string
 	 */
 	protected function more_tag() {
-		// If the user wants to display all the images in excerpt view.
-		if ($this->display_options ['show_all_images_in_lightbox'] && $this->display_options ['link_to'] == 'lightbox') {
-			$this->in_hidden_div = true;
-			array_push ( $this->closing_tags, 'div' );
-			return '
-<div style="display:none">
-					';
-		}
 		return '
 <!--more-->
 				';

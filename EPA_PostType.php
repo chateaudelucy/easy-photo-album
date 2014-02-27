@@ -149,7 +149,8 @@ class EPA_PostType {
 							'title',
 							'author',
 							'revisions',
-							'thumbnail'
+							'thumbnail',
+							'comments'
 					),
 					'public' => true,
 					'show_ui' => true,

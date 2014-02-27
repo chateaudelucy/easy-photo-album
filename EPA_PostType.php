@@ -490,11 +490,9 @@ HTML;
 		if (false !== $data && ! empty ( $data )) {
 			$result .= __ ( 'Display settings', 'epa' ) . ": " . "\n";
 			$result .= sprintf ( '%1$s: %2$s', __ ( 'Columns', 'epa' ), $data ['options'] ['columns'] ) . "\n";
-			$result .= sprintf ( '%1$s: %2$s', __ ( 'Number of images for excerpt', 'epa' ), $data ['options'] ['excerpt_number'] ) . "\n";
 			$result .= sprintf ( '%1$s: %2$s', __ ( 'Show caption under the images', 'epa' ), ($data ['options'] ['show_caption'] ? __ ( 'yes', 'epa' ) : __ ( 'no', 'epa' )) ) . "\n";
-			$result .= sprintf ( '%1$s: %2$s', __ ( 'Link image to', 'epa' ), $data ['options'] ['link_to'] ) . "\n";
 			$result .= sprintf ( '%1$s: %2$s', __ ( 'Image size', 'epa' ), $data ['options'] ['display_size'] ) . "\n";
-			$result .= sprintf ( '%1$s: %2$s', __ ( 'Show all images in lightbox when the user views them in the archive view', 'epa' ), ($data ['options'] ['show_all_images_in_lightbox']) ? __ ( 'yes', 'epa' ) : __ ( 'no', 'epa' ) ) . "\n";
+			$result .= sprintf ( '%1$s: %2$s', __ ( 'Number of images for excerpt', 'epa' ), $data ['options'] ['excerpt_number'] ) . "\n";
 			$result .= "\n";
 			$result .= __ ( 'Photos' ) . ": " . "\n";
 			unset ( $data ['options'] );

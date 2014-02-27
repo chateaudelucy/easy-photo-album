@@ -1,0 +1,63 @@
+@CHARSET "UTF-8";
+/*
+Easy Photo Album Wordpress plugin.
+
+Copyright (C) 2013  TV productions
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+This file contains the styles for the admin settings page
+
+*/
+.epa-settings-block {
+	background-color: #FFFFFF;
+	border: 1px solid #EEEEEE;
+	margin: 5px 0;
+	padding: 5px 10px;
+}
+
+.epa-settings-block h3 {
+	border-bottom: 1px solid #EEEEEE;
+	line-height: 2;
+	margin: 0;
+}
+
+#epa-display-settings .block {
+	display: block;
+}
+
+#epa-display-settings .block > span {
+	display: block;
+	float: left;
+}
+
+.epa-help:hover {
+	color: #AAAAAA;
+}
+
+.epa-help {
+	cursor: pointer;
+	display: inline;
+	margin-left: 5px;
+}
+
+.epa-help-content {
+	display: none;
+	background-color: #EEEEEE;
+	padding: 5px;
+	color: #444444;
+	min-width: 100px;
+	box-shadow: 2px 2px 3px rgba(44, 44, 44, 0.5);
+    margin-left: 10px;
+}

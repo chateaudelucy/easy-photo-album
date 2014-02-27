@@ -123,6 +123,11 @@ class EPA_PostType {
 	 */
 	public function add_album_posttype() {
 		if (! post_type_exists ( self::POSTTYPE_NAME )) {
+			if (version_compare ( $GLOBALS ['wp_version'], '3.8', '>=' ))
+				$icon = ''; // added later with some syle
+			else
+				$icon = plugin_dir_url ( __FILE__ ) . 'css/img/epa-16.png';
+
 			register_post_type ( self::POSTTYPE_NAME, array (
 					'labels' => array (
 							'name' => _x ( 'Photo Albums', 'General Photo Albums name (multiple)', 'epa' ),
@@ -148,7 +153,7 @@ class EPA_PostType {
 					'public' => true,
 					'show_ui' => true,
 					'show_in_menu' => true,
-					'menu_icon' => plugin_dir_url ( __FILE__ ) . 'css/img/epa-16.png',
+					'menu_icon' => $icon,
 					'menu_position' => 11,
 					'show_in_nav_menus' => true,
 					'publicly_queryable' => true,
@@ -220,55 +225,30 @@ class EPA_PostType {
 	public function display_options_metabox() {
 		$this->load_data ();
 		?>
-<p><?php _e('Override the default display options of the photo albums here.', 'epa')?></p>
 <table class="form-table">
-	<tr>
+	<tr valign="top">
 		<th scope="row">
-<?php _e('Columns', 'epa');?>
-</th>
+		<?php _e('Columns', 'epa');?>
+		</th>
 		<td><input type="number"
 			name="<?php echo self::INPUT_NAME;?>[option][columns]"
 			class="small-text" step="1" min="1"
 			value="<?php echo $this->current_options['columns'];?>" /></td>
 	</tr>
-	<tr>
-		<th scope="col">
-<?php _e('Number of images for excerpt', 'epa');?><br /> <span
-			class="description"><?php _e('Set to 0 to show all images', 'epa');?></span>
+	<tr valign="top">
+		<th scope="row"><label for="epa-option-show-caption"><?php _e('Show caption', 'epa');?></label>
 		</th>
-		<td><input type="number"
-			name="<?php echo self::INPUT_NAME;?>[option][excerpt_number]"
-			class="small-text" step="1" min="0"
-			value="<?php echo $this->current_options['excerpt_number'];?>" /></td>
-	</tr>
-	<tr>
-		<th scope="col" colspan="2"><input type="checkbox" value="true"
+		<td><input type="checkbox" value="true"
 			name="<?php echo self::INPUT_NAME;?>[option][show_caption]"
 			<?php checked($this->current_options['show_caption']);?>
-			id="epa-option-show-caption" /> <label for="epa-option-show-caption"><?php _e('Show caption under the images', 'epa');?></label>
-		</th>
+			id="epa-option-show-caption" /></td>
 	</tr>
-	<tr>
-		<th scope="col" colspan="2">
-			<?php _e('Link image to', 'epa');?>
-
-		<select name="<?php echo self::INPUT_NAME;?>[option][link_to]"
-			style="float: right;">
-				<option value="file"
-					<?php selected($this->current_options['link_to'], 'file');?>><?php _e('The image file', 'epa');?></option>
-				<option value="attachment"
-					<?php selected($this->current_options['link_to'], 'attachment');?>><?php _e('The attachment page', 'epa');?></option>
-				<option value="lightbox"
-					<?php selected($this->current_options['link_to'], 'lightbox');?>><?php _e('Lightbox display', 'epa');?></option>
-		</select>
-		</th>
-	</tr>
-	<tr>
-		<th scope="col" colspan="2">
+	<tr valign="top">
+		<th scope="row">
 			<?php _e('Image size', 'epa');?>
-
-	<select name="<?php echo self::INPUT_NAME;?>[option][display_size]"
-			style="float: right;">
+		</th>
+		<td><select
+			name="<?php echo self::INPUT_NAME;?>[option][display_size]">
 			<?php
 		// Using the same filter as in wp-admin/includes/media.php for the function
 		// image_size_input_fields. Other plugins can use this filter to add their image size.
@@ -285,16 +265,17 @@ class EPA_PostType {
 HTML;
 		}
 		?>
-			</select>
-		</th>
+			</select></td>
 	</tr>
-	<tr>
-		<th scope="col" colspan="2"><input type="checkbox" value="true"
-			name="<?php echo self::INPUT_NAME;?>[option][show_all_images_in_lightbox]"
-			<?php checked($this->current_options['show_all_images_in_lightbox']);?>
-			id="epa-option-show-all-images-in-lightbox" /> <label
-			for="epa-option-show-all-images-in-lightbox"><?php _e('Show all images in lightbox when the user views them in the archive view', 'epa');?></label>
+	<tr valign="top">
+		<th scope="row">
+<?php _e('Number of images for excerpt', 'epa');?><br /> <span
+			class="description"><?php _e('Set to 0 to show all images', 'epa');?></span>
 		</th>
+		<td><input type="number"
+			name="<?php echo self::INPUT_NAME;?>[option][excerpt_number]"
+			class="small-text" step="1" min="0"
+			value="<?php echo $this->current_options['excerpt_number'];?>" /></td>
 	</tr>
 </table>
 
@@ -374,15 +355,9 @@ HTML;
 				$valid = $this->current_options;
 				$input = $_POST [self::INPUT_NAME] ['option'];
 				$valid ['columns'] = is_numeric ( $input ['columns'] ) && intval ( $input ['columns'] ) >= 1 ? intval ( $input ['columns'] ) : $valid ['columns'];
-				$valid ['excerpt_number'] = is_numeric ( $input ['excerpt_number'] ) ? intval ( $input ['excerpt_number'] ) : $valid ['excerpt_number'];
 				$valid ['show_caption'] = isset ( $input ['show_caption'] ) && $input ['show_caption'] == 'true' ? true : false;
-				$valid ['link_to'] = in_array ( $input ['link_to'], array (
-						'file',
-						'attachment',
-						'lightbox'
-				) ) ? $input ['link_to'] : $valid ['link_to'];
 				$valid ['display_size'] = in_array ( $input ['display_size'], get_intermediate_image_sizes () ) ? $input ['display_size'] : $valid ['display_size'];
-				$valid ['show_all_images_in_lightbox'] = isset ( $input ['show_all_images_in_lightbox'] ) && $input ['show_all_images_in_lightbox'] == 'true' ? true : false;
+				$valid ['excerpt_number'] = is_numeric ( $input ['excerpt_number'] ) ? intval ( $input ['excerpt_number'] ) : $valid ['excerpt_number'];
 				$this->current_options = $valid;
 
 				// Empty the current photos var
@@ -536,11 +511,29 @@ HTML;
 	 * Adds the styles and the scripts at the admin side
 	 */
 	public function admin_head() {
-		// Add icon
+		// Add dashicons
+		wp_enqueue_style ( 'epa-dashicon', plugin_dir_url ( __FILE__ ) . 'css/epa-dashicons'.(defined('WP_DEBUG') ? '' : '.min').'.css', array (), EasyPhotoAlbum::$version );
+		echo <<<CSS
+<style>
+#menu-posts-easy-photo-album .wp-menu-image:before {
+    color: #999999;
+    display: inline-block;
+    font: 400 20px/1 epa !important;
+    height: 36px;
+    padding: 8px 0;
+    transition: all 0.1s ease-in-out 0s;
+    width: 20px;
+
+	content: "\\e601";
+}
+</style>
+CSS;
+
 		if (get_current_screen ()->post_type == 'easy-photo-album') {
-			// only on the necessary screens.
-			$url = plugin_dir_url ( __FILE__ ) . 'css/img/epa-32.png';
-			echo <<<CSS
+			if (version_compare ( $GLOBALS ['wp_version'], '3.8', '<' )) {
+				// only on the necessary screens.
+				$url = plugin_dir_url ( __FILE__ ) . 'css/img/epa-32.png';
+				echo <<<CSS
 <!-- Easy Photo Album CSS -->
 <style type="text/css">
 	.icon32-posts-easy-photo-album {
@@ -557,6 +550,7 @@ HTML;
 <!-- End Easy Photo Album CSS -->
 
 CSS;
+			}
 			// Add media
 			wp_enqueue_media ();
 			$min = (defined ( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min');
@@ -580,14 +574,14 @@ CSS;
 			// it is a photo album
 			wp_enqueue_style ( 'epa-template', plugins_url ( 'css/easy-photo-album-template' . (defined ( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min') . '.css', __FILE__ ), array (), EasyPhotoAlbum::$version, 'all' );
 
-			if (EasyPhotoAlbum::get_instance ()->linkto == 'lightbox') {
+			if (EasyPhotoAlbum::get_instance ()->viewmode == 'lightbox') {
 				wp_enqueue_script ( 'lightbox2-js', plugins_url ( 'js/lightbox' . (defined ( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min') . '.js', __FILE__ ), array (
 						'jquery'
 				), '2.6.1', true );
 				wp_localize_script ( 'lightbox2-js', 'lightboxSettings', array (
 						'wrapAround' => EasyPhotoAlbum::get_instance ()->wraparound,
-						'showAlbumLabel' => EasyPhotoAlbum::get_instance ()->showalbumlabel,
-						'albumLabel' => EasyPhotoAlbum::get_instance ()->albumlabel,
+						'showimagenumber' => EasyPhotoAlbum::get_instance ()->showimagenumber,
+						'albumLabel' => EasyPhotoAlbum::get_instance ()->imagenumberformat,
 						'scaleLightbox' => EasyPhotoAlbum::get_instance ()->scalelightbox
 				) );
 				wp_enqueue_style ( 'lightbox2-css', plugins_url ( 'css/lightbox' . (defined ( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min') . '.css', __FILE__ ), array (), '2.6.1' );
@@ -755,7 +749,7 @@ NO_JS;
 			}
 		}
 		// Rewind the query
-		$query->rewind_posts();
+		$query->rewind_posts ();
 		return $has_shortcode;
 	}
 }

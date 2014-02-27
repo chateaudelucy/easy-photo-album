@@ -33,7 +33,7 @@ Small edits by TV productions: fix image scale bug --> v2.6.1
       this.fadeDuration = 500;
       this.fitImagesInViewport = lightboxSettings.scaleLightbox;
       this.resizeDuration = 700;
-      this.showImageNumberLabel = lightboxSettings.showAlbumLabel;
+      this.showImageNumberLabel = lightboxSettings.showimagenumber;
       this.wrapAround = lightboxSettings.wrapAround;
     }
 

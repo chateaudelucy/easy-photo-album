@@ -110,9 +110,9 @@ class EPA_Renderer {
 		$src = $src [0];
 
 		$a_attr = "";
-		switch ($this->display_options ['link_to']) {
+		switch (EasyPhotoAlbum::get_instance()->viewmode) {
 			case 'lightbox' :
-				$url = wp_get_attachment_image_src ( $photo->id, 'full' );
+				$url = wp_get_attachment_image_src ( $photo->id, EasyPhotoAlbum::get_instance()->lightboxsize );
 				$url = $url [0];
 				$a_attr = 'data-lightbox="' . $this->album_id . '"';
 				break;
@@ -146,7 +146,7 @@ HTML;
 	}
 
 	protected function render_style_block() {
-		// Calculate the widht (in %) of each image
+		// Calculate the width (in %) of each image
 		$used_margin = $this->display_options ['columns'] * 2;
 		$width = floor ( (100 - $used_margin) / $this->display_options ['columns'] );
 		return <<<STYLE

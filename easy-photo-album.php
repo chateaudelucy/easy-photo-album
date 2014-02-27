@@ -154,6 +154,35 @@ class EasyPhotoAlbum {
 	}
 
 	/**
+	 * Remaps the options to the new names
+	 *
+	 * @since 1.3
+	 */
+	/*
+	public function remap_options() {
+		$from_db = get_option ( 'EasyPhotoAlbum', false );
+		var_dump($from_db);
+		if (false === $from_db || ! is_array ( $from_db ))
+			return;
+
+		$new = array ();
+		$new ['viewmode'] = $from_db ['linkto'];
+		$new ['displaycolumns'] = $from_db ['displaycolumns'];
+		$new ['showcaption'] = $from_db ['showcaption'];
+		$new ['displaysize'] = $from_db ['displaysize'];
+		$new ['excerptnumber'] = $from_db ['numimageswhennotsingle'];
+		// lightbox settings
+		$new ['showimagenumber'] = $from_db ['showalbumlabel'];
+		$new ['imagenumberformat'] = $from_db ['albumlabel'];
+		$new ['wraparound'] = $from_db ['wraparound'];
+		$new ['scalelightbox'] = $from_db ['scalelightbox'];
+		// Miscellaneous settings
+		$new ['showtitleintable'] = $from_db ['showtitleintable'];
+
+		update_option ( 'EasyPhotoAlbum', $new );
+	}*/
+
+	/**
 	 * Rerenders all the albums.
 	 */
 	public function rerender_photos($oldval, $newval) {
@@ -221,28 +250,41 @@ class EasyPhotoAlbum {
 	}
 
 	/**
+	 * Returns the options inclusive their default values.
+	 *
+	 * @return Array options
+	 * @since 1.3
+	 */
+	private function get_default_options() {
+		return array (
+				// Display settings
+				'viewmode' => 'lightbox',
+				'displaycolumns' => 3,
+				'showcaption' => true,
+				'displaysize' => 'thumbnail',
+				'excerptnumber' => 3,
+				// lightbox settings
+				'showimagenumber' => true,
+				'imagenumberformat' => _x ( 'Image {0} of {1}', 'Example: Image 4 of 6, so {0} is the current image number and {1} is the total number of images.', 'epa' ),
+				'wraparound' => false,
+				'scalelightbox' => true,
+				'lightboxsize' => 'large',
+				// Miscellaneous settings
+				'showtitleintable' => false,
+				'inmainloop' => true
+		);
+	}
+
+	/**
 	 * Loads existing options, or loads the defaults.
 	 */
 	private function options_init() {
-		$defaults = array (
-				'linkto' => 'lightbox',
-				'wraparound' => false,
-				'albumlabel' => _x ( 'Image {0} of {1}', 'Example: Image 4 of 6, so {0} is the current image number and {1} is the total number of images.', 'epa' ),
-				'showalbumlabel' => true,
-				'showcaption' => true,
-				'numimageswhennotsingle' => 3,
-				'showtitleintable' => false,
-				'inmainloop' => true,
-				'archivepostid' => 0,
-				'displaycolumns' => 3,
-				'displaysize' => 'thumbnail',
-				'scalelightbox' => true
-		);
+		$defaults = $this->get_default_options();
 		$from_db = get_option ( 'EasyPhotoAlbum', false );
 		if (false == $from_db) {
 			// Store the default options
-			add_option('EasyPhotoAlbum', $defaults);
-			$from_db = array();
+			add_option ( 'EasyPhotoAlbum', $defaults );
+			$from_db = array ();
 		}
 		$this->options = wp_parse_args ( $from_db, $defaults );
 	}
@@ -257,12 +299,31 @@ class EasyPhotoAlbum {
 	public function get_default_display_options($options = array()) {
 		return array (
 				'columns' => isset ( $options ['displaycolumns'] ) ? ( int ) $options ['displaycolumns'] : ( int ) $this->displaycolumns,
-				'excerpt_number' => isset ( $options ['numimageswhennotsingle'] ) ? $options ['numimageswhennotsingle'] : $this->numimageswhennotsingle,
+				'excerpt_number' => isset ( $options ['excerptnumber'] ) ? $options ['excerptnumber'] : $this->excerptnumber,
 				'show_caption' => isset ( $options ['showcaption'] ) ? $options ['showcaption'] : $this->showcaption,
-				'link_to' => isset ( $options ['linkto'] ) ? $options ['linkto'] : $this->linkto,
-				'display_size' => isset ( $options ['displaysize'] ) ? $options ['displaysize'] : $this->displaysize,
-				'show_all_images_in_lightbox' => isset ( $options ['showallimagesinlightbox'] ) ? $options ['showallimagesinlightbox'] : $this->showallimagesinlightbox
+				'display_size' => isset ( $options ['displaysize'] ) ? $options ['displaysize'] : $this->displaysize
 		);
+	}
+
+	/**
+	 * Generates attributes from an array
+	 *
+	 * @param array $array
+	 *        	the attribute names and values
+	 * @return string
+	 *
+	 * @since 1.3
+	 */
+	public function generate_attributes($array) {
+		$out = '';
+		foreach ( $array as $name => $value ) {
+			if (is_array ( $value ))
+				$value = implode ( ' ', $value );
+				// Check if there is a underscore in the name. If so, ignore
+			if (false === strpos ( $name, '_' ))
+				$out .= $name . '="' . esc_attr ( $value ) . '" ';
+		}
+		return $out;
 	}
 }
 

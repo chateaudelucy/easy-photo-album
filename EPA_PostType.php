@@ -148,7 +148,8 @@ class EPA_PostType {
 					'supports' => array (
 							'title',
 							'author',
-							'revisions'
+							'revisions',
+							'thumbnail'
 					),
 					'public' => true,
 					'show_ui' => true,
@@ -510,7 +511,7 @@ HTML;
 	 */
 	public function admin_head() {
 		// Add dashicons
-		wp_enqueue_style ( 'epa-dashicon', plugin_dir_url ( __FILE__ ) . 'css/epa-dashicons'.(defined('WP_DEBUG') ? '' : '.min').'.css', array (), EasyPhotoAlbum::$version );
+		wp_enqueue_style ( 'epa-dashicon', plugin_dir_url ( __FILE__ ) . 'css/epa-dashicons' . (defined ( 'WP_DEBUG' ) ? '' : '.min') . '.css', array (), EasyPhotoAlbum::$version );
 		echo <<<CSS
 <style>
 #menu-posts-easy-photo-album .wp-menu-image:before {

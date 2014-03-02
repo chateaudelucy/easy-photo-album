@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Laag_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="64px" height="64px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve">
+<g>
+	<polygon fill="#FFFFFF" points="46,5 46,8 48,8 48,29 6,29 6,27 5,27 5,31 50,31 50,5 	"/>
+	<g id="Photo_icon">
+		<path fill="#FFFFFF" d="M0,1v26h46V1H0z M44,25H2V3h42V25z"/>
+		<polygon fill="#FFFFFF" points="5,22 42,22 42,17.583 39.023,13.258 33.93,18.304 22.371,9.653 17.313,15.42 8.994,5.328 
+			5,11.816 		"/>
+		<circle fill="#FFFFFF" cx="34.603" cy="8.932" r="3.605"/>
+	</g>
+	<path fill="#FFFFFF" d="M9.372,42c0,0,2.162,17.396,5.767,21c0,0,55.87,0,44.696,0c-3.604,0-5.768-21-5.768-21
+		C32.44,42,32.44,42,9.372,42z"/>
+	<g>
+		<path fill="#FFFFFF" d="M57,34v4H15.313c-0.171,1-0.334,2-0.334,2H56.07c0,0,0.721,13.58,4.325,21.51C63.254,67.799,64,34,64,34
+			H57z"/>
+	</g>
+	<polygon fill="#FFFFFF" points="50,10 50,12 53,12 53,33 11,33 11,31 9,31 9,36 55,36 55,10 	"/>
+</g>
+</svg>

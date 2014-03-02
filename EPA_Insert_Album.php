@@ -86,7 +86,7 @@ class EPA_Insert_Album {
 		), $atts, 'epa-album' );
 
 		// Is the curren album published or...?
-		if (!in_array ( get_post_status ( $atts ['id'] ), apply_filters ( 'epa_include_album_status', array (
+		if (! in_array ( get_post_status ( $atts ['id'] ), apply_filters ( 'epa_include_album_status', array (
 				'publish'
 		) ) )) {
 			// if the user is logged in and so forth..
@@ -214,7 +214,8 @@ class EPA_Insert_Album {
 				'jquery'
 		), EasyPhotoAlbum::$version, true );
 		wp_localize_script ( 'epa-insert-js', 'epaInsertL10n', array (
-				'not_found' => __ ( 'No albums found', 'epa' )
+				'not_found' => __ ( 'No albums found', 'epa' ),
+				'wp3_8' => version_compare ( $GLOBALS ['wp_version'], '3.8', '>=' )
 		) );
 		wp_print_styles ( 'epa-insert-css' );
 		wp_print_scripts ( 'epa-insert-js' );
@@ -255,5 +256,14 @@ class EPA_Insert_Album {
 	</form>
 </div>
 <?php
+	}
+
+	/**
+	 * Checks if the current wp installation uses TinyMCE 4.x or higher or not.
+	 *
+	 * @return bool
+	 */
+	public function is_tinymce_4() {
+		return version_compare ( $GLOBALS ['tinymce_version'], '4000-00000000', '>=' );
 	}
 }

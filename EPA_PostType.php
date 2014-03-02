@@ -210,7 +210,7 @@ class EPA_PostType {
 	}
 
 	/**
-	 * Displays the content of the metabox for this posttype
+	 * Displays the content of the Album images metabox for this posttype
 	 */
 	public function display_photo_metabox() {
 		$this->display_no_js_waring ();
@@ -224,8 +224,14 @@ class EPA_PostType {
 		echo "\n" . '</div>' . "\n";
 	}
 
+	/**
+	 * Renders the content of the options metabox
+	 */
 	public function display_options_metabox() {
+		require_once 'EPA_Help.php';
+
 		$this->load_data ();
+		$help = new EPA_Help ();
 		?>
 <table class="form-table">
 	<tr valign="top">
@@ -235,7 +241,9 @@ class EPA_PostType {
 		<td><input type="number"
 			name="<?php echo self::INPUT_NAME;?>[option][columns]"
 			class="small-text" step="1" min="1"
-			value="<?php echo $this->current_options['columns'];?>" /></td>
+			value="<?php echo $this->current_options['columns'];?>" />
+			<?php $help->render_tooltip('displaycolumns');?>
+			</td>
 	</tr>
 	<tr valign="top">
 		<th scope="row"><label for="epa-option-show-caption"><?php _e('Show caption', 'epa');?></label>
@@ -243,7 +251,9 @@ class EPA_PostType {
 		<td><input type="checkbox" value="true"
 			name="<?php echo self::INPUT_NAME;?>[option][show_caption]"
 			<?php checked($this->current_options['show_caption']);?>
-			id="epa-option-show-caption" /></td>
+			id="epa-option-show-caption" />
+			<?php $help->render_tooltip('showcaption');?>
+			</td>
 	</tr>
 	<tr valign="top">
 		<th scope="row">
@@ -267,17 +277,20 @@ class EPA_PostType {
 HTML;
 		}
 		?>
-			</select></td>
+			</select>
+			<?php $help->render_tooltip('displaysize');?>
+			</td>
 	</tr>
 	<tr valign="top">
 		<th scope="row">
-<?php _e('Number of images for excerpt', 'epa');?><br /> <span
-			class="description"><?php _e('Set to 0 to show all images', 'epa');?></span>
+<?php _e('Number of images for excerpt', 'epa');?>
 		</th>
 		<td><input type="number"
 			name="<?php echo self::INPUT_NAME;?>[option][excerpt_number]"
 			class="small-text" step="1" min="0"
-			value="<?php echo $this->current_options['excerpt_number'];?>" /></td>
+			value="<?php echo $this->current_options['excerpt_number'];?>" />
+			<?php $help->render_tooltip('excerptnumber');?>
+			</td>
 	</tr>
 </table>
 
@@ -354,12 +367,14 @@ HTML;
 				$this->load_data ();
 
 				// Validate and save the album specific settings
+				require_once 'EPA_Validator.php';
+				$validator = new EPA_Validator ();
 				$valid = $this->current_options;
 				$input = $_POST [self::INPUT_NAME] ['option'];
-				$valid ['columns'] = is_numeric ( $input ['columns'] ) && intval ( $input ['columns'] ) >= 1 ? intval ( $input ['columns'] ) : $valid ['columns'];
-				$valid ['show_caption'] = isset ( $input ['show_caption'] ) && $input ['show_caption'] == 'true' ? true : false;
-				$valid ['display_size'] = in_array ( $input ['display_size'], get_intermediate_image_sizes () ) ? $input ['display_size'] : $valid ['display_size'];
-				$valid ['excerpt_number'] = is_numeric ( $input ['excerpt_number'] ) ? intval ( $input ['excerpt_number'] ) : $valid ['excerpt_number'];
+				$valid ['columns'] = $validator->validate_nummeric ( $input ['columns'], 1, $valid ['columns'] );
+				$valid ['show_caption'] = $validator->validate_checkbox ( $input, 'show_caption' );
+				$valid ['display_size'] = $validator->get_if_set ( $input, 'display_size', $valid ['display_size'] );
+				$valid ['excerpt_number'] = $validator->validate_nummeric ( $input ['excerpt_number'], 0, $valid ['excerpt_number'] );
 				$this->current_options = $valid;
 
 				// Empty the current photos var
@@ -534,23 +549,47 @@ CSS;
 				// only on the necessary screens.
 				$url = plugin_dir_url ( __FILE__ ) . 'css/img/epa-32.png';
 				echo <<<CSS
-<!-- Easy Photo Album CSS -->
+<!-- Easy Photo Album before wp-3.8 CSS -->
 <style type="text/css">
 	.icon32-posts-easy-photo-album {
 		background-image: url('$url') !important;
 		background-position: left top !important;
 	}
+</style>
+<!-- End Easy Photo Album before wp-3.8 CSS -->
+
+CSS;
+			}
+
+			echo <<<CSS
+<!-- Easy Photo Album CSS -->
+<style>
 	.easy-photo-album-table tbody tr td.column-image img:hover {
 		cursor: move;
 	}
 	.sortable-placeholder {
 		height: 100px;
 	}
+	.epa-help:hover {
+		color: #AAAAAA;
+	}
+	.epa-help {
+		cursor: pointer;
+		display: inline;
+		margin-left: 5px;
+	}
+	.epa-help-content {
+		display: none;
+		background-color: #EEEEEE;
+		padding: 5px;
+		color: #444444;
+		min-width: 100px;
+		box-shadow: 2px 2px 3px rgba(44, 44, 44, 0.5);
+    	margin-left: 10px;
+	}
 </style>
 <!-- End Easy Photo Album CSS -->
-
 CSS;
-			}
 			// Add media
 			wp_enqueue_media ();
 			$min = (defined ( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min');
@@ -753,5 +792,3 @@ NO_JS;
 		return $has_shortcode;
 	}
 }
-
-?>

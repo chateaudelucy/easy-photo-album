@@ -37,7 +37,6 @@ require_once 'EPA_Renderer.php';
 if (is_admin ()) {
 	require_once 'EPA_List_Table.php';
 	require_once 'EPA_Admin.php';
-	require_once 'EPA_Help.php';
 }
 
 /**
@@ -52,7 +51,7 @@ class EasyPhotoAlbum {
 	private $post_type = null;
 	private $admin = null;
 	private $insert_album = null;
-	public static $version = '1.2';
+	public static $version = '1.3-RC';
 
 	private function __construct() {
 		load_plugin_textdomain ( 'epa', false, basename ( dirname ( __FILE__ ) ) . '/lang' );
@@ -62,7 +61,6 @@ class EasyPhotoAlbum {
 		$this->insert_album = new EPA_Insert_Album ();
 		if (is_admin ()) {
 			$this->admin = new EPA_Admin ();
-			new EPA_Help ();
 		}
 
 		register_activation_hook ( __FILE__, array (

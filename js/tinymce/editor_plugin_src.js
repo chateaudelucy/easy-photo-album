@@ -18,17 +18,27 @@
 		 *            url Absolute URL to where the plugin is located.
 		 */
 		init : function(ed, url) {
-			ed.addButton('epa_insert', {
-				title : ed.getLang('epa.dlg_title'),
-				cmd : 'epa_insert_album',
-				image : url + '/insert.png'
-			});
+			var s = {};
+			if (epaInsertL10n.wp3_8) {
+				s = {
+					title : ed.getLang('epa.dlg_title'),
+					cmd : 'epa_insert_album',
+					icon : 'epa-dashicons-insert-album'
+				};
+			} else {
+				s = {
+					title : ed.getLang('epa.dlg_title'),
+					cmd : 'epa_insert_album',
+					image : url + '/insert.png'
+				};
+			}
+			ed.addButton('epa_insert', s);
 
 			ed.addCommand('epa_insert_album', function() {
 				ed.windowManager.open({
 					width : 480,
 					height : "auto",
-					wpDialog: true,
+					wpDialog : true,
 					id : 'epa-insert',
 					title : ed.getLang('epa.dlg_title')
 				}, {

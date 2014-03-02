@@ -74,7 +74,7 @@
 	padding-right: 5px;
 }
 
-#epa-insert input[type=checkbox], #epa-insert input[type=radio]  {
+#epa-insert input[type=checkbox],#epa-insert input[type=radio] {
 	width: auto;
 	padding: 3px 0 0;
 	margin: 0 3px 0 87px;
@@ -83,4 +83,21 @@
 
 #epa-insert input[type=radio].first {
 	margin-left: 0;
+}
+
+#content_epa_insert .mce_epa_insert {
+	font-family: 'epa' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+a.mce_epa_insert span.mce_epa_insert:before {
+	content: "\e602";
 }

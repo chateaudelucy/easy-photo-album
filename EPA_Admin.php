@@ -446,10 +446,10 @@ HTML;
 			return FALSE;
 		}
 
-		$table = [ ];
+		$table = array ();
 		$count = function (array $array) use(&$table, $add, $strict) {
 			$exit = ( bool ) $table;
-			$result = [ ];
+			$result = array ();
 			foreach ( $array as $value ) {
 				$key = array_search ( $value, $table, $strict );
 

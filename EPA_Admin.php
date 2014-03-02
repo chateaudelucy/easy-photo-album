@@ -260,14 +260,13 @@ class EPA_Admin {
 		}
 
 		// Force a rerender
-		// Array comparison: http://stackoverflow.com/a/17638939/1167959
-		if (array_count_values(get_option ( 'EasyPhotoAlbum', array () )) == array_count_values($valid)){
+		if ($this->array_equal_values ( get_option ( 'EasyPhotoAlbum', array () ), $valid )) {
 			// The new and the old settings are the same, so there won't be a rerender
 			// add a difference
-			if (isset($valid['none'])) {
-				$valid['none'] = 1 - $valid['none']; // $valid['none'] is 0 or 1.
-			}else {
-				$valid['none'] =  1;
+			if (isset ( $valid ['none'] )) {
+				$valid ['none'] = 1 - $valid ['none']; // $valid['none'] is 0 or 1.
+			} else {
+				$valid ['none'] = 1;
 			}
 		}
 
@@ -428,5 +427,53 @@ HTML;
 	</form>
 </div>
 <?php
+	}
+
+	/**
+	 * Determens if two arrays are the same
+	 *
+	 * @link http://stackoverflow.com/a/17638939/1167959
+	 * @param array $a
+	 * @param array $b
+	 * @param bool $strict
+	 * @param bool $allow_duplicate_values
+	 * @return boolean
+	 */
+	public function array_equal_values(array $a, array $b, $strict = FALSE, $allow_duplicate_values = TRUE) {
+		$add = ( int ) ! $allow_duplicate_values;
+
+		if ($add and count ( $a ) !== count ( $b )) {
+			return FALSE;
+		}
+
+		$table = [ ];
+		$count = function (array $array) use(&$table, $add, $strict) {
+			$exit = ( bool ) $table;
+			$result = [ ];
+			foreach ( $array as $value ) {
+				$key = array_search ( $value, $table, $strict );
+
+				if (FALSE !== $key) {
+					if (! isset ( $result [$key] )) {
+						$result [$key] = 1;
+					} else {
+						$result [$key] += $add;
+					}
+					continue;
+				}
+
+				if ($exit) {
+					break;
+				}
+
+				$key = count ( $table );
+				$table [$key] = $value;
+				$result [$key] = 1;
+			}
+
+			return $result;
+		};
+
+		return $count ( $a ) == $count ( $b );
 	}
 }

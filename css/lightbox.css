@@ -36,6 +36,9 @@ body:after {
   -ms-border-radius: 3px;
   -o-border-radius: 3px;
   border-radius: 3px;
+  padding: 0;
+  margin: 0;
+  border: 0;
 }
 /* line 32, ../sass/lightbox.sass */
 .lightbox a img {

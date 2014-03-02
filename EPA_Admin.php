@@ -258,6 +258,19 @@ class EPA_Admin {
 				update_post_meta ( $album->ID, EPA_PostType::SETTINGS_NAME, $data );
 			}
 		}
+
+		// Force a rerender
+		// Array comparison: http://stackoverflow.com/a/17638939/1167959
+		if (array_count_values(get_option ( 'EasyPhotoAlbum', array () )) == array_count_values($valid)){
+			// The new and the old settings are the same, so there won't be a rerender
+			// add a difference
+			if (isset($valid['none'])) {
+				$valid['none'] = 1 - $valid['none']; // $valid['none'] is 0 or 1.
+			}else {
+				$valid['none'] =  1;
+			}
+		}
+
 		return $valid;
 	}
 

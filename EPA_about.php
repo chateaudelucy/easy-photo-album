@@ -115,10 +115,15 @@ defined ( 'ABSPATH' ) or die ();
 	</div>
 
 	<div class="return-to-dashboard">
+	<?php
+	if (!is_network_admin()) {
+	?>
 		<a
 			href="<?php echo esc_url( self_admin_url( 'options-general.php?page=epa-settings' ) ); ?>"><?php
 			_e ( 'Go to Settings &rarr; Easy Photo Album', 'epa' );
-			?></a> | <a href="<?php echo esc_url( self_admin_url() ); ?>"><?php
+			?></a> | <?php
+	}
+			?><a href="<?php echo esc_url( self_admin_url() ); ?>"><?php
 	is_blog_admin () ? _e ( 'Go to Dashboard &rarr; Home', 'epa' ) : _e ( 'Go to Dashboard', 'epa' );
 	?></a>
 	</div>

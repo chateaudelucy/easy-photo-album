@@ -388,7 +388,7 @@ window.TVproductions = window.TVproductions || {};
 							refresh();
 						}
 					});
-			$('#publish, #doaction, #doaction2').click(function(e) {
+			$('#publish, #doaction, #doaction2, #post-preview').click(function(e) {
 				build();
 			});
 		}// end if jQuery(".easy-photo-album-table").length

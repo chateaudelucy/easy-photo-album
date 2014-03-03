@@ -447,33 +447,32 @@ HTML;
 		}
 
 		$table = array ();
-		$count = function (array $array) use(&$table, $add, $strict) {
-			$exit = ( bool ) $table;
-			$result = array ();
-			foreach ( $array as $value ) {
-				$key = array_search ( $value, $table, $strict );
+		return $this->array_equal_values_count ( $a, $table, $add, $strict ) == $this->array_equal_values_count ( $b, $table, $add, $strict );
+	}
 
-				if (FALSE !== $key) {
-					if (! isset ( $result [$key] )) {
-						$result [$key] = 1;
-					} else {
-						$result [$key] += $add;
-					}
-					continue;
+	private function array_equal_values_count(array $array, &$table, $add, $strict) {
+		$exit = ( bool ) $table;
+		$result = array ();
+		foreach ( $array as $value ) {
+			$key = array_search ( $value, $table, $strict );
+
+			if (FALSE !== $key) {
+				if (! isset ( $result [$key] )) {
+					$result [$key] = 1;
+				} else {
+					$result [$key] += $add;
 				}
-
-				if ($exit) {
-					break;
-				}
-
-				$key = count ( $table );
-				$table [$key] = $value;
-				$result [$key] = 1;
+				continue;
 			}
 
-			return $result;
-		};
+			if ($exit) {
+				break;
+			}
 
-		return $count ( $a ) == $count ( $b );
+			$key = count ( $table );
+			$table [$key] = $value;
+			$result [$key] = 1;
+		}
+		return $result;
 	}
 }

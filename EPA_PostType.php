@@ -38,67 +38,67 @@ class EPA_PostType {
 	 */
 	public function __construct() {
 		add_action ( 'init', array (
-				&$this,
+				$this,
 				'add_album_posttype'
 		) );
 		add_action ( 'init', array (
-				&$this,
+				$this,
 				'on_init'
 		) );
 		add_action ( 'admin_head', array (
-				&$this,
+				$this,
 				'admin_head'
 		) );
 		add_action ( 'save_post', array (
-				&$this,
+				$this,
 				'save_metadata'
 		), 1, 2 );
 		add_action ( 'save_post', array (
-				&$this,
+				$this,
 				'save_revision_meta_field'
 		), 10, 2 );
 		add_action ( 'wp_enqueue_scripts', array (
-				&$this,
+				$this,
 				'enqueue_scripts'
 		) );
 		add_action ( 'wp_restore_post_revision', array (
-				&$this,
+				$this,
 				'restore_revision_data'
 		), 10, 2 );
 		add_action ( '_wp_post_revision_fields', array (
-				&$this,
+				$this,
 				'add_revision_field'
 		) );
 		add_action ( '_wp_post_revision_field_epa-revision', array (
-				&$this,
+				$this,
 				'render_revision_field'
 		), 10, 4 );
 		// Make shure there is no html added to the content of the album
 		if (remove_filter ( 'the_content', 'wpautop' )) {
 			// filter existed and is removed
 			add_filter ( 'the_content', array (
-					&$this,
+					$this,
 					'autop_fix'
 			), 10 );
 		}
 		add_filter ( 'the_content', array (
-				&$this,
+				$this,
 				'replace_css_id_when_included'
 		) );
 		add_filter ( 'post_updated_messages', array (
-				&$this,
+				$this,
 				'album_messages'
 		), 11, 1 );
 		add_filter ( 'the_content_more_link', array (
-				&$this,
+				$this,
 				'special_more_link'
 		), 10, 2 );
 		add_filter ( 'the_excerpt', array (
-				&$this,
+				$this,
 				'special_excerpt'
 		) );
 		add_filter ( 'attachment_fields_to_save', array (
-				&$this,
+				$this,
 				'need_to_update_image_fields'
 		) );
 	}
@@ -109,7 +109,7 @@ class EPA_PostType {
 	public function on_init() {
 		if (EasyPhotoAlbum::get_instance ()->inmainloop) {
 			add_action ( 'pre_get_posts', array (
-					&$this,
+					$this,
 					'add_to_main_loop'
 			), 99 );
 		}
@@ -169,7 +169,7 @@ class EPA_PostType {
 					'capability_type' => 'epa_album',
 					'map_meta_cap' => true,
 					'register_meta_box_cb' => array (
-							&$this,
+							$this,
 							'register_metabox'
 					),
 					'taxonomies' => array ()
@@ -182,11 +182,11 @@ class EPA_PostType {
 	 */
 	public function register_metabox() {
 		add_meta_box ( 'easy-photo-album-display-options', __ ( "Album display options", 'epa' ), array (
-				&$this,
+				$this,
 				'display_options_metabox'
 		), null, 'side', 'default' );
 		add_meta_box ( 'easy-photo-album-images', __ ( "Album images", 'epa' ), array (
-				&$this,
+				$this,
 				'display_photo_metabox'
 		), null, 'normal', 'high' );
 	}
@@ -359,91 +359,92 @@ HTML;
 	public function save_metadata($post_id, $post) {
 		// no update if the current user has not the edit_epa_album cap or (if the user isn't the
 		// author) the edit_others_epa_albums cap
-		if (current_user_can ( 'edit_epa_album', $post_id ) || ($post->post_author != get_current_user_id () && current_user_can ( 'edit_others_epa_albums' ))) {
+		if (!current_user_can ( 'edit_epa_album', $post_id ) || ($post->post_author != get_current_user_id () && !current_user_can ( 'edit_others_epa_albums' ))) {
+			return $post_id;
+		}
 
-			// It is from the right post type
-			if (isset ( $_POST [self::INPUT_NAME] ) && is_array ( $_POST [self::INPUT_NAME] )) {
-				// Make shure everyting is loaded
-				$this->load_data ();
+		// It is from the right post type
+		if (isset ( $_POST [self::INPUT_NAME] ) && is_array ( $_POST [self::INPUT_NAME] )) {
+			// Make shure everyting is loaded
+			$this->load_data ();
 
-				// Validate and save the album specific settings
-				require_once 'EPA_Validator.php';
-				$validator = new EPA_Validator ();
-				$valid = $this->current_options;
-				$input = $_POST [self::INPUT_NAME] ['option'];
-				$valid ['columns'] = $validator->validate_nummeric ( $input ['columns'], 1, $valid ['columns'] );
-				$valid ['show_caption'] = $validator->validate_checkbox ( $input, 'show_caption' );
-				$valid ['display_size'] = $validator->get_if_set ( $input, 'display_size', $valid ['display_size'] );
-				$valid ['excerpt_number'] = $validator->validate_nummeric ( $input ['excerpt_number'], 0, $valid ['excerpt_number'] );
-				$this->current_options = $valid;
+			// Validate and save the album specific settings
+			require_once 'EPA_Validator.php';
+			$validator = new EPA_Validator ();
+			$valid = $this->current_options;
+			$input = $_POST [self::INPUT_NAME] ['option'];
+			$valid ['columns'] = $validator->validate_nummeric ( $input ['columns'], 1, $valid ['columns'] );
+			$valid ['show_caption'] = $validator->validate_checkbox ( $input, 'show_caption' );
+			$valid ['display_size'] = $validator->get_if_set ( $input, 'display_size', $valid ['display_size'] );
+			$valid ['excerpt_number'] = $validator->validate_nummeric ( $input ['excerpt_number'], 0, $valid ['excerpt_number'] );
+			$this->current_options = $valid;
 
-				// Empty the current photos var
-				$this->current_photos = array ();
+			// Empty the current photos var
+			$this->current_photos = array ();
 
-				// Get albumdata
-				$albumdata = isset ( $_POST [self::INPUT_NAME] ['albumdata'] ) ? $_POST [self::INPUT_NAME] ['albumdata'] : '';
-				$images = json_decode ( stripslashes ( $albumdata ), false );
+			// Get albumdata
+			$albumdata = isset ( $_POST [self::INPUT_NAME] ['albumdata'] ) ? $_POST [self::INPUT_NAME] ['albumdata'] : '';
+			$images = json_decode ( stripslashes ( $albumdata ), false );
 
-				// Normalize the images array
-				// Make shure all the fields are there.
-				$tmp_images = array ();
-				foreach ( ( array ) $images as $index => $object ) {
-					if (! isset ( $object->title ))
-						$object->title = "";
-					if (! isset ( $object->caption ))
-						$object->caption = "";
+			// Normalize the images array
+			// Make sure all the fields are there.
+			$tmp_images = array ();
+			foreach ( ( array ) $images as $index => $object ) {
+				if (! isset ( $object->title ))
+					$object->title = "";
+				if (! isset ( $object->caption ))
+					$object->caption = "";
 
-					$tmp_images [$object->id] = $object;
-				}
-				$images = $tmp_images;
-				unset ( $tmp_images );
-
-				// Bulk actions
-				$action = (isset ( $_REQUEST ['epa-action'] ) || isset ( $_REQUEST ['epa-action2'] ) ? ($_REQUEST ['epa-action'] == '-1' ? $_REQUEST ['epa-action2'] : $_REQUEST ['epa-action']) : '');
-				switch ($action) {
-					case 'delete-photos' :
-						$ids_to_delete = isset ( $_POST [self::INPUT_NAME] ['cb'] ) ? $_POST [self::INPUT_NAME] ['cb'] : array ();
-						foreach ( $ids_to_delete as $id ) {
-							if (isset ( $images [$id] )) {
-								unset ( $images [$id] );
-							}
-						}
-						break;
-				}
-
-				foreach ( $images as $imageid => $imageobj ) {
-					// update the fields
-					$a = wp_update_post ( array (
-							'ID' => $imageid,
-							'post_title' => $imageobj->title,
-							'post_excerpt' => $imageobj->caption
-					) );
-					// In the data array
-					$this->current_photos [$imageobj->order] = $imageobj;
-				}
-
-				// save it
-				$this->save_data ();
-				// Generate HTML and set it as the post content
-				$renderer = new EPA_Renderer ( $this->get_current_post_id () );
-				// unhook this function so it doesn't loop infinitely
-				remove_action ( 'save_post', array (
-						&$this,
-						'save_metadata'
-				), 1, 2 );
-				// update the post, which calls save_post again
-				wp_update_post ( array (
-						'ID' => $post_id,
-						'post_content' => $renderer->render ( false )
-				) );
-				// re-hook this function
-				add_action ( 'save_post', array (
-						&$this,
-						'save_metadata'
-				), 1, 2 );
+				$tmp_images [$object->id] = $object;
 			}
-			// end isset($_POST...)
-		} // end user check
+			$images = $tmp_images;
+			unset ( $tmp_images );
+
+			// Bulk actions
+			$action = (isset ( $_REQUEST ['epa-action'] ) || isset ( $_REQUEST ['epa-action2'] ) ? ($_REQUEST ['epa-action'] == '-1' ? $_REQUEST ['epa-action2'] : $_REQUEST ['epa-action']) : '');
+			switch ($action) {
+				case 'delete-photos' :
+					$ids_to_delete = isset ( $_POST [self::INPUT_NAME] ['cb'] ) ? $_POST [self::INPUT_NAME] ['cb'] : array ();
+					foreach ( $ids_to_delete as $id ) {
+						if (isset ( $images [$id] )) {
+							unset ( $images [$id] );
+						}
+					}
+					break;
+			}
+
+			foreach ( $images as $imageid => $imageobj ) {
+				// update the fields
+				$a = wp_update_post ( array (
+						'ID' => $imageid,
+						'post_title' => $imageobj->title,
+						'post_excerpt' => $imageobj->caption
+				) );
+				// In the data array
+				$this->current_photos [$imageobj->order] = $imageobj;
+			}
+
+			// save it
+			$this->save_data ();
+			// Generate HTML and set it as the post content
+			$renderer = new EPA_Renderer ( $this->get_current_post_id () );
+			// unhook this function so it doesn't loop infinitely
+			remove_action ( 'save_post', array (
+					$this,
+					'save_metadata'
+			), 1, 2 );
+			// update the post, which calls save_post again
+			wp_update_post ( array (
+					'ID' => $post_id,
+					'post_content' => $renderer->render ( false )
+			) );
+			// re-hook this function
+			add_action ( 'save_post', array (
+					$this,
+					'save_metadata'
+			), 1, 2 );
+		}
+		// end isset($_POST...)
 	}
 
 	/**
@@ -577,6 +578,7 @@ CSS;
 		cursor: pointer;
 		display: inline;
 		margin-left: 5px;
+		font-size: 125%;
 	}
 	.epa-help-content {
 		display: none;

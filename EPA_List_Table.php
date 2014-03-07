@@ -42,7 +42,7 @@ class EPA_List_Table extends WP_List_Table {
 				'screen' => $screen
 		) );
 		add_action ( 'admin_footer', array (
-				&$this,
+				$this,
 				'add_js_vars'
 		) );
 

@@ -39,25 +39,30 @@ class EPA_Admin {
 				'admin_init'
 		) );
 		add_action ( 'admin_menu', array (
-				&$this,
+				$this,
 				'add_pages'
 		) );
 		add_action ( 'network_admin_menu', array (
-				&$this,
+				$this,
 				'add_about_page'
 		) );
 		add_action ( 'admin_head', array (
-				&$this,
+				$this,
 				'admin_head'
 		) );
 		add_action ( 'load-index.php', array (
-				&$this,
+				$this,
 				'load_about_page'
 		) );
 		add_action ( 'load-plugins.php', array (
-				&$this,
+				$this,
 				'load_about_page'
 		) );
+		add_action ( 'admin_enqueue_scripts', array (
+				$this,
+				'admin_enqueue_scripts'
+		) );
+
 		$this->help = new EPA_Help ();
 	}
 
@@ -68,7 +73,7 @@ class EPA_Admin {
 	 */
 	public function add_pages() {
 		$this->admin_page = add_options_page ( _x ( 'Easy Photo Album Settings', 'Page title of settings page', 'epa' ), _x ( 'Easy Photo Album', 'Menu title for the Easy Photo Album settings page.', 'epa' ), 'manage_options', 'epa-settings', array (
-				&$this,
+				$this,
 				'render_admin_page'
 		) );
 
@@ -121,19 +126,19 @@ class EPA_Admin {
 	 */
 	public function admin_init() {
 		register_setting ( 'EasyPhotoAlbumSettings', 'EasyPhotoAlbum', array (
-				&$this,
+				$this,
 				'validate_settings'
 		) );
 		// Display settings
 		add_settings_section ( 'epa-section-display', __ ( 'Display Settings', 'epa' ), false, $this->admin_page );
 		add_settings_field ( 'viewmode', __ ( 'Image view mode', 'epa' ), array (
-				&$this,
+				$this,
 				'display_viewmode_field'
 		), $this->admin_page, 'epa-section-display', array (
 				'name' => 'displaysize'
 		) );
 		add_settings_field ( 'displaycolumns', __ ( 'Columns', 'epa' ), array (
-				&$this,
+				$this,
 				'display_numeric_field'
 		), $this->admin_page, 'epa-section-display', array (
 				'name' => 'displaycolumns',
@@ -141,20 +146,20 @@ class EPA_Admin {
 				'step' => 1
 		) );
 		add_settings_field ( 'showcaption', __ ( 'Show caption', 'epa' ), array (
-				&$this,
+				$this,
 				'display_checkbox_field'
 		), $this->admin_page, 'epa-section-display', array (
 				'name' => 'showcaption',
 				'label_for' => 'epa-showcaption'
 		) );
 		add_settings_field ( 'displaysize', __ ( 'Image size', 'epa' ), array (
-				&$this,
+				$this,
 				'display_imagesize_field'
 		), $this->admin_page, 'epa-section-display', array (
 				'name' => 'displaysize'
 		) );
 		add_settings_field ( 'excerptnumber', __ ( 'Number of images for excerpt', 'epa' ), array (
-				&$this,
+				$this,
 				'display_numeric_field'
 		), $this->admin_page, 'epa-section-display', array (
 				'name' => 'excerptnumber',
@@ -165,48 +170,48 @@ class EPA_Admin {
 		// LIGHTBOX SECTION
 		add_settings_section ( 'epa-section-lightbox', __ ( 'Lightbox settings', 'epa' ), false, $this->admin_page );
 		add_settings_field ( 'showimagenumber', __ ( 'Show image number', 'epa' ), array (
-				&$this,
+				$this,
 				'display_checkbox_field'
 		), $this->admin_page, 'epa-section-lightbox', array (
 				'name' => 'showimagenumber',
 				'label_for' => 'epa-showimagenumber'
 		) );
 		add_settings_field ( 'imagenumberformat', __ ( 'Image number format', 'epa' ), array (
-				&$this,
+				$this,
 				'display_text_field'
 		), $this->admin_page, 'epa-section-lightbox', array (
 				'name' => 'imagenumberformat'
 		) );
 		add_settings_field ( 'wraparound', __ ( 'Wrap around', 'epa' ), array (
-				&$this,
+				$this,
 				'display_checkbox_field'
 		), $this->admin_page, 'epa-section-lightbox', array (
 				'name' => 'wraparound',
 				'label_for' => 'epa-wraparound'
 		) );
 		add_settings_field ( 'scalelightbox', __ ( 'Scale to fit', 'epa' ), array (
-				&$this,
+				$this,
 				'display_checkbox_field'
 		), $this->admin_page, 'epa-section-lightbox', array (
 				'name' => 'scalelightbox',
 				'label_for' => 'epa-scalelightbox'
 		) );
 		add_settings_field ( 'lightboxsize', __ ( 'Imagesize', 'epa' ), array (
-				&$this,
+				$this,
 				'display_imagesize_field'
 		), $this->admin_page, 'epa-section-lightbox', array (
 				'name' => 'lightboxsize'
 		) );
 		add_settings_section ( 'epa-section-miscellaneous', __ ( 'Miscellaneaous settings', 'epa' ), false, $this->admin_page );
 		add_settings_field ( 'showtitleintable', __ ( 'Show title field', 'epa' ), array (
-				&$this,
+				$this,
 				'display_checkbox_field'
 		), $this->admin_page, 'epa-section-miscellaneous', array (
 				'name' => 'showtitleintable',
 				'label_for' => 'epa-showtitleintable'
 		) );
 		add_settings_field ( 'inmainloop', __ ( 'Show albums on blog page', 'epa' ), array (
-				&$this,
+				$this,
 				'display_checkbox_field'
 		), $this->admin_page, 'epa-section-miscellaneous', array (
 				'name' => 'inmainloop',
@@ -427,6 +432,16 @@ HTML;
 	</form>
 </div>
 <?php
+	}
+
+	/**
+	 * Hooked to admin_enqueue_scripts
+	 */
+	public function admin_enqueue_scripts() {
+		// Remove the autosave function, becuase it will only save the title
+		// and the content (that doesn't exists for epa). Will it be better?
+		if (EPA_PostType::POSTTYPE_NAME == get_post_type ())
+			wp_dequeue_script ( 'autosave' );
 	}
 
 	/**

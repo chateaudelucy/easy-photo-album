@@ -340,74 +340,80 @@ window.TVproductions = window.TVproductions || {};
 
 	// On init: Constructor
 	(function() {
-		if (EPA.settingName == undefined) {
-			console.info('EasyPhotoAlbum: settingName not set, use default');
-			EPA.settingName = 'EasyPhotoAlbums';
-		}
-		if (EPA.maxOrder == undefined) {
-			console.info('EasyPhotoAlbum: maxOrder not set, calculate value');
-			EPA.maxOrder = $('#the-list tr').length;
-		}
-
-		refresh();
-
-		// Sortable
-		$(".easy-photo-album-table tbody").sortable(
-				{
-					axis : 'y',
-					handle : '.column-image img',
-					placeholder : 'sortable-placeholder',
-					forcePlaceholderSize : true,
-					cursor : 'move',
-					opacity : 0.6,
-					update : function(event, ui) {
-						// Correct the order after
-						// dragging:
-						jQuery('.easy-photo-album-table tbody tr').each(
-								function(index, elm) {
-									// the
-									// current
-									// index
-									// is
-									// the
-									// order
-									setOrder(parseInt(getRowFromElement(elm)
-											.attr('data-epa-id'), 10), index);
-								});
-						// reset colum differents:
-						$('.easy-photo-album-table tr:nth-child(odd)')
-								.addClass('alternate');
-						$('.easy-photo-album-table tr:nth-child(even)')
-								.removeClass('alternate');
-						refresh();
-					}
-				});
-		$('#publish, #doaction, #doaction2, #post-preview').click(function(e) {
-			build();
-		});
-
-		// help boxes
-		var open = null;
-		$('.epa-help').click(
-				function(e) {
-					// hide any open help texts
-					$('.epa-help-content').fadeOut('fast');
-					// show it
-					if (open != $(this).data('helpid')) {
-						$('#' + $(this).data('helpid')).fadeIn('fast').css(
-								"display", "inline-block");
-						open = $(this).data('helpid');
-					} else
-						open = null;
-				});
-		// global click
-		$(document).click(function(e) {
-			// hide them all
-			if (open != $(e.target).data('helpid')) {
-				$('.epa-help-content').fadeOut('fast');
-				open = null;
+		// Load only if there is a table
+		if ($(".easy-photo-album-table").length > 0) {
+			if (EPA.settingName == undefined) {
+				console
+						.info('EasyPhotoAlbum: settingName not set, use default');
+				EPA.settingName = 'EasyPhotoAlbums';
 			}
-		});
+			if (EPA.maxOrder == undefined) {
+				console
+						.info('EasyPhotoAlbum: maxOrder not set, calculate value');
+				EPA.maxOrder = $('#the-list tr').length;
+			}
+
+			refresh();
+
+			// Sortable
+			$(".easy-photo-album-table tbody").sortable(
+					{
+						axis : 'y',
+						handle : '.column-image img',
+						placeholder : 'sortable-placeholder',
+						forcePlaceholderSize : true,
+						cursor : 'move',
+						opacity : 0.6,
+						update : function(event, ui) {
+							// Correct the order after
+							// dragging:
+							jQuery('.easy-photo-album-table tbody tr').each(
+									function(index, elm) {
+										// the
+										// current
+										// index
+										// is
+										// the
+										// order
+										setOrder(parseInt(
+												getRowFromElement(elm).attr(
+														'data-epa-id'), 10),
+												index);
+									});
+							// reset colum differents:
+							$('.easy-photo-album-table tr:nth-child(odd)')
+									.addClass('alternate');
+							$('.easy-photo-album-table tr:nth-child(even)')
+									.removeClass('alternate');
+							refresh();
+						}
+					});
+			// build on some button clicks
+			$('#publish, #doaction, #doaction2, #post-preview, #save-post').click(build);
+
+			// help boxes
+			var open = null;
+			$('.epa-help').click(
+					function(e) {
+						// hide any open help texts
+						$('.epa-help-content').fadeOut('fast');
+						// show it
+						if (open != $(this).data('helpid')) {
+							$('#' + $(this).data('helpid')).fadeIn('fast').css(
+									"display", "inline-block");
+							open = $(this).data('helpid');
+						} else
+							open = null;
+					});
+			// global click
+			$(document).click(function(e) {
+				// hide them all
+				if (open != $(e.target).data('helpid')) {
+					$('.epa-help-content').fadeOut('fast');
+					open = null;
+				}
+			});
+		}
 	})();
 
 	// } (end public)

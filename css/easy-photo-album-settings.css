@@ -50,6 +50,7 @@ This file contains the styles for the admin settings page
 	cursor: pointer;
 	display: inline;
 	margin-left: 5px;
+	font-size: 125%;
 }
 
 .epa-help-content {

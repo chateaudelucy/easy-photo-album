@@ -31,27 +31,27 @@ class EPA_Insert_Album {
 
 	public function __construct() {
 		add_action ( 'init', array (
-				&$this,
+				$this,
 				'setup'
 		) );
 		add_action ( 'after_wp_tiny_mce', array (
-				&$this,
+				$this,
 				'epa_insert_html'
 		) );
 
 		add_filter ( 'mce_external_languages', array (
-				&$this,
+				$this,
 				'add_locale'
 		) );
 
 		add_shortcode ( 'epa-album', array (
-				&$this,
+				$this,
 				'handle_shortcode'
 		) );
 
 		if (is_admin ()) {
 			add_action ( 'wp_ajax_epa_get_albums', array (
-					&$this,
+					$this,
 					'ajax_return_albums'
 			) );
 		}
@@ -63,11 +63,11 @@ class EPA_Insert_Album {
 			return;
 
 		add_filter ( 'mce_buttons', array (
-				&$this,
+				$this,
 				'add_button_to_editor'
 		) );
 		add_filter ( 'mce_external_plugins', array (
-				&$this,
+				$this,
 				'add_plugin'
 		) );
 	}

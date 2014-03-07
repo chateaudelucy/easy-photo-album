@@ -22,7 +22,7 @@ class EPA_Help {
 
 	public function __construct() {
 		add_action ( 'admin_head', array (
-				&$this,
+				$this,
 				'add_help'
 		) );
 	}

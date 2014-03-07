@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: Easy Photo Album
- * Version: 1.2
+ * Version: 1.3-RC
  * Author: TV productions
  * Author URI: http://tv-productions.org/
  * Description: This plugin makes it very easy to create and manage photo albums. The albums are responsive and display in a lightbox. You can help by submit bugs and request new features at the plugin page at wordpress.org.
@@ -64,11 +64,11 @@ class EasyPhotoAlbum {
 		}
 
 		register_activation_hook ( __FILE__, array (
-				&$this,
+				$this,
 				'on_activation'
 		) );
 		register_deactivation_hook ( __FILE__, array (
-				&$this,
+				$this,
 				'remove_capabilities'
 		) );
 		register_uninstall_hook ( __FILE__, array (
@@ -77,17 +77,17 @@ class EasyPhotoAlbum {
 		) );
 
 		add_filter ( "plugin_action_links_" . plugin_basename ( __FILE__ ), array (
-				&$this,
+				$this,
 				'add_plugin_links'
 		), 10, 1 );
 
 		// Rerender the albums every time the settings are updated.
 		add_action ( 'update_option_EasyPhotoAlbum', array (
-				&$this,
+				$this,
 				'rerender_photos'
 		), 11, 2 );
 		add_action ( 'add_option_EasyPhotoAlbum', array (
-				&$this,
+				$this,
 				'rerender_photos'
 		), 11, 2 );
 	}
@@ -277,7 +277,7 @@ class EasyPhotoAlbum {
 	 * Loads existing options, or loads the defaults.
 	 */
 	private function options_init() {
-		$defaults = $this->get_default_options();
+		$defaults = $this->get_default_options ();
 		$from_db = get_option ( 'EasyPhotoAlbum', false );
 		if (false == $from_db) {
 			// Store the default options
@@ -322,6 +322,33 @@ class EasyPhotoAlbum {
 				$out .= $name . '="' . esc_attr ( $value ) . '" ';
 		}
 		return $out;
+	}
+
+	/**
+	 * Get the number of downloads of this plugin from the WordPress repository.
+	 *
+	 * @param bool $force_update
+	 *        	get the most actual value?
+	 * @return number string
+	 */
+	public function get_download_count($force_update = false) {
+		if ($force_update || false === ($downloaded = get_transient ( 'epa_download_count' ))) {
+			require_once ABSPATH . 'wp-admin\includes\plugin-install.php';
+			$data = plugins_api ( 'plugin_information', array (
+					'slug' => 'easy-photo-album',
+					'fields' => array (
+							'downloaded' => true
+					)
+			) );
+			if (! is_wp_error ( $data ) && isset ( $data->downloaded )) {
+				set_transient ( 'epa_download_count', $data->downloaded, 5 * MINUTE_IN_SECONDS );
+				return number_format_i18n ( $data->downloaded );
+			} else {
+				// The number by release (rounded)
+				return '~' . number_format_i18n ( 14000 );
+			}
+		}
+		return number_format_i18n ( $downloaded );
 	}
 }
 

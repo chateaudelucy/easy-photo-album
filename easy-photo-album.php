@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: Easy Photo Album
- * Version: 1.3-RC
+ * Version: 1.3-RC2
  * Author: TV productions
  * Author URI: http://tv-productions.org/
  * Description: This plugin makes it very easy to create and manage photo albums. The albums are responsive and display in a lightbox. You can help by submit bugs and request new features at the plugin page at wordpress.org.
@@ -51,7 +51,7 @@ class EasyPhotoAlbum {
 	private $post_type = null;
 	private $admin = null;
 	private $insert_album = null;
-	public static $version = '1.3-RC';
+	public static $version = '1.3-RC2';
 
 	private function __construct() {
 		load_plugin_textdomain ( 'epa', false, basename ( dirname ( __FILE__ ) ) . '/lang' );
@@ -232,6 +232,12 @@ class EasyPhotoAlbum {
 	public function __get($name) {
 		if ('version' == $name)
 			return self::$version;
+		if ('helpurl' == $name)
+			return 'http://tv-productions.org/plugins/easy-photo-album/support/story.html';
+		if ('forumurl' == $name)
+			return 'http' . (is_ssl () ? 's' : '') . '://wordpress.org/support/plugin/easy-photo-album';
+		if ('changelogurl' == $name)
+			return 'http:' . (is_ssl () ? 's' : '') . '//wordpress.org/plugins/easy-photo-album/changelog/';
 		if (isset ( $this->options [$name] ))
 			return $this->options [$name];
 		else

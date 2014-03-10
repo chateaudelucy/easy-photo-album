@@ -568,6 +568,9 @@ CSS;
 	.easy-photo-album-table tbody tr td.column-image img:hover {
 		cursor: move;
 	}
+	.easy-photo-album-table .column-caption, .easy-photo-album-table tr {
+		height: 100%;
+	}
 	.sortable-placeholder {
 		height: 100px;
 	}

@@ -34,19 +34,19 @@ defined ( 'ABSPATH' ) or die ();
 		url('<?php echo plugin_dir_url ( __FILE__ );?>css/img/epa-badge.svg?v=20140302');"><?php printf( __( 'Version %s', 'epa' ), EasyPhotoAlbum::$version ); ?></div>
 	<h2 class="nav-tab-wrapper">
 		<a class="nav-tab nav-tab-active" href="index.php?page=epa-about">
-			What's New </a>
+			<?php _e("What's New", 'epa');?> </a>
 	</h2>
 	<div class="changelog">
-		<h3><?php _e( 'No need to edit your theme', 'epa' ); ?></h3>
+		<h3><?php _e( 'Video documentation', 'epa' ); ?></h3>
 
 		<div class="feature-section">
 			<img alt=""
-				src="<?php echo plugin_dir_url(__FILE__); ?>css/img/epa-album-1.2.png"
+				src="<?php echo plugin_dir_url(__FILE__); ?>css/img/epa-videos-1.3.png"
 				style="width: 35%; float: right; margin: 0 5px 12px 2em;" />
-			<h4><?php _e( 'The albums display almost always nice right away', 'epa' ); ?></h4>
-			<p></p>
-			<p><?php _e( "The only thing you have to do is to add the photos, change the order, write a nice caption for them and press the publish button!", 'epa' ); ?></p>
-			<p><?php _e( 'And the files for the albums will be only included on the pages when that is necessary. This makes your website faster.' , 'epa'); ?></p>
+			<h4><?php _e( 'Learn quick how this plugin works', 'epa' ); ?></h4>
+			<p><?php _e( "An enthousiastic Easy Photo Album user has recorded a couple of videos that shows how to create an album, how to change the photo order, how to add albums to your menu and an introduction into the settings.", 'epa' ); ?></p>
+			<p><?php printf(__( 'If you have still questions, please head over to the %1$ssupport forums%2$s.', 'epa'), '<a href="'.EasyPhotoAlbum::get_instance()->forumurl.'" target="_blank">', '</a>'); ?></p>
+			<h4><a href="<?php echo EasyPhotoAlbum::get_instance()->helpurl;?>" target="_blank"><?php _e('View the video documentation', 'epa')?> &rarr;</a></h4>
 		</div>
 	</div>
 
@@ -66,12 +66,12 @@ defined ( 'ABSPATH' ) or die ();
 		<div class="feature-section col two-col">
 			<div>
 				<h4><?php _e( 'Updated revisions support', 'epa' ); ?></h4>
-				<p><?php _e( "Don't be afraid to change your albums. There is now full support for revisions. The differences between photos are easy to compare with the updated display of the album.", 'epa' ); ?></p>
+				<p><?php _e( "Don't be afraid to change your albums. There is now full support for revisions. The differences between photos are easy to compare with the updated display of the album. Change you album with confidence.", 'epa' ); ?></p>
 
 			</div>
 			<div class="last-feature">
 				<h4><?php _e( 'Easy Photo Album is doing well!', 'epa' ); ?></h4>
-				<p><?php printf(__( 'Easy Photo Album has been downloaded almost %d times! Thank you very much for using this plugin. If you want to support the development of this plugin, please consider a donation.', 'epa' ), 14000); ?></p>
+				<p><?php printf(__( 'Easy Photo Album has been downloaded %s times! Thank you very much for using this plugin. If you want to support the development of this plugin, please consider a donation.', 'epa' ), '<strong>'.EasyPhotoAlbum::get_instance()->get_download_count().'</strong>'); ?></p>
 				<form action="https://www.paypal.com/cgi-bin/webscr" method="post"
 					target="_blank">
 					<input type="hidden" name="cmd" value="_s-xclick"> <input
@@ -80,6 +80,7 @@ defined ( 'ABSPATH' ) or die ();
 						src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif"
 						name="submit" alt="PayPal – The safer, easier way to pay online.">
 				</form>
+				<p><?php _e('You can also contribute by creating documentation or by translating this plugin into your language.', 'epa');?></p>
 			</div>
 		</div>
 		<div class="feature-section col two-col">
@@ -101,11 +102,11 @@ defined ( 'ABSPATH' ) or die ();
 		<div class="feature-section col three-col">
 			<div>
 				<h4><?php _e( 'Bugfixes', 'epa' ); ?></h4>
-				<p><?php printf(_n('We fixed one bug in this release. See the <a href="%2$s" target="_blank">changelog</a>.', 'We fixed %1$s bugs in this release. See the <a href="%2$s" target="_blank">changelog</a>.', 5, 'epa'), 5, 'http://wordpress.org/plugins/easy-photo-album/changelog/'); ?></p>
+				<p><?php printf(_n('We fixed one bug in this release. See the %2$schangelog%3$s.', 'We fixed %1$s bugs in this release. See the %2$schangelog%3$s.', 5, 'epa'), 5, '<a href="http://wordpress.org/plugins/easy-photo-album/changelog/" target="_blank">', '</a>'); ?></p>
 			</div>
 			<div>
 				<h4><?php _e( 'Support', 'epa' ); ?></h4>
-				<p><?php printf(__( 'Do you have a question, a bug found or a feature request? Report it at the %1$ssupport forums%2$s.', 'epa' ), '<a href="http://wordpress.org/support/plugin/easy-photo-album" target="_blank">', '</a>'); ?></p>
+				<p><?php printf(__( 'Do you have a question, a bug found or a feature request? Report it at the %1$ssupport forums%2$s.', 'epa' ), '<a href="'.EasyPhotoAlbum::get_instance()->forumurl.'" target="_blank">', '</a>'); ?></p>
 			</div>
 			<div class="last-feature">
 				<h4><?php _e( 'Translation', 'epa' ); ?></h4>

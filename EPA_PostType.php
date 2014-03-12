@@ -73,7 +73,7 @@ class EPA_PostType {
 				$this,
 				'render_revision_field'
 		), 10, 4 );
-		// Make shure there is no html added to the content of the album
+		// Make sure there is no html added to the content of the album
 		if (remove_filter ( 'the_content', 'wpautop' )) {
 			// filter existed and is removed
 			add_filter ( 'the_content', array (
@@ -688,7 +688,7 @@ CSS;
 		global $id;
 
 		if (get_post_type ( $id ) == self::POSTTYPE_NAME) {
-			/*
+			/**
  			* Filter: epa_album_content_after
 			* @param string $html		The current html that will be added after the album
 			* @param bool $excerpt		Is the current album an excerpt?

@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 require_once 'EPA_PostType.php';
 require_once 'EPA_Insert_Album.php';
 require_once 'EPA_Renderer.php';
+require_once 'EPA_Upgrade.php';
 
 if (is_admin ()) {
 	require_once 'EPA_List_Table.php';
@@ -55,6 +56,9 @@ class EasyPhotoAlbum {
 
 	private function __construct() {
 		load_plugin_textdomain ( 'epa', false, basename ( dirname ( __FILE__ ) ) . '/lang' );
+
+		// Do upgrade before the options are initialized.
+		EPA_Upgrade::do_upgrade ();
 
 		$this->options_init ();
 		$this->post_type = new EPA_PostType ();
@@ -152,35 +156,6 @@ class EasyPhotoAlbum {
 	}
 
 	/**
-	 * Remaps the options to the new names
-	 *
-	 * @since 1.3
-	 */
-	/*
-	public function remap_options() {
-		$from_db = get_option ( 'EasyPhotoAlbum', false );
-		var_dump($from_db);
-		if (false === $from_db || ! is_array ( $from_db ))
-			return;
-
-		$new = array ();
-		$new ['viewmode'] = $from_db ['linkto'];
-		$new ['displaycolumns'] = $from_db ['displaycolumns'];
-		$new ['showcaption'] = $from_db ['showcaption'];
-		$new ['displaysize'] = $from_db ['displaysize'];
-		$new ['excerptnumber'] = $from_db ['numimageswhennotsingle'];
-		// lightbox settings
-		$new ['showimagenumber'] = $from_db ['showalbumlabel'];
-		$new ['imagenumberformat'] = $from_db ['albumlabel'];
-		$new ['wraparound'] = $from_db ['wraparound'];
-		$new ['scalelightbox'] = $from_db ['scalelightbox'];
-		// Miscellaneous settings
-		$new ['showtitleintable'] = $from_db ['showtitleintable'];
-
-		update_option ( 'EasyPhotoAlbum', $new );
-	}*/
-
-	/**
 	 * Rerenders all the albums.
 	 */
 	public function rerender_photos($oldval, $newval) {
@@ -215,6 +190,7 @@ class EasyPhotoAlbum {
 			delete_option ( 'epa_redirect_' . $user->id );
 		}
 		delete_option ( 'epa_update_fields' );
+		delete_option ( 'EasyPhotoAlbumVersion' );
 	}
 
 	/**
@@ -290,7 +266,8 @@ class EasyPhotoAlbum {
 			add_option ( 'EasyPhotoAlbum', $defaults );
 			$from_db = array ();
 		}
-		$this->options = wp_parse_args ( $from_db, $defaults );
+		$this->options = $this->add_defaults ( $from_db, $defaults, true );
+		update_option('EasyPhotoAlbum', $this->options);
 	}
 
 	/**
@@ -307,6 +284,30 @@ class EasyPhotoAlbum {
 				'show_caption' => isset ( $options ['showcaption'] ) ? $options ['showcaption'] : $this->showcaption,
 				'display_size' => isset ( $options ['displaysize'] ) ? $options ['displaysize'] : $this->displaysize
 		);
+	}
+
+	/**
+	 * Makes sure the defaults are in the array.
+	 * When strict is true, only the defaults are in the array.
+	 *
+	 * @param array $array
+	 * @param array $defaults
+	 * @param bool $strict
+	 * @return array
+	 * @since 1.3
+	 */
+	public function add_defaults($array, $defaults, $strict = true) {
+		if ($strict)
+			$res = array ();
+		else
+			$res = $array;
+		foreach ( $defaults as $index => $value ) {
+			if (! isset ( $array [$index] ))
+				$array [$index] = $value;
+			$res [$index] = $array [$index];
+		}
+
+		return $res;
 	}
 
 	/**
@@ -339,7 +340,7 @@ class EasyPhotoAlbum {
 	 */
 	public function get_download_count($force_update = false) {
 		if ($force_update || false === ($downloaded = get_transient ( 'epa_download_count' ))) {
-			require_once ABSPATH . 'wp-admin\includes\plugin-install.php';
+			require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
 			$data = plugins_api ( 'plugin_information', array (
 					'slug' => 'easy-photo-album',
 					'fields' => array (

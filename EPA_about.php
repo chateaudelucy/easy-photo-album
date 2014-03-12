@@ -18,6 +18,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+/**
+ * File with the about page.
+ *
+ * @since 1.2
+ * @package EasyPhotoAlbum
+ */
 
 // No direct access
 defined ( 'ABSPATH' ) or die ();
@@ -46,7 +52,10 @@ defined ( 'ABSPATH' ) or die ();
 			<h4><?php _e( 'Learn quick how this plugin works', 'epa' ); ?></h4>
 			<p><?php _e( "An enthousiastic Easy Photo Album user has recorded a couple of videos that shows how to create an album, how to change the photo order, how to add albums to your menu and an introduction into the settings.", 'epa' ); ?></p>
 			<p><?php printf(__( 'If you have still questions, please head over to the %1$ssupport forums%2$s.', 'epa'), '<a href="'.EasyPhotoAlbum::get_instance()->forumurl.'" target="_blank">', '</a>'); ?></p>
-			<h4><a href="<?php echo EasyPhotoAlbum::get_instance()->helpurl;?>" target="_blank"><?php _e('View the video documentation', 'epa')?> &rarr;</a></h4>
+			<h4>
+				<a href="<?php echo EasyPhotoAlbum::get_instance()->helpurl;?>"
+					target="_blank"><?php _e('View the video documentation', 'epa')?> &rarr;</a>
+			</h4>
 		</div>
 	</div>
 
@@ -56,7 +65,7 @@ defined ( 'ABSPATH' ) or die ();
 		<div class="feature-section">
 			<img alt=""
 				src="<?php echo plugin_dir_url(__FILE__); ?>css/img/epa-settings-1.3.png"
-				style="width: 35%; float: left; margin: 0 2em 12px 5px ;" />
+				style="width: 35%; float: left; margin: 0 2em 12px 5px;" />
 			<h4><?php _e( 'Clear and consistent settings', 'epa' ); ?></h4>
 			<p><?php _e( "The new settings page makes it very easy for you to change the display of the albums. The settings are grouped together, which makes everyting more clear", 'epa'); ?></p>
 			<p><?php _e( 'Besides the options on the settings page, you can edit some options for each individual album. You can adjust the display of the album to the contents of it.', 'epa'); ?></p>
@@ -117,16 +126,16 @@ defined ( 'ABSPATH' ) or die ();
 
 	<div class="return-to-dashboard">
 	<?php
-	if (!is_network_admin()) {
-	?>
+	if (! is_network_admin ()) {
+		?>
 		<a
 			href="<?php echo esc_url( self_admin_url( 'options-general.php?page=epa-settings' ) ); ?>"><?php
-			_e ( 'Go to Settings &rarr; Easy Photo Album', 'epa' );
-			?></a> | <?php
+		_e ( 'Go to Settings &rarr; Easy Photo Album', 'epa' );
+		?></a> | <?php
 	}
-			?><a href="<?php echo esc_url( self_admin_url() ); ?>"><?php
-	is_blog_admin () ? _e ( 'Go to Dashboard &rarr; Home', 'epa' ) : _e ( 'Go to Dashboard', 'epa' );
-	?></a>
+	?><a href="<?php echo esc_url( self_admin_url() ); ?>"><?php
+			is_blog_admin () ? _e ( 'Go to Dashboard &rarr; Home', 'epa' ) : _e ( 'Go to Dashboard', 'epa' );
+			?></a>
 	</div>
 
 </div>

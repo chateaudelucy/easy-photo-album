@@ -202,7 +202,7 @@ class EPA_Admin {
 		), $this->admin_page, 'epa-section-lightbox', array (
 				'name' => 'lightboxsize'
 		) );
-		add_settings_section ( 'epa-section-miscellaneous', __ ( 'Miscellaneaous settings', 'epa' ), false, $this->admin_page );
+		add_settings_section ( 'epa-section-miscellaneous', __ ( 'Miscellaneous settings', 'epa' ), false, $this->admin_page );
 		add_settings_field ( 'showtitleintable', __ ( 'Show title field', 'epa' ), array (
 				$this,
 				'display_checkbox_field'
@@ -397,20 +397,20 @@ HTML;
 		</div>
 
 		<div class="epa-settings-block" id="epa-display-settings">
-			<h3><?php _e('Display settings')?></h3>
+			<h3><?php _e('Display settings', 'epa')?></h3>
 			<table class="form-table">
 				<?php
 		do_settings_fields ( $this->admin_page, 'epa-section-display' );
 		?>
 			</table>
 			<?php
-		submit_button ( __ ( 'Set for all albums', 'epa' ), 'secondary large', 'EasyPhotoAlbum[setforallalbums]', false );
+		submit_button ( __ ( 'Apply to all albums', 'epa' ), 'secondary large', 'EasyPhotoAlbum[setforallalbums]', false );
 		$this->help->render_tooltip ( 'setforallalbums' );
 		?>
 		</div>
 
 		<div class="epa-settings-block" id="epa-lightbox-settings">
-			<h3><?php _e('Lightbox settings');?></h3>
+			<h3><?php _e('Lightbox settings', 'epa');?></h3>
 			<table class="form-table">
 		<?php
 		do_settings_fields ( $this->admin_page, 'epa-section-lightbox' );

@@ -96,8 +96,12 @@ class EPA_Insert_Album {
 				return;
 		}
 
-		// for the functions
 		global $EPA_DOING_SHORTCODE;
+		/**
+		 * This flag variable is set to true, when the current album is rendered from the shortcode.
+		 *
+		 * @var bool
+		 */
 		$EPA_DOING_SHORTCODE = true;
 
 		$content = '';
@@ -262,6 +266,7 @@ class EPA_Insert_Album {
 	 * Checks if the current wp installation uses TinyMCE 4.x or higher or not.
 	 *
 	 * @return bool
+	 * @since 1.3
 	 */
 	public function is_tinymce_4() {
 		return version_compare ( $GLOBALS ['tinymce_version'], '4000-00000000', '>=' );

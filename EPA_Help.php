@@ -18,6 +18,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
+/**
+ * Class to handle the help tabs.
+ *
+ * @author TV productions
+ * @package EasyPhotoAlbum
+ */
 class EPA_Help {
 
 	public function __construct() {
@@ -29,7 +36,7 @@ class EPA_Help {
 
 	public function add_help() {
 		// settings help
-		$this->add_tab ( 'settings_page_epa-settings', 'epa-settings', __ ( "Easy Photo Album Settings", 'epa' ), '<p>' . sprintf ( __ ( 'Click on the question mark next to each setting for a short description of it. If you still have questions, please ask them at the %1$ssupport forums%2$s.', 'epa' ), '<a href="http://wordpress.org/support/plugin/easy-photo-album" target="_blank">', '</a>' ) . '</p>' );
+		$this->add_tab ( 'settings_page_epa-settings', 'epa-settings', __ ( "Easy Photo Album Settings", 'epa' ), '<p>' . sprintf ( __ ( 'Click on the question mark next to each setting for a short description of it. If you still have questions, please ask them at the %1$ssupport forums%2$s.', 'epa' ), '<a href="http://wordpress.org/support/plugin/easy-photo-album" target="_blank">', '</a>' ) . '</p><p><strong><a href="' . EasyPhotoAlbum::get_instance ()->helpurl . '" target="_blank">' . __ ( 'View the video documentation', 'epa' ) . '</a></strong></p>' );
 		// photo album edit screen
 		// $this->add_tab(EPA_PostType::POSTTYPE_NAME, 'epa-edit-help', __($text), $content);
 	}

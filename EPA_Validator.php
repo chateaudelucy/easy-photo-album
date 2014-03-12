@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * Mostly for EPA settings.
  *
  * @author TV productions
+ * @package EasyPhotoAlbum
  * @since 1.3
  *
  */

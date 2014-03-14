@@ -359,7 +359,7 @@ HTML;
 	public function save_metadata($post_id, $post) {
 		// no update if the current user has not the edit_epa_album cap or (if the user isn't the
 		// author) the edit_others_epa_albums cap
-		if (!current_user_can ( 'edit_epa_album', $post_id ) || ($post->post_author != get_current_user_id () && !current_user_can ( 'edit_others_epa_albums' ))) {
+		if (! current_user_can ( 'edit_epa_album', $post_id ) || ($post->post_author != get_current_user_id () && ! current_user_can ( 'edit_others_epa_albums' ))) {
 			return $post_id;
 		}
 
@@ -527,9 +527,10 @@ HTML;
 	 * Adds the styles and the scripts at the admin side
 	 */
 	public function admin_head() {
-		// Add dashicons
-		wp_enqueue_style ( 'epa-dashicon', plugin_dir_url ( __FILE__ ) . 'css/epa-dashicons' . (defined ( 'WP_DEBUG' ) ? '' : '.min') . '.css', array (), EasyPhotoAlbum::$version );
-		echo <<<CSS
+		// Add dashicons for WP 3.8 and higher
+		if (version_compare ( $GLOBALS ['wp_version'], '3.8', '>=' )) {
+			wp_enqueue_style ( 'epa-dashicon', plugin_dir_url ( __FILE__ ) . 'css/epa-dashicons' . (defined ( 'WP_DEBUG' ) ? '' : '.min') . '.css', array (), EasyPhotoAlbum::$version );
+			echo <<<CSS
 <style>
 #menu-posts-easy-photo-album .wp-menu-image:before {
     color: #999999;
@@ -544,6 +545,7 @@ HTML;
 }
 </style>
 CSS;
+		} // end if wp >= 3.8
 
 		if (get_current_screen ()->post_type == 'easy-photo-album') {
 			if (version_compare ( $GLOBALS ['wp_version'], '3.8', '<' )) {
@@ -689,10 +691,13 @@ CSS;
 
 		if (get_post_type ( $id ) == self::POSTTYPE_NAME) {
 			/**
- 			* Filter: epa_album_content_after
-			* @param string $html		The current html that will be added after the album
-			* @param bool $excerpt		Is the current album an excerpt?
-			*/
+			 * Filter: epa_album_content_after
+			 *
+			 * @param string $html
+			 *        	current html that will be added after the album
+			 * @param bool $excerpt
+			 *        	the current album an excerpt?
+			 */
 			$html_after = apply_filters ( 'epa_album_content_after', '', true );
 			global $EPA_DOING_SHORTCODE;
 			if ($EPA_DOING_SHORTCODE == true) {

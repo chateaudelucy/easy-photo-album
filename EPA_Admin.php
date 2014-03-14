@@ -50,14 +50,10 @@ class EPA_Admin {
 				$this,
 				'admin_head'
 		) );
-		add_action ( 'load-index.php', array (
+		add_action ( 'activated_plugin', array (
 				$this,
-				'load_about_page'
-		) );
-		add_action ( 'load-plugins.php', array (
-				$this,
-				'load_about_page'
-		) );
+				'after_activation'
+		), 999 ); // Very low priority because of exit in filter.
 		add_action ( 'admin_enqueue_scripts', array (
 				$this,
 				'admin_enqueue_scripts'
@@ -89,19 +85,25 @@ class EPA_Admin {
 	}
 
 	/**
-	 * Loads the about page if the plugin is activated in a bulk action
+	 * Loads the about page if the plugin is activated (not in a bulk action).
 	 *
 	 * @since 1.2
 	 */
-	public function load_about_page() {
-		// Redirect to about page if the plugin is just activated
-		if (get_option ( 'epa_redirect_' . get_current_user_id (), false )) {
-			if (! isset ( $_GET ['activate-multi'] )) {
-				// only delete the option before a redirect
-				delete_option ( 'epa_redirect_' . get_current_user_id () );
-				wp_redirect ( is_network_admin () ? network_admin_url ( 'index.php?page=epa-about' ) : admin_url ( 'index.php?page=epa-about' ) );
-				exit ();
-			}
+	public function after_activation($plugin) {
+		// Redirect to about page if this plugin is just activated
+		// And only redirect if it isn't a multi activation, but the action is just "activate"
+		$action = '';
+		// Get current action.
+		// Code barrowed from: /wp-admin/includes/class-wp-list-table.php#L329
+		if (isset ( $_REQUEST ['action'] ) && - 1 != $_REQUEST ['action'])
+			$action = $_REQUEST ['action'];
+		if (isset ( $_REQUEST ['action2'] ) && - 1 != $_REQUEST ['action2'])
+			$action = $_REQUEST ['action2'];
+
+		if (plugin_basename ( plugin_dir_path ( __FILE__ ) . 'easy-photo-album.php' ) == $plugin && 'activate' == $action) {
+			wp_redirect ( is_network_admin () ? network_admin_url ( 'index.php?page=epa-about' ) : admin_url ( 'index.php?page=epa-about' ) );
+			// Don't execute any code further
+			exit ();
 		}
 	}
 

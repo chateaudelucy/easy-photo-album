@@ -108,8 +108,6 @@ class EasyPhotoAlbum {
 		flush_rewrite_rules ();
 		// regenerate the albums, if any options are changed by plugin update.
 		$this->rerender_photos ( null, $this->options );
-		// Redirect to about page after activation
-		add_option ( 'epa_redirect_' . get_current_user_id (), true );
 	}
 
 	/**
@@ -183,12 +181,6 @@ class EasyPhotoAlbum {
 	public static function uninstall() {
 		// Remove options
 		delete_option ( 'EasyPhotoAlbum' );
-		// Remove the option for all users
-		foreach ( get_users ( array (
-				'who' => 'autors'
-		) ) as $user ) {
-			delete_option ( 'epa_redirect_' . $user->id );
-		}
 		delete_option ( 'epa_update_fields' );
 		delete_option ( 'EasyPhotoAlbumVersion' );
 	}

@@ -30,14 +30,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class EPA_Insert_Album {
 
 	public function __construct() {
+		global $EPA_DOING_SHORTCODE;
+		// set init value
+		$EPA_DOING_SHORTCODE = false;
 		add_action ( 'init', array (
 				$this,
 				'setup'
 		) );
-		add_action ( 'after_wp_tiny_mce', array (
-				$this,
-				'epa_insert_html'
-		) );
+		if (! $this->is_tinymce_4 ()) {
+			add_action ( 'after_wp_tiny_mce', array (
+					$this,
+					'epa_insert_html'
+			) );
+		}
 
 		add_filter ( 'mce_external_languages', array (
 				$this,
@@ -138,7 +143,7 @@ class EPA_Insert_Album {
 					// http://codex.wordpress.org/Function_Reference/the_content#Overriding_Archive.2FSingle_Page_Behavior
 					global $more;
 					$more = 0;
-					the_content ( __ ( "View more photo's", 'epa' ) . ' &rarr;' );
+					the_content ( __ ( "View more photos", 'epa' ) . ' &rarr;' );
 					$content .= ob_get_contents ();
 					ob_end_clean ();
 					break;
@@ -156,11 +161,15 @@ class EPA_Insert_Album {
 		// Fix to prevent PHP Notice
 		if (! isset ( $_REQUEST ['_wpnonce'] ))
 			$_REQUEST ['_wpnonce'] = '';
-
-		check_ajax_referer ( 'epa_insert_dlg' );
+		/*if ($this->is_tinymce_4 ()) {
+			check_admin_referer ( 'epa_insert_dlg_4' );
+		} else {*/
+			check_ajax_referer ( 'epa_insert_dlg' );
+		//}
 		$albums = get_posts ( array (
 				'post_type' => EPA_PostType::POSTTYPE_NAME,
-				'post_status' => 'publish'
+				'post_status' => 'publish',
+				'numberposts' => - 1
 		) );
 		$result = array ();
 		foreach ( $albums as $album ) {
@@ -194,7 +203,11 @@ class EPA_Insert_Album {
 	 * @return s array
 	 */
 	public function add_plugin($plugins) {
-		$plugins ['EasyPhotoAlbum'] = plugin_dir_url ( __FILE__ ) . 'js/tinymce/editor_plugin' . (WP_DEBUG ? '_src' : '') . '.js';
+		if ($this->is_tinymce_4 ()) {
+			$plugins ['EasyPhotoAlbum'] = plugin_dir_url ( __FILE__ ) . 'js/tinymce/plugin' . (defined ( 'WP_DEBUG' ) && true == WP_DEBUG ? '' : 'min') . '.js';
+		} else {
+			$plugins ['EasyPhotoAlbum'] = plugin_dir_url ( __FILE__ ) . 'js/tinymce/editor_plugin' . (defined ( 'WP_DEBUG' ) && true == WP_DEBUG ? '_src' : '') . '.js';
+		}
 		return $plugins;
 	}
 

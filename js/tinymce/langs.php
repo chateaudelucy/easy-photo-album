@@ -29,7 +29,18 @@ if (! class_exists ( '_WP_Editors' ))
 
 function easy_photo_album_insert_dialog_translation() {
 	$strings = array (
-			'dlg_title' => __ ( 'Insert a Photo Album', 'epa' )
+			'dlg_title' => __ ( 'Insert a Photo Album', 'epa' ),
+			'select_album' => __('Select an album to insert', 'epa'),
+			'show_title' => __('Show the title', 'epa'),
+			'display_label' => _x('Display album', 'Like: Display album full OR Display album excerpt', 'epa'),
+			'excerpt' => _x('Excerpt', 'Display album excerpt', 'epa'),
+			'full' => _x('Full', 'Display album full', 'epa'),
+			'insert' => _x('Insert', 'button text', 'epa'),
+			'cancel' => _x('Cancel', 'button text', 'epa'),
+			'title_loading' => _x('Loading...', 'Loading dialog title', 'epa'),
+			'loading' => __('Loading albums ...', 'epa'),
+			'nonce' => wp_create_nonce('epa_insert_dlg'),
+			//'spinner' => admin_url('images/wpspin_light.gif'),
 	);
 	$locale = _WP_Editors::$mce_locale;
 	$translated = 'tinyMCE.addI18n("' . $locale . '.epa", ' . json_encode ( $strings ) . ");\n";

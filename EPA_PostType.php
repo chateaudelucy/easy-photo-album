@@ -573,8 +573,18 @@ CSS;
 	.easy-photo-album-table .column-caption, .easy-photo-album-table tr {
 		height: 100%;
 	}
-	.sortable-placeholder {
-		height: 100px;
+	.easy-photo-album-table .sortable-placeholder {
+		height: 200px;
+	}
+	.easy-photo-album-table .sortable-placeholder td {
+		border-top: 3px dotted #AAAAAA;
+		border-bottom: 3px dotted #AAAAAA;
+	}
+	.easy-photo-album-table .sortable-placeholder td:first-child	{
+		border-left: 3px dotted #AAAAAA;
+	}
+	.easy-photo-album-table .sortable-placeholder td:last-child	{
+		border-right: 3px dotted #AAAAAA;
 	}
 	.epa-help:hover {
 		color: #AAAAAA;

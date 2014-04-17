@@ -42,6 +42,16 @@ defined ( 'ABSPATH' ) or die ();
 		<a class="nav-tab nav-tab-active" href="index.php?page=epa-about">
 			<?php _e("What's New", 'epa');?> </a>
 	</h2>
+
+	<div class="changelog point-releases">
+		<h3><?php _e('Maintenance Release', 'epa'); ?></h3>
+		<p>
+		<?php
+		printf(__('Version %1$s has %2$s bugfixes. For more information, check the %3$schangelog%4$s.' , 'epa'), EasyPhotoAlbum::$version, 3, '<a href="'.EasyPhotoAlbum::get_instance()->changelogurl.'" target="_blank">', '</a>');
+		?>
+		</p>
+	</div>
+
 	<div class="changelog">
 		<h3><?php _e( 'Video documentation', 'epa' ); ?></h3>
 
@@ -111,7 +121,7 @@ defined ( 'ABSPATH' ) or die ();
 		<div class="feature-section col three-col">
 			<div>
 				<h4><?php _e( 'Bugfixes', 'epa' ); ?></h4>
-				<p><?php printf(_n('We fixed one bug in this release. See the %2$schangelog%3$s.', 'We fixed %1$s bugs in this release. See the %2$schangelog%3$s.', 7, 'epa'), 7, '<a href="http://wordpress.org/plugins/easy-photo-album/changelog/" target="_blank">', '</a>'); ?></p>
+				<p><?php printf(_n('We fixed one bug in this release. See the %2$schangelog%3$s.', 'We fixed %1$s bugs in this release. See the %2$schangelog%3$s.', 7, 'epa'), 7, '<a href="'.EasyPhotoAlbum::get_instance()->changelogurl.'" target="_blank">', '</a>'); ?></p>
 			</div>
 			<div>
 				<h4><?php _e( 'Support', 'epa' ); ?></h4>

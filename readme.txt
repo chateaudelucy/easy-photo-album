@@ -3,8 +3,8 @@ Contributors: TV productions
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AK8Y5W7ZSMRTA
 Tags:  album, photo's, images, lightbox, responsive
 Requires at least: 3.7
-Tested up to: 3.8.1
-Stable tag: 1.3
+Tested up to: 3.9
+Stable tag: 1.3.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -48,6 +48,10 @@ download, upload and install .zip under Plugins > Add New > Upload.
 
 A: You can find the settings under Settings > Easy Photo Album.
 
+= Q: Where can I find information about the current version? =
+
+A: Read the about page by visiting the plugins page of your WordPress installation and then click on the "About" link below Easy Photo Album.
+
 = Q: I want to add a photo album to the menu. Where can I select the photo albums? =
 
 A: You have to check `Photo Albums` in the Screen options box under Appearance > Menus
@@ -74,6 +78,10 @@ A: *When you have enabled permalinks*: You can display the photo album archive b
 
 A: The image size is default `thumbnail`. So choose an other image size (`medium` perhaps?) and it should display better. If not, you need to regenerate the images. (for example with [this plugin](http://wordpress.org/plugins/regenerate-thumbnails/ "Regenerate Thumbnails plugin on WordPress.org") )
 
+= Q: Are there any plugins incompatible with Easy Photo Album? =
+
+A: So far, there are no reported issues caused by an other plugin. A small notice when you use WP User Frontend: make shure the setting `Show Attachments` (under the Others tab) unchecked.
+
 == Screenshots ==
 
 1. Example of a photo album on Twenty Fourteen
@@ -82,6 +90,13 @@ A: The image size is default `thumbnail`. So choose an other image size (`medium
 4. Example of lightbox display.
 
 == Changelog ==
+
+= 1.3.1 =
+
+* Updated: Insert album button for tinymce 4.x
+* Updated: Better placeholder while dragging to reorder photos
+* Wordpress 3.9 compatible
+
 
 = 1.3 =
 

@@ -161,11 +161,7 @@ class EPA_Insert_Album {
 		// Fix to prevent PHP Notice
 		if (! isset ( $_REQUEST ['_wpnonce'] ))
 			$_REQUEST ['_wpnonce'] = '';
-		/*if ($this->is_tinymce_4 ()) {
-			check_admin_referer ( 'epa_insert_dlg_4' );
-		} else {*/
-			check_ajax_referer ( 'epa_insert_dlg' );
-		//}
+		check_ajax_referer ( 'epa_insert_dlg' );
 		$albums = get_posts ( array (
 				'post_type' => EPA_PostType::POSTTYPE_NAME,
 				'post_status' => 'publish',

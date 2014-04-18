@@ -44,10 +44,15 @@ defined ( 'ABSPATH' ) or die ();
 	</h2>
 
 	<div class="changelog point-releases">
-		<h3><?php _e('Maintenance Release', 'epa'); ?></h3>
+		<h3><?php _e('Maintenance Releases', 'epa'); ?></h3>
 		<p>
 		<?php
-		printf(__('Version %1$s has %2$s bugfixes. For more information, check the %3$schangelog%4$s.' , 'epa'), EasyPhotoAlbum::$version, 3, '<a href="'.EasyPhotoAlbum::get_instance()->changelogurl.'" target="_blank">', '</a>');
+		printf(__('Version %1$s has %2$s bugfixes. For more information, check the %3$schangelog%4$s.' , 'epa'), EasyPhotoAlbum::$version, 1, '<a href="'.EasyPhotoAlbum::get_instance()->changelogurl.'" target="_blank">', '</a>');
+		?>
+		</p>
+		<p>
+		<?php
+		printf(__('Version %1$s has %2$s bugfixes. For more information, check the %3$schangelog%4$s.' , 'epa'), '1.3.1', 3, '<a href="'.EasyPhotoAlbum::get_instance()->changelogurl.'" target="_blank">', '</a>');
 		?>
 		</p>
 	</div>

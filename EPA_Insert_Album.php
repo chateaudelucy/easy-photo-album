@@ -200,7 +200,7 @@ class EPA_Insert_Album {
 	 */
 	public function add_plugin($plugins) {
 		if ($this->is_tinymce_4 ()) {
-			$plugins ['EasyPhotoAlbum'] = plugin_dir_url ( __FILE__ ) . 'js/tinymce/plugin' . (defined ( 'WP_DEBUG' ) && true == WP_DEBUG ? '' : 'min') . '.js';
+			$plugins ['EasyPhotoAlbum'] = plugin_dir_url ( __FILE__ ) . 'js/tinymce/plugin' . (defined ( 'WP_DEBUG' ) && true == WP_DEBUG ? '' : '.min') . '.js';
 		} else {
 			$plugins ['EasyPhotoAlbum'] = plugin_dir_url ( __FILE__ ) . 'js/tinymce/editor_plugin' . (defined ( 'WP_DEBUG' ) && true == WP_DEBUG ? '_src' : '') . '.js';
 		}

@@ -59,7 +59,7 @@
 									label : editor.getLang('epa.select_album',
 											'Select an album to include'),
 									autofocus : true,
-									value : 0,
+									value : null,
 									values : albums
 								},
 								{

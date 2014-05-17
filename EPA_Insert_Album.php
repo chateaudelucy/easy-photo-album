@@ -101,6 +101,14 @@ class EPA_Insert_Album {
 				return;
 		}
 
+        /*
+         * Return if the post id is invalid (zero or something)
+         * Fixes #2212: https://plugins.trac.wordpress.org/ticket/2212
+         */
+        if (intval($atts['id']) <= 0) {
+            return;
+        }
+
 		global $EPA_DOING_SHORTCODE;
 		/**
 		 * This flag variable is set to true, when the current album is rendered from the shortcode.
@@ -111,7 +119,8 @@ class EPA_Insert_Album {
 
 		$content = '';
 		$album = get_post ( $atts ['id'] );
-		if ($album != null) {
+
+		if (!empty($album)) {
 			// NOTE: Need we to override the display mode of the album if this isn't a single page?
 
 			setup_postdata ( $album );

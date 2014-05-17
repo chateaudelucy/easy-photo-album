@@ -50,6 +50,11 @@ defined ( 'ABSPATH' ) or die ();
 		printf(__('Version %1$s has %2$s bugfixes. For more information, check the %3$schangelog%4$s.' , 'epa'), EasyPhotoAlbum::$version, 1, '<a href="'.EasyPhotoAlbum::get_instance()->changelogurl.'" target="_blank">', '</a>');
 		?>
 		</p>
+        <p>
+            <?php
+            printf(__('Version %1$s has %2$s bugfixes. For more information, check the %3$schangelog%4$s.' , 'epa'), '1.3.3', 1, '<a href="'.EasyPhotoAlbum::get_instance()->changelogurl.'" target="_blank">', '</a>');
+            ?>
+        </p>
 		<p>
 		<?php
 		printf(__('Version %1$s has %2$s bugfixes. For more information, check the %3$schangelog%4$s.' , 'epa'), '1.3.1', 3, '<a href="'.EasyPhotoAlbum::get_instance()->changelogurl.'" target="_blank">', '</a>');
@@ -102,7 +107,7 @@ defined ( 'ABSPATH' ) or die ();
 						type="hidden" name="hosted_button_id" value="BP8BX6Y5SHQN6"> <input
 						type="image"
 						src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif"
-						name="submit" alt="PayPal – The safer, easier way to pay online.">
+						name="submit" alt="PayPal ï¿½ The safer, easier way to pay online.">
 				</form>
 				<p><?php _e('You can also contribute by creating documentation or by translating this plugin into your language.', 'epa');?></p>
 			</div>

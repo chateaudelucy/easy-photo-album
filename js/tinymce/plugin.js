@@ -15,7 +15,7 @@
 		});
 
 		/**
-		 * Retreives the albums and returns an array of album titles with their
+		 * Retrieves the albums and returns an array of album titles with their
 		 * ids. Used by the epa_insert_album command in the listbox control.
 		 */
 		function getAlbums(callback) {
@@ -59,7 +59,6 @@
 									label : editor.getLang('epa.select_album',
 											'Select an album to include'),
 									autofocus : true,
-									value : 0,
 									values : albums
 								},
 								{

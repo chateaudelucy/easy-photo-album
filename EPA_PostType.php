@@ -492,16 +492,17 @@ HTML;
 		}
 	}
 
-	/**
-	 * Render the album revision data
-	 * Hook: _wp_post_revision_field_epa-revision
-	 *
-	 * @param mixed $value
-	 * @param string $field
-	 * @param WP_Post $object
-	 * @param string $direction
-	 * @return string
-	 */
+    /**
+     * Render the album revision data
+     * Hook: _wp_post_revision_field_epa-revision
+     *
+     * @param mixed           $value
+     * @param string          $field
+     * @param string|\WP_Post $object
+     * @param string          $direction
+     *
+     * @return string
+     */
 	public function render_revision_field($value = '', $field = '', $object = '', $direction = '') {
 		$data = get_metadata ( 'post', $object->ID, self::SETTINGS_NAME, true );
 		$result = '';

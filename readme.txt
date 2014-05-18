@@ -3,8 +3,8 @@ Contributors: TV productions
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AK8Y5W7ZSMRTA
 Tags:  album, photo's, images, lightbox, responsive
 Requires at least: 3.7
-Tested up to: 3.9
-Stable tag: 1.3.3
+Tested up to: 3.9.1
+Stable tag: 1.3.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -91,13 +91,18 @@ A: So far, there are no reported issues caused by an other plugin. A small notic
 
 == Changelog ==
 
+= 1.3.4 =
+
+* Fixed **critical** bug: minified stylesheets and javascript files are gone.
+
+
 = 1.3.3 =
 
 * Fixed bug: Insert shortcode with id 0 ([#2212](https://plugins.trac.wordpress.org/ticket/2212))
 
 = 1.3.2 =
 
-* Fixed **citical** bug: the visual editor won't load.
+* Fixed **critical** bug: the visual editor won't load.
 
 = 1.3.1 =
 

@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: Easy Photo Album
- * Version: 1.3.4
+ * Version: 1.3.5
  * Author: TV productions
  * Author URI: http://tv-productions.org/
  * Description: This plugin makes it very easy to create and manage photo albums. The albums are responsive and display in a lightbox. You can help by submit bugs and request new features at the plugin page at wordpress.org.
@@ -11,7 +11,7 @@
  */
 
 /*
-Easy Photo Album Wordpress plugin.
+Easy Photo Album WordPress plugin.
 
 Copyright (C) 2013  TV productions
 
@@ -197,9 +197,17 @@ class EasyPhotoAlbum {
 		return $links;
 	}
 
-	public function __get($name) {
-		if ('version' == $name)
-			return self::$version;
+    /**
+     * Returns info about this plugin, like a setting.
+     *
+     * @param string $name
+     *
+     * @return string
+     * @throws Exception
+     */
+    public function __get($name) {
+        if ('version' == $name)
+            return self::$version;
 		if ('helpurl' == $name)
 			return 'http://tv-productions.org/plugins/easy-photo-album/support/story.html';
 		if ('forumurl' == $name)
@@ -262,14 +270,16 @@ class EasyPhotoAlbum {
 		update_option('EasyPhotoAlbum', $this->options);
 	}
 
-	/**
-	 * Returns the general settings for displaying a photo album, set by the user on the options
-	 * screen.
-	 * This options are used for the display options of each photo album.
-	 *
-	 * @return array
-	 */
-	public function get_default_display_options($options = array()) {
+    /**
+     * Returns the general settings for displaying a photo album, set by the user on the options
+     * screen.
+     * This options are used for the display options of each photo album.
+     *
+     * @param array $options
+     *
+     * @return array
+     */
+    public function get_default_display_options($options = array()) {
 		return array (
 				'columns' => isset ( $options ['displaycolumns'] ) ? ( int ) $options ['displaycolumns'] : ( int ) $this->displaycolumns,
 				'excerpt_number' => isset ( $options ['excerptnumber'] ) ? $options ['excerptnumber'] : $this->excerptnumber,

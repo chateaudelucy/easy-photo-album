@@ -133,9 +133,9 @@
 								display = "full";
 							}
 							shortcode = '[epa-album id="' + e.data.albumid
-									+ '" title="' + title + '" display="'
-									+ display + '"]';
-							editor.selection.setContent(shortcode);
+                                + '" show_title="' + title + '" display="'
+                                + display + '"]';
+                            editor.selection.setContent(shortcode);
 						}
 					});
 		}

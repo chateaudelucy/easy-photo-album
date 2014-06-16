@@ -147,9 +147,9 @@ class EPA_Insert_Album {
 						$content .= "<$tag>" . '<a href="' . get_permalink ( $album ) . '">' . get_the_title ( $atts ['id'] ) . "</a></$tag>";
 					}
 					ob_start ();
-					// Fix to force the_content to output the album untill the <!--more--> tag
-					// See:
-					// http://codex.wordpress.org/Function_Reference/the_content#Overriding_Archive.2FSingle_Page_Behavior
+                // Fix to force the_content to output the album until the <!--more--> tag
+                // See:
+                // http://codex.wordpress.org/Function_Reference/the_content#Overriding_Archive.2FSingle_Page_Behavior
 					global $more;
 					$more = 0;
 					the_content ( __ ( "View more photos", 'epa' ) . ' &rarr;' );

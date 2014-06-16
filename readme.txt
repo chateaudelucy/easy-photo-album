@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags:  album, photo's, images, lightbox, responsive
 Requires at least: 3.7
 Tested up to: 3.9.1
-Stable tag: 1.3.4
+Stable tag: 1.3.5
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -90,6 +90,10 @@ A: So far, there are no reported issues caused by an other plugin. A small notic
 4. Example of lightbox display.
 
 == Changelog ==
+
+= 1.3.5 =
+
+* Fixed bug: The generated shortcodes on WordPress >= 3.8 don't control the title display.
 
 = 1.3.4 =
 
